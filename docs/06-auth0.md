@@ -1,6 +1,6 @@
 # Step 6: Auth0 Integration
 
-**File:** `src/steps/Auth0.tsx` (plus `src/auth/Auth0ProviderWrapper.tsx`)
+**File:** `src/steps/Auth0.tsx` (plus `src/auth/config.ts` and `src/auth/Auth0ProviderWrapper.tsx`)
 
 ## What you're building
 
@@ -16,13 +16,15 @@ UI, password storage, social logins, tokens, and sessions. You just consume the 
 ## The two pieces
 
 ### 1. The Provider (wraps your whole app)
-In `src/auth/Auth0ProviderWrapper.tsx`, `<Auth0Provider>` wraps the app and holds the auth session.
-It reads your Auth0 credentials from environment variables:
+`src/auth/config.ts` reads the 2 Auth0 env vars and exposes `isAuth0Configured`:
 
 ```
 VITE_AUTH0_DOMAIN=your-tenant.us.auth0.com
 VITE_AUTH0_CLIENT_ID=your_client_id
 ```
+
+`App.tsx` mounts the Auth0 provider lazily - from `src/auth/Auth0ProviderWrapper.tsx`, which wraps
+the app in `<Auth0Provider>` - only when both vars are set. The `useAuth0()` demo itself lives in step 6's own lazy chunk, so the SDK downloads only when you open that step - and the source panel shows the real hook usage.
 
 (The app runs fine without them - Step 6 just shows setup instructions until you add a `.env` file.)
 

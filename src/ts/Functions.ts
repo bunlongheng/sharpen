@@ -22,13 +22,17 @@ function map<T, U>(arr: T[], fn: (item: T, index: number) => U): U[] {
   return arr.map(fn)
 }
 
-export function run(): void {
-  console.log(greet('Bunlong'))
-  console.log(greet('Bunlong', 'Hi'))
-  console.log('sum:', sum(1, 2, 3, 4))
-  console.log('parse string:', parse('abc')) // typed as string[]
-  console.log('parse number:', parse(7))     // typed as number[]
-  console.log('map:', map([1, 2, 3], (n) => n * 2))
+// log defaults to console.log - the app injects its own logger to capture the output panel
+export function run(log = console.log): void {
+  log(greet('Bunlong'))
+  log(greet('Bunlong', 'Hi'))
+  log('sum:', sum(1, 2, 3, 4))
+  log('parse string:', parse('abc')) // typed as string[]
+  log('parse number:', parse(7)) // typed as number[]
+  log(
+    'map:',
+    map([1, 2, 3], (n) => n * 2),
+  )
 }
 
 // Interview notes:

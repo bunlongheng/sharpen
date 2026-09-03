@@ -12,7 +12,10 @@ afterEach(() => {
 
 describe('FetchApi', () => {
   it('shows the loading state first', () => {
-    vi.stubGlobal('fetch', vi.fn(() => new Promise(() => {})))
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(() => new Promise(() => {})),
+    )
     render(<FetchApi />)
     expect(screen.getByText('Loading...')).toBeInTheDocument()
   })
@@ -29,7 +32,10 @@ describe('FetchApi', () => {
   })
 
   it('renders the error state on a failed response', async () => {
-    vi.stubGlobal('fetch', vi.fn(() => Promise.resolve({ ok: false, status: 500 })))
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(() => Promise.resolve({ ok: false, status: 500 })),
+    )
     render(<FetchApi />)
     expect(await screen.findByText(/failed to load: http 500/i)).toBeInTheDocument()
   })

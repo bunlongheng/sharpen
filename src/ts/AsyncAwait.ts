@@ -25,11 +25,12 @@ async function fetchTodo(id: number): Promise<Result<Todo>> {
   }
 }
 
-export async function run(): Promise<void> {
+// log defaults to console.log - the app injects its own logger to capture the output panel
+export async function run(log = console.log): Promise<void> {
   // Parallel awaits with Promise.all - types are preserved per position.
   const [a, b] = await Promise.all([fetchTodo(1), fetchTodo(-5)])
-  console.log('a:', a.ok ? a.value.title : `error: ${a.error}`)
-  console.log('b:', b.ok ? b.value.title : `error: ${b.error}`)
+  log('a:', a.ok ? a.value.title : `error: ${a.error}`)
+  log('b:', b.ok ? b.value.title : `error: ${b.error}`)
 }
 
 // Interview notes:

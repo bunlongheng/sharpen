@@ -4,7 +4,7 @@
 interface User {
   id: number
   name: string
-  email?: string        // optional (may be undefined)
+  email?: string // optional (may be undefined)
   readonly createdAt: Date // can't be reassigned after creation
 }
 
@@ -15,12 +15,13 @@ function describe(u: User): string {
   return `#${u.id} ${u.name}${u.email ? ` <${u.email}>` : ''}`
 }
 
-export function run(): void {
+// log defaults to console.log - the app injects its own logger to capture the output panel
+export function run(log = console.log): void {
   const u: User = { id: 1, name: 'Bunlong', createdAt: new Date('2026-01-01') }
-  console.log(describe(u))
+  log(describe(u))
   // u.createdAt = new Date()  // <- fails: readonly
   const key: ID = 'abc-123'
-  console.log('ID can be number or string:', key)
+  log('ID can be number or string:', key)
 }
 
 // Interview notes:

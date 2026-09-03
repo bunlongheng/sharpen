@@ -4,10 +4,7 @@ import { useEffect, useState, type Dispatch, type SetStateAction } from 'react'
 // A custom hook is just a function that starts with "use" and calls other hooks.
 // It lets you extract and REUSE stateful logic across components - a favorite interview topic.
 // Generic <T> so the caller keeps full type safety on whatever it stores.
-export function useLocalStorage<T>(
-  key: string,
-  initialValue: T,
-): [T, Dispatch<SetStateAction<T>>] {
+export function useLocalStorage<T>(key: string, initialValue: T): [T, Dispatch<SetStateAction<T>>] {
   const [value, setValue] = useState<T>(() => {
     // Lazy initializer - runs only on the first render, not every render.
     try {

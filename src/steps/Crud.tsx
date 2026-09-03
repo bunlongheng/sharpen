@@ -55,7 +55,9 @@ export default function Crud() {
 
       <form className="row" onSubmit={add}>
         <input value={text} onChange={(e) => setText(e.target.value)} placeholder="New item" />
-        <button type="submit" disabled={!text.trim()}>Add</button>
+        <button type="submit" disabled={!text.trim()}>
+          Add
+        </button>
       </form>
 
       {items.length === 0 ? (
@@ -69,15 +71,21 @@ export default function Crud() {
                   <input value={draft} onChange={(e) => setDraft(e.target.value)} autoFocus />
                   <span className="row">
                     <button onClick={() => saveEdit(item.id)}>Save</button>
-                    <button className="ghost" onClick={() => setEditingId(null)}>Cancel</button>
+                    <button className="ghost" onClick={() => setEditingId(null)}>
+                      Cancel
+                    </button>
                   </span>
                 </>
               ) : (
                 <>
                   <span>{item.value}</span>
                   <span className="row">
-                    <button className="ghost" onClick={() => startEdit(item)}>Edit</button>
-                    <button className="danger" onClick={() => remove(item.id)}>Delete</button>
+                    <button className="ghost" onClick={() => startEdit(item)}>
+                      Edit
+                    </button>
+                    <button className="danger" onClick={() => remove(item.id)}>
+                      Delete
+                    </button>
                   </span>
                 </>
               )}

@@ -49,9 +49,9 @@ attempted path via `state` so you can send the user back where they wanted to go
 ## Why MemoryRouter here?
 
 Normally you wrap your app **once** at the root in `<BrowserRouter>` (it uses the browser's real URL
-bar / History API). But this demo lives inside our tab shell, which already owns the address bar. So
-we use `<MemoryRouter>` - it keeps its own history in memory and doesn't touch the real URL. Same API,
-isolated. (MemoryRouter is also what you use in tests.)
+bar / History API). But this demo lives inside the Sharpen shell, which already owns the URL hash
+(`#react/9`) for lesson navigation. So we use `<MemoryRouter>` - it keeps its own history in memory
+and doesn't touch the real URL. Same API, isolated. (MemoryRouter is also what you use in tests.)
 
 ## Try it yourself
 

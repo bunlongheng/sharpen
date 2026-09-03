@@ -13,9 +13,10 @@ function greet(name: string): string {
 // Type inference: TS infers `age` is a number - you don't always have to write the type.
 const age = 30
 
-export function run(): void {
-  console.log(greet('Bunlong'))
-  console.log(`Age is a ${typeof age}: ${age}`)
+// log defaults to console.log - the app injects its own logger to capture the output panel
+export function run(log = console.log): void {
+  log(greet('Bunlong'))
+  log(`Age is a ${typeof age}: ${age}`)
   // greet(42)        // <- would fail: Argument of type 'number' is not assignable to 'string'
   // const x: string = 5  // <- would fail: Type 'number' is not assignable to type 'string'
 }

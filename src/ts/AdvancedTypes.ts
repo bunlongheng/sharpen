@@ -23,15 +23,16 @@ type ElementOf<T> = T extends (infer E)[] ? E : never
 // Template literal type: build string types.
 type EventName<T extends string> = `on${Capitalize<T>}`
 
-export function run(): void {
+// log defaults to console.log - the app injects its own logger to capture the output panel
+export function run(log = console.log): void {
   const u: User = { id: 1, name: 'Bunlong', active: true }
   const key: UserKey = 'name'
-  console.log('getProp:', getProp(u, key))         // typed as string
+  log('getProp:', getProp(u, key)) // typed as string
   const n: Nullable<User> = { id: 1, name: null, active: true }
-  console.log('nullable:', n)
-  const _el: ElementOf<number[]> = 42              // ElementOf<number[]> = number
-  const _evt: EventName<'click'> = 'onClick'       // template literal type
-  console.log('element:', _el, 'event:', _evt)
+  log('nullable:', n)
+  const _el: ElementOf<number[]> = 42 // ElementOf<number[]> = number
+  const _evt: EventName<'click'> = 'onClick' // template literal type
+  log('element:', _el, 'event:', _evt)
 }
 
 // Interview notes:

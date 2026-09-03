@@ -4,9 +4,7 @@
 type Status = 'loading' | 'success' | 'error'
 
 // Discriminated union: each member has a shared literal "tag" (kind) TS can switch on.
-type Shape =
-  | { kind: 'circle'; radius: number }
-  | { kind: 'rect'; width: number; height: number }
+type Shape = { kind: 'circle'; radius: number } | { kind: 'rect'; width: number; height: number }
 
 function area(s: Shape): number {
   // "Narrowing": inside each branch, TS knows the exact member type.
@@ -25,11 +23,12 @@ function assertNever(x: never): never {
   throw new Error(`Unhandled: ${JSON.stringify(x)}`)
 }
 
-export function run(): void {
+// log defaults to console.log - the app injects its own logger to capture the output panel
+export function run(log = console.log): void {
   const state: Status = 'success'
-  console.log('status:', state)
-  console.log('circle area:', area({ kind: 'circle', radius: 2 }).toFixed(2))
-  console.log('rect area:', area({ kind: 'rect', width: 3, height: 4 }))
+  log('status:', state)
+  log('circle area:', area({ kind: 'circle', radius: 2 }).toFixed(2))
+  log('rect area:', area({ kind: 'rect', width: 3, height: 4 }))
 }
 
 // Interview notes:

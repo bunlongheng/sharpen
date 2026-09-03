@@ -1,41 +1,54 @@
 import { useEffect, useState } from 'react'
 import { useFont } from './FontContext'
+import type { Logger, RunFn } from './ts'
+
+export type { Logger }
 
 function fmt(a: unknown): string {
   if (typeof a === 'string') return a
   if (typeof a === 'object' && a !== null) {
-    try { return JSON.stringify(a) } catch { return String(a) }
+    try {
+      return JSON.stringify(a)
+    } catch {
+      return String(a)
+    }
   }
   return String(a)
 }
 
-// Runs a TypeScript step's run() and captures its console.log output for display.
-export default function TsRunner({ run }: { run: () => void | Promise<void> }) {
-  const [lines, setLines] = useState<string[]>([])
+// Runs a TypeScript step's run(log) and shows every line it logs.
+export default function TsRunner({ run }: { run: RunFn }) {
+  const [lines, setLines] = useState<string[] | null>(null)
   const { size: fontSize } = useFont()
 
   useEffect(() => {
     let cancelled = false
     const logs: string[] = []
-    const orig = console.log
-    console.log = (...args: unknown[]) => logs.push(args.map(fmt).join(' '))
+    // Scoped logger: only this run's output lands here, and late async logs still show up.
+    const log: Logger = (...args) => {
+      logs.push(args.map(fmt).join(' '))
+      if (!cancelled) setLines([...logs])
+    }
     Promise.resolve()
-      .then(() => run())
-      .catch((e) => logs.push('Error: ' + String(e)))
+      .then(() => {
+        if (!cancelled) setLines(null)
+      })
+      .then(() => run(log))
+      .catch((e) => log('Error: ' + String(e)))
       .finally(() => {
-        console.log = orig
         if (!cancelled) setLines([...logs])
       })
     return () => {
       cancelled = true
-      console.log = orig
     }
   }, [run])
 
   return (
     <div className="ts-output-wrap">
       <div className="ts-output-head">console output</div>
-      <pre className="ts-output" style={{ fontSize, lineHeight: 1.5 }}>{lines.length ? lines.join('\n') : 'Running...'}</pre>
+      <pre className="ts-output" style={{ fontSize, lineHeight: 1.5 }}>
+        {lines === null ? 'Running...' : lines.length ? lines.join('\n') : '(no output)'}
+      </pre>
     </div>
   )
 }

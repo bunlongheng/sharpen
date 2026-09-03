@@ -9,7 +9,17 @@ export function TsLogo({ size = 24, className }: LogoProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" className={className} aria-hidden="true">
       <rect width="24" height="24" rx="4" fill="#3178c6" />
-      <text x="12" y="17.2" textAnchor="middle" fontFamily="Arial, Helvetica, sans-serif" fontWeight="700" fontSize="11" fill="#ffffff">TS</text>
+      <text
+        x="12"
+        y="17.2"
+        textAnchor="middle"
+        fontFamily="Arial, Helvetica, sans-serif"
+        fontWeight="700"
+        fontSize="11"
+        fill="#ffffff"
+      >
+        TS
+      </text>
     </svg>
   )
 }
@@ -31,7 +41,17 @@ export function JsLogo({ size = 24, className }: LogoProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" className={className} aria-hidden="true">
       <rect width="24" height="24" rx="2" fill="#f7df1e" />
-      <text x="12" y="17.4" textAnchor="middle" fontFamily="Arial, Helvetica, sans-serif" fontWeight="700" fontSize="10.5" fill="#000000">JS</text>
+      <text
+        x="12"
+        y="17.4"
+        textAnchor="middle"
+        fontFamily="Arial, Helvetica, sans-serif"
+        fontWeight="700"
+        fontSize="10.5"
+        fill="#000000"
+      >
+        JS
+      </text>
     </svg>
   )
 }

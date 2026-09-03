@@ -28,22 +28,19 @@ predictable.
 ## Reading the code
 
 ```tsx
-<button onClick={() => setCount(count + 1)}>Clicked {count} times</button>
+<button onClick={() => setCount((c) => c + 1)}>Clicked {count} times</button>
+<button className="ghost" onClick={() => setCount(0)} disabled={count === 0}>Reset</button>
 ```
 
 - `onClick={...}` - run this function when clicked
-- `() => setCount(count + 1)` - "set count to the current count plus 1"
+- `() => setCount((c) => c + 1)` - "take the latest count and add 1"
 - `{count}` - curly braces drop a JS value into the HTML (this is JSX)
+- The Reset button calls `setCount(0)` and is `disabled` while the count is already 0 - state
+  drives the UI in both directions.
 
 ## The gotcha interviewers love
 
-Look at the second button:
-
-```tsx
-<button onClick={() => setCount((c) => c + 1)}>+1 (functional)</button>
-```
-
-Why `setCount(c => c + 1)` instead of `setCount(count + 1)`?
+Notice the button uses `setCount((c) => c + 1)`, not `setCount(count + 1)`. Why?
 
 Because React batches updates. If you called `setCount(count + 1)` three times in a row, they'd
 all read the same stale `count` and you'd only go up by 1. The **functional form** `c => c + 1`
