@@ -1,3 +1,64 @@
+// React concept notes per step (interview talking points).
+export const INTERVIEW_NOTES: Record<number, string[]> = {
+  1: [
+    'State updates are asynchronous and batched. Use the functional form setCount(c => c + 1) when the new value depends on the old one.',
+    'Calling the setter with the same value skips the re-render (bailout).',
+    'The component function runs top-to-bottom on every render - keep it pure.',
+  ],
+  2: [
+    'Controlled input = value comes from state, changes flow through onChange.',
+    'Never mutate state arrays. Spread into a new array so React sees a new reference.',
+    'Keys must be stable and unique. Array index breaks when items are inserted/removed/reordered.',
+  ],
+  3: [
+    'Update: map and spread the one item you change - keep every other reference intact.',
+    'Delete: filter out the id.',
+    'Edit mode is just UI state (editingId). Don\'t store "am I editing" on each item.',
+  ],
+  4: [
+    'Every fetch has 3 UI states: loading, error, success. Handle all 3.',
+    'The dependency array controls when the effect re-runs. [] = once on mount.',
+    'Clean up: an ignore flag or AbortController avoids "set state on unmounted component" and race conditions.',
+    'In real apps, reach for React Query / SWR instead of hand-rolling this.',
+  ],
+  5: [
+    'A custom hook is any function starting with use that calls other hooks. It shares logic, not state - each caller gets its own state.',
+    'Context solves prop drilling. Provider at the top, useContext anywhere below.',
+    'Context re-renders every consumer when its value changes - split contexts or memoize the value for performance.',
+    'Context is not a full state manager. For heavy/global state reach for Redux, Zustand, or Jotai.',
+  ],
+  6: [
+    'Auth0Provider wraps the tree; useAuth0() exposes session state and actions.',
+    'SPAs use the Authorization Code flow with PKCE - no client secret in the browser.',
+    'Never trust the client. Send the access token (getAccessTokenSilently) to your API and validate the JWT server-side.',
+    'Gate UI on isAuthenticated; gate data/actions on the verified token, not the UI.',
+  ],
+  7: [
+    'Chart.js v4 is tree-shakeable - register only the scales/elements each chart needs, or the chart renders blank.',
+    'react-chartjs-2 is a thin wrapper: pass data and options, it manages the canvas lifecycle.',
+    'Set maintainAspectRatio: false and size the parent so charts stay responsive.',
+    'Keep data/options referentially stable (or memoize) to avoid needless chart rebuilds.',
+  ],
+  8: [
+    'sql.js = SQLite compiled to WebAssembly - a full relational DB with zero backend.',
+    'Always use parameterized queries (? placeholders) - string-concatenating input is SQL injection.',
+    'The DB is a byte array (db.export()); persist it (localStorage/IndexedDB) or it vanishes on reload.',
+    'Great for prototypes/offline; for multi-user data you still need a real server DB.',
+  ],
+  9: [
+    'BrowserRouter uses the History API (clean URLs); MemoryRouter keeps history in memory (tests, embedded demos).',
+    'Protected routes = a wrapper component that checks auth and <Navigate>s away if not allowed.',
+    'Pass the attempted path via state so you can send the user back after login.',
+    'useNavigate for programmatic navigation; useParams / useSearchParams for reading the URL.',
+  ],
+  10: [
+    'Query by role/text (getByRole, getByText) - it mirrors how users and screen readers find things.',
+    'getBy* throws if missing, queryBy* returns null (assert absence), findBy* is async (awaits appearance).',
+    'Prefer userEvent over fireEvent for realistic interactions.',
+    'Test what the user sees and does; avoid asserting on state or internal function calls.',
+  ],
+}
+
 // What TypeScript adds over plain JavaScript, per React step.
 // Shown under the JS-vs-TS comparison so you can spot exactly what the types buy you.
 export const DIFF_NOTES: Record<number, string[]> = {

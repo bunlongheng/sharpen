@@ -77,23 +77,6 @@ export default function Crud() {
           ))}
         </ul>
       )}
-
-      <details className="notes">
-        <summary>Interview notes</summary>
-        <ul>
-          <li>
-            Update: <code>map</code> and spread the one item you change - keep every other reference
-            intact.
-          </li>
-          <li>
-            Delete: <code>filter</code> out the id.
-          </li>
-          <li>
-            Edit mode is just UI state (<code>editingId</code>). Don't store "am I editing" on each
-            item.
-          </li>
-        </ul>
-      </details>
     </section>
   )
 }

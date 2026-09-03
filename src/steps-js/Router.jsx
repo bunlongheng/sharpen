@@ -67,28 +67,6 @@ export default function Router() {
           </Routes>
         </div>
       </MemoryRouter>
-
-      <details className="notes">
-        <summary>Interview notes</summary>
-        <ul>
-          <li>
-            <code>BrowserRouter</code> uses the History API (clean URLs); <code>MemoryRouter</code>{' '}
-            keeps history in memory (tests, embedded demos).
-          </li>
-          <li>
-            Protected routes = a wrapper component that checks auth and{' '}
-            <code>&lt;Navigate&gt;</code>s away if not allowed.
-          </li>
-          <li>
-            Pass the attempted path via <code>state</code> so you can send the user back after
-            login.
-          </li>
-          <li>
-            <code>useNavigate</code> for programmatic navigation; <code>useParams</code> /{' '}
-            <code>useSearchParams</code> for reading the URL.
-          </li>
-        </ul>
-      </details>
     </section>
   )
 }

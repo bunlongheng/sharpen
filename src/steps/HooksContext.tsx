@@ -29,16 +29,6 @@ export default function HooksContext() {
           placeholder="Type, then refresh the page"
         />
       </label>
-
-      <details className="notes">
-        <summary>Interview notes</summary>
-        <ul>
-          <li>A custom hook is any function starting with <code>use</code> that calls other hooks. It shares logic, not state - each caller gets its own state.</li>
-          <li>Context solves prop drilling. Provider at the top, <code>useContext</code> anywhere below.</li>
-          <li>Context re-renders every consumer when its value changes - split contexts or memoize the value for performance.</li>
-          <li>Context is not a full state manager. For heavy/global state reach for Redux, Zustand, or Jotai.</li>
-        </ul>
-      </details>
     </section>
   )
 }

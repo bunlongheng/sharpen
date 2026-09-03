@@ -48,21 +48,6 @@ export default function FetchApi() {
           ))}
         </ul>
       )}
-
-      <details className="notes">
-        <summary>Interview notes</summary>
-        <ul>
-          <li>Every fetch has 3 UI states: loading, error, success. Handle all 3.</li>
-          <li>
-            The dependency array controls when the effect re-runs. <code>[]</code> = once on mount.
-          </li>
-          <li>
-            Clean up: an <code>ignore</code> flag or <code>AbortController</code> avoids "set state
-            on unmounted component" and race conditions.
-          </li>
-          <li>In real apps, reach for React Query / SWR instead of hand-rolling this.</li>
-        </ul>
-      </details>
     </section>
   )
 }

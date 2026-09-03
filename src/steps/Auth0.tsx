@@ -54,16 +54,6 @@ export default function Auth0() {
       <p className="muted">Authentication as a service via the useAuth0() hook.</p>
 
       {isAuth0Configured ? <Auth0Live /> : <Auth0Setup />}
-
-      <details className="notes">
-        <summary>Interview notes</summary>
-        <ul>
-          <li>Auth0Provider wraps the tree; <code>useAuth0()</code> exposes session state and actions.</li>
-          <li>SPAs use the Authorization Code flow with PKCE - no client secret in the browser.</li>
-          <li>Never trust the client. Send the access token (<code>getAccessTokenSilently</code>) to your API and validate the JWT server-side.</li>
-          <li>Gate UI on <code>isAuthenticated</code>; gate data/actions on the verified token, not the UI.</li>
-        </ul>
-      </details>
     </section>
   )
 }

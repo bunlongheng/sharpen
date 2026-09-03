@@ -153,24 +153,6 @@ export default function SqliteCrud() {
           )}
         </>
       )}
-
-      <details className="notes">
-        <summary>Interview notes</summary>
-        <ul>
-          <li>sql.js = SQLite compiled to WebAssembly - a full relational DB with zero backend.</li>
-          <li>
-            Always use parameterized queries (<code>?</code> placeholders) - string-concatenating
-            input is SQL injection.
-          </li>
-          <li>
-            The DB is a byte array (<code>db.export()</code>); persist it (localStorage/IndexedDB)
-            or it vanishes on reload.
-          </li>
-          <li>
-            Great for prototypes/offline; for multi-user data you still need a real server DB.
-          </li>
-        </ul>
-      </details>
     </section>
   )
 }

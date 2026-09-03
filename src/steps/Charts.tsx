@@ -74,16 +74,6 @@ export default function Charts() {
         <div className="chart-box"><span className="chart-title">Radar</span><div className="chart"><Radar data={radar} options={options} /></div></div>
         <div className="chart-box"><span className="chart-title">Polar Area</span><div className="chart"><PolarArea data={circular} options={options} /></div></div>
       </div>
-
-      <details className="notes">
-        <summary>Interview notes</summary>
-        <ul>
-          <li>Chart.js v4 is tree-shakeable - register only the scales/elements each chart needs, or the chart renders blank.</li>
-          <li>react-chartjs-2 is a thin wrapper: pass <code>data</code> and <code>options</code>, it manages the canvas lifecycle.</li>
-          <li>Set <code>maintainAspectRatio: false</code> and size the parent so charts stay responsive.</li>
-          <li>Keep <code>data</code>/<code>options</code> referentially stable (or memoize) to avoid needless chart rebuilds.</li>
-        </ul>
-      </details>
     </section>
   )
 }

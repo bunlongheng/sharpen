@@ -34,20 +34,6 @@ export default function AddToList() {
           ))}
         </ul>
       )}
-
-      <details className="notes">
-        <summary>Interview notes</summary>
-        <ul>
-          <li>
-            Controlled input = value comes from state, changes flow through <code>onChange</code>.
-          </li>
-          <li>Never mutate state arrays. Spread into a new array so React sees a new reference.</li>
-          <li>
-            Keys must be stable and unique. Array index breaks when items are
-            inserted/removed/reordered.
-          </li>
-        </ul>
-      </details>
     </section>
   )
 }

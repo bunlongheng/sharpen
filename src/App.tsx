@@ -11,7 +11,7 @@ import TsRunner from './TsRunner'
 import Dropdown from './Dropdown'
 import { ReactLogo, TsLogo, JsLogo } from './Logos'
 import { FontProvider, useFont } from './FontContext'
-import { DIFF_NOTES } from './diffNotes'
+import { DIFF_NOTES, INTERVIEW_NOTES } from './diffNotes'
 
 function FontControl() {
   const { size, inc, dec, atMin, atMax } = useFont()
@@ -183,7 +183,14 @@ function ReactView({ step }: { step: ReactStep }) {
       <div className="compare-wrap"><Compare step={step} /></div>
 
       <div className="diffnotes">
-        <div className="diffnotes-title">What TypeScript adds here</div>
+        <div className="diffnotes-title">Notes</div>
+        <div className="notes-sub">Interview notes</div>
+        <ul>
+          {(INTERVIEW_NOTES[step.id] ?? []).map((n, i) => (
+            <li key={i}>{n}</li>
+          ))}
+        </ul>
+        <div className="notes-sub">What TypeScript adds here</div>
         <ul>
           {(DIFF_NOTES[step.id] ?? []).map((n, i) => (
             <li key={i}>{n}</li>

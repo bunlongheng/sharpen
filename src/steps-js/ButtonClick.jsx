@@ -17,18 +17,6 @@ export default function ButtonClick() {
           Reset
         </button>
       </div>
-
-      <details className="notes">
-        <summary>Interview notes</summary>
-        <ul>
-          <li>
-            State updates are asynchronous and batched. Use the functional form{' '}
-            <code>setCount(c =&gt; c + 1)</code> when the new value depends on the old one.
-          </li>
-          <li>Calling the setter with the same value skips the re-render (bailout).</li>
-          <li>The component function runs top-to-bottom on every render - keep it pure.</li>
-        </ul>
-      </details>
     </section>
   )
 }
