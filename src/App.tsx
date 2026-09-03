@@ -151,8 +151,8 @@ function Compare({ step }: { step: ReactStep }) {
           <button className={lang === 'js' ? 'lang-tab js on' : 'lang-tab'} onClick={() => setLang('js')}><JsLogo size={16} /> JavaScript</button>
         </div>
         {lang === 'ts'
-          ? <CodeViewer file={`${step.name}.tsx`} source={step.tsSource} />
-          : <CodeViewer file={`${step.name}.jsx`} source={step.jsSource} />}
+          ? <CodeViewer file={`${step.name}.tsx`} source={step.tsSource} variant="ts" />
+          : <CodeViewer file={`${step.name}.jsx`} source={step.jsSource} variant="js" />}
       </div>
     )
   }
@@ -162,11 +162,11 @@ function Compare({ step }: { step: ReactStep }) {
     <div className="compare">
       <div>
         <div className="lang-tag ts"><TsLogo size={15} /> TypeScript</div>
-        <CodeViewer file={`${step.name}.tsx`} source={step.tsSource} />
+        <CodeViewer file={`${step.name}.tsx`} source={step.tsSource} variant="ts" />
       </div>
       <div>
         <div className="lang-tag js"><JsLogo size={15} /> JavaScript</div>
-        <CodeViewer file={`${step.name}.jsx`} source={step.jsSource} />
+        <CodeViewer file={`${step.name}.jsx`} source={step.jsSource} variant="js" />
       </div>
     </div>
   )
