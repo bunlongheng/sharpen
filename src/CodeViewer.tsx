@@ -17,14 +17,24 @@ const monokai: PrismTheme = {
   ],
 }
 
-// Strips the teaching comments so you see just the "core" working code.
+// "Core" = just the working code. Strips teaching comments AND the <details> interview-notes block.
 function coreOnly(src: string): string {
   const out: string[] = []
-  let inNotes = false
+  let inNotesComment = false // // Interview notes: ... comment block
+  let inDetails = false // <details className="notes"> ... </details> JSX block
   for (const line of src.split('\n')) {
     const t = line.trim()
-    if (t.startsWith('// Interview notes')) { inNotes = true; continue }
-    if (inNotes) { if (t.startsWith('//') || t === '') continue; inNotes = false }
+    if (inDetails) {
+      if (t.includes('</details>')) inDetails = false
+      continue
+    }
+    if (t.includes('<details className="notes"')) {
+      // handle a one-line details too
+      if (!t.includes('</details>')) inDetails = true
+      continue
+    }
+    if (t.startsWith('// Interview notes')) { inNotesComment = true; continue }
+    if (inNotesComment) { if (t.startsWith('//') || t === '') continue; inNotesComment = false }
     if (t.startsWith('//')) continue
     if (t.startsWith('/*') || t.startsWith('*') || t.endsWith('*/')) continue
     out.push(line)
@@ -32,11 +42,27 @@ function coreOnly(src: string): string {
   return out.join('\n').replace(/\n{3,}/g, '\n\n').trim()
 }
 
+const MIN_FONT = 8
+const MAX_FONT = 24
+const DEFAULT_FONT = 13
+
 export default function CodeViewer({ file, source }: { file: string; source: string }) {
   const [mode, setMode] = useState<'core' | 'full'>('core')
   const [copied, setCopied] = useState(false)
+  const [fontSize, setFontSize] = useState<number>(() => {
+    const saved = Number(localStorage.getItem('rip-code-font'))
+    return saved >= MIN_FONT && saved <= MAX_FONT ? saved : DEFAULT_FONT
+  })
   const code = useMemo(() => (mode === 'core' ? coreOnly(source) : source.trim()), [mode, source])
   const name = file.split('/').pop() ?? file
+
+  function bump(delta: number) {
+    setFontSize((f) => {
+      const next = Math.min(MAX_FONT, Math.max(MIN_FONT, f + delta))
+      localStorage.setItem('rip-code-font', String(next))
+      return next
+    })
+  }
 
   async function copy() {
     await navigator.clipboard.writeText(code)
@@ -49,6 +75,9 @@ export default function CodeViewer({ file, source }: { file: string; source: str
       <div className="code-head">
         <span className="code-file">{name}</span>
         <span className="code-actions">
+          <button className="seg" onClick={() => bump(-1)} disabled={fontSize <= MIN_FONT} title="Smaller">A-</button>
+          <span className="code-fontsize">{fontSize}px</span>
+          <button className="seg" onClick={() => bump(1)} disabled={fontSize >= MAX_FONT} title="Larger">A+</button>
           <button className={mode === 'core' ? 'seg on' : 'seg'} onClick={() => setMode('core')}>Core</button>
           <button className={mode === 'full' ? 'seg on' : 'seg'} onClick={() => setMode('full')}>Full</button>
           <button className="seg" onClick={copy}>{copied ? 'Copied' : 'Copy'}</button>
@@ -57,7 +86,7 @@ export default function CodeViewer({ file, source }: { file: string; source: str
       <div className="code-body">
         <Highlight code={code} language="tsx" theme={monokai}>
           {({ style, tokens, getLineProps, getTokenProps }) => (
-            <pre className="code-pre" style={style}>
+            <pre className="code-pre" style={{ ...style, fontSize, lineHeight: 1.5 }}>
               {tokens.map((line, i) => (
                 <div key={i} {...getLineProps({ line })} className="code-line">
                   <span className="ln">{i + 1}</span>

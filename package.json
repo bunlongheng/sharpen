@@ -1,9 +1,9 @@
 {
-  "name": "react-interview-prep",
+  "name": "interview",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Baby-step React interview prep - from a button click to hooks + context",
+  "description": "Interview prep - React and TypeScript tracks, each step a real interview topic",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
@@ -31,6 +31,7 @@
     "@types/sql.js": "^1.4.11",
     "@vitejs/plugin-react": "^4.3.1",
     "jsdom": "^30.0.1",
+    "prettier": "^3.9.6",
     "typescript": "^5.9.3",
     "vite": "^5.4.2",
     "vitest": "^4.1.11"
