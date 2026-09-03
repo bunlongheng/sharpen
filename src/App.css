@@ -161,6 +161,22 @@ header h1 { margin: 0 0 4px; font-size: 28px; }
 }
 .lang-tag.ts { background: #3178c6; color: #fff; }
 .lang-tag.js { background: #f7df1e; color: #000; }
+
+/* narrow-screen TS/JS tab switcher */
+.lang-switch { display: flex; gap: 6px; margin-bottom: 8px; }
+.lang-tab {
+  flex: 1 1 0;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.lang-tab.ts.on { background: #3178c6; color: #fff; border-color: #3178c6; }
+.lang-tab.js.on { background: #f7df1e; color: #000; border-color: #f7df1e; }
 .diffnotes {
   margin-top: 20px;
   border: 1px solid var(--border);

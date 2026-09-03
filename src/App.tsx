@@ -1,4 +1,4 @@
-import { useState, type ComponentType } from 'react'
+import { useEffect, useState, type ComponentType } from 'react'
 import {
   Atom, FileType, MousePointerClick, ListPlus, ClipboardList, Globe, Webhook, KeyRound,
   BarChart3, Database, Route, FlaskConical, Hand, Puzzle, Shuffle, Brackets, Boxes,
@@ -114,6 +114,51 @@ const TS_STEPS: TsStep[] = [
   { id: 10, label: 'Async', Icon: Hourglass, blurb: 'promises, async/await, error handling', file: 'AsyncAwait.ts', source: tsc10, run: tsr10 },
 ]
 
+function useMediaQuery(query: string): boolean {
+  const [matches, setMatches] = useState(() => window.matchMedia(query).matches)
+  useEffect(() => {
+    const mq = window.matchMedia(query)
+    const handler = () => setMatches(mq.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [query])
+  return matches
+}
+
+function Compare({ step }: { step: ReactStep }) {
+  const narrow = useMediaQuery('(max-width: 860px)')
+  const [lang, setLang] = useState<'ts' | 'js'>('ts')
+
+  // On phone/iPad: TS/JS become tabs (one at a time) so the code isn't a mile of scroll.
+  if (narrow) {
+    return (
+      <div className="compare-tabs">
+        <div className="lang-switch">
+          <button className={lang === 'ts' ? 'lang-tab ts on' : 'lang-tab'} onClick={() => setLang('ts')}>TypeScript</button>
+          <button className={lang === 'js' ? 'lang-tab js on' : 'lang-tab'} onClick={() => setLang('js')}>JavaScript</button>
+        </div>
+        {lang === 'ts'
+          ? <CodeViewer file={`${step.name}.tsx`} source={step.tsSource} />
+          : <CodeViewer file={`${step.name}.jsx`} source={step.jsSource} />}
+      </div>
+    )
+  }
+
+  // Desktop: side by side to spot the difference.
+  return (
+    <div className="compare">
+      <div>
+        <div className="lang-tag ts">TypeScript</div>
+        <CodeViewer file={`${step.name}.tsx`} source={step.tsSource} />
+      </div>
+      <div>
+        <div className="lang-tag js">JavaScript</div>
+        <CodeViewer file={`${step.name}.jsx`} source={step.jsSource} />
+      </div>
+    </div>
+  )
+}
+
 function ReactView({ step }: { step: ReactStep }) {
   const Current = step.Component
   return (
@@ -122,16 +167,7 @@ function ReactView({ step }: { step: ReactStep }) {
       <div className="result-card"><Current /></div>
 
       <div className="split-label" style={{ marginTop: 24 }}>TypeScript vs JavaScript - spot the difference</div>
-      <div className="compare">
-        <div>
-          <div className="lang-tag ts">TypeScript</div>
-          <CodeViewer file={`${step.name}.tsx`} source={step.tsSource} />
-        </div>
-        <div>
-          <div className="lang-tag js">JavaScript</div>
-          <CodeViewer file={`${step.name}.jsx`} source={step.jsSource} />
-        </div>
-      </div>
+      <Compare step={step} />
 
       <div className="diffnotes">
         <div className="diffnotes-title">What TypeScript adds here</div>
