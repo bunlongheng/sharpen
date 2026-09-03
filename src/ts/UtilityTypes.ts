@@ -22,11 +22,11 @@ export function run(): void {
   const preview: NameOnly = { id: 1, name: 'Bunlong' }
   console.log('Pick:', preview)
   updateUser(1, { age: 31 }) // Partial<User> lets us pass just one field
-  const map: UsersById = { 1: { id: 1, name: 'B', email: 'b@x.com', age: 31 } }
+  const map: UsersById = { 1: { id: 1, name: 'B', email: 'b@example.com', age: 31 } }
   console.log('Record:', map[1].name)
   const _noEmail: NoEmail = { id: 1, name: 'B', age: 31 }
-  const _ro: ReadonlyUser = { id: 1, name: 'B', email: 'b@x.com', age: 31 }
-  const _req: RequiredUser = { id: 1, name: 'B', email: 'b@x.com', age: 31 }
+  const _ro: ReadonlyUser = { id: 1, name: 'B', email: 'b@example.com', age: 31 }
+  const _req: RequiredUser = { id: 1, name: 'B', email: 'b@example.com', age: 31 }
   void [_noEmail, _ro, _req]
 }
 

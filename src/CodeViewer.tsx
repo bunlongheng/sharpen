@@ -2,12 +2,13 @@ import { useMemo, useState } from 'react'
 import { Highlight, type PrismTheme } from 'prism-react-renderer'
 import { Copy, Check } from 'lucide-react'
 import { useFont } from './FontContext'
+import { TsLogo, JsLogo } from './Logos'
 
 // TypeScript: a light blue theme.
 const blueTheme: PrismTheme = {
   plain: { color: '#24344d', backgroundColor: '#f5f9ff' },
   styles: [
-    { types: ['comment', 'prolog', 'doctype', 'cdata'], style: { color: '#7d8fa8', fontStyle: 'italic' } },
+    { types: ['comment', 'prolog', 'doctype', 'cdata'], style: { color: '#a7b4c6', fontStyle: 'italic' } },
     { types: ['punctuation'], style: { color: '#57606a' } },
     { types: ['property', 'tag', 'symbol', 'deleted'], style: { color: '#0e7490' } },
     { types: ['boolean', 'number', 'constant'], style: { color: '#b45309' } },
@@ -24,7 +25,7 @@ const blueTheme: PrismTheme = {
 const sandTheme: PrismTheme = {
   plain: { color: '#5b4636', backgroundColor: '#fbf3d5' },
   styles: [
-    { types: ['comment', 'prolog', 'doctype', 'cdata'], style: { color: '#a1873f', fontStyle: 'italic' } },
+    { types: ['comment', 'prolog', 'doctype', 'cdata'], style: { color: '#c7b47e', fontStyle: 'italic' } },
     { types: ['punctuation'], style: { color: '#7a6a3a' } },
     { types: ['property', 'tag', 'symbol', 'deleted'], style: { color: '#a3560f' } },
     { types: ['boolean', 'number', 'constant'], style: { color: '#9a3412' } },
@@ -80,6 +81,7 @@ export default function CodeViewer({
   return (
     <div className={`code-viewer variant-${variant}`}>
       <div className="code-head">
+        <span className="code-lang">{variant === 'js' ? <JsLogo size={15} /> : <TsLogo size={15} />}</span>
         <span className="code-file">{name}</span>
         <button className="icon-btn" onClick={copy} title={copied ? 'Copied' : 'Copy code'} aria-label="Copy code">
           {copied ? <Check size={15} /> : <Copy size={15} />}

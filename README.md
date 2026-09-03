@@ -4,6 +4,8 @@ Sharpen your interview skills. Two practice tracks in one app - **React** and **
 step a real interview topic, with a live result, the real source code, and notes. Toggle tracks in
 the header.
 
+![Sharpen - live result, side-by-side TypeScript vs JavaScript, and handwritten notes](docs/demo.png)
+
 ## Run it
 
 ```bash
@@ -62,6 +64,6 @@ npm run build     # typecheck + production build
 
 ## Code viewer
 
-- **Core / Full** - Core hides comments and the interview-notes block.
-- **A- / A+** - font size (8px to 24px), remembered.
+- **TS vs JS side-by-side** - per-language editor themes (blue for TypeScript, sand for JavaScript).
 - **Copy** - copy the shown code.
+- Font size adapts to screen width (phone through desktop).

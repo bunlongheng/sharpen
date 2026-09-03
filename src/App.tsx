@@ -10,19 +10,8 @@ import CodeViewer from './CodeViewer'
 import TsRunner from './TsRunner'
 import Dropdown from './Dropdown'
 import { ReactLogo, TsLogo, JsLogo } from './Logos'
-import { FontProvider, useFont } from './FontContext'
+import { FontProvider } from './FontContext'
 import { DIFF_NOTES, INTERVIEW_NOTES } from './diffNotes'
-
-function FontControl() {
-  const { size, inc, dec, atMin, atMax } = useFont()
-  return (
-    <div className="fontctl" title="Code font size">
-      <button className="fbtn" onClick={dec} disabled={atMin} aria-label="Smaller code">A-</button>
-      <span className="fsize">{size}px</span>
-      <button className="fbtn" onClick={inc} disabled={atMax} aria-label="Larger code">A+</button>
-    </div>
-  )
-}
 
 // --- React track: components ---
 import ButtonClick from './steps/ButtonClick'
@@ -160,15 +149,18 @@ function Compare({ step }: { step: ReactStep }) {
   // Desktop: side by side to spot the difference.
   return (
     <div className="compare">
-      <div>
-        <div className="lang-tag ts"><TsLogo size={15} /> TypeScript</div>
-        <CodeViewer file={`${step.name}.tsx`} source={step.tsSource} variant="ts" />
-      </div>
-      <div>
-        <div className="lang-tag js"><JsLogo size={15} /> JavaScript</div>
-        <CodeViewer file={`${step.name}.jsx`} source={step.jsSource} variant="js" />
-      </div>
+      <CodeViewer file={`${step.name}.tsx`} source={step.tsSource} variant="ts" />
+      <CodeViewer file={`${step.name}.jsx`} source={step.jsSource} variant="js" />
     </div>
+  )
+}
+
+// `backtick` spans in a note render as Notion-style inline code
+function renderNote(text: string) {
+  return text.split(/(`[^`]+`)/).map((part, i) =>
+    part.startsWith('`') && part.endsWith('`')
+      ? <code key={i} className="note-code">{part.slice(1, -1)}</code>
+      : part,
   )
 }
 
@@ -176,27 +168,31 @@ function ReactView({ step }: { step: ReactStep }) {
   const Current = step.Component
   return (
     <>
-      <div className="split-label">Result</div>
-      <div className="result-card"><Current /></div>
-
-      <div className="code-toolbar"><FontControl /></div>
-      <div className="compare-wrap"><Compare step={step} /></div>
-
-      <div className="diffnotes">
-        <div className="diffnotes-title">Notes</div>
-        <div className="notes-sub">Interview notes</div>
-        <ul>
-          {(INTERVIEW_NOTES[step.id] ?? []).map((n, i) => (
-            <li key={i}>{n}</li>
-          ))}
-        </ul>
-        <div className="notes-sub">What TypeScript adds here</div>
-        <ul>
-          {(DIFF_NOTES[step.id] ?? []).map((n, i) => (
-            <li key={i}>{n}</li>
-          ))}
-        </ul>
+      <div className="react-top">
+        <div className="result-col">
+          <div className="split-label">Result</div>
+          <div className="result-card tv">
+            <div className="tv-screen"><Current /></div>
+            <div className="tv-base">
+              <span className="tv-brand">SHARPEN<i className="tv-led" /></span>
+              <span className="tv-knobs"><i /><i /></span>
+            </div>
+          </div>
+        </div>
+        <div className="notes-col">
+          <div className="split-label">Notes</div>
+          <div className="diffnotes">
+            <div className="notes-sub">Notes</div>
+            <ul>
+              {[...(INTERVIEW_NOTES[step.id] ?? []), ...(DIFF_NOTES[step.id] ?? [])].map((n, i) => (
+                <li key={i}>{renderNote(n)}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
+
+      <div className="compare-wrap"><Compare step={step} /></div>
     </>
   )
 }
@@ -204,16 +200,15 @@ function ReactView({ step }: { step: ReactStep }) {
 function TsView({ step }: { step: TsStep }) {
   return (
     <main className="split">
-      <div className="split-result">
-        <div className="split-label">Output</div>
-        <TsRunner run={step.run} />
-      </div>
       <div className="split-code">
         <div className="split-head">
           <span className="split-label">Code</span>
-          <FontControl />
         </div>
         <CodeViewer file={step.file} source={step.source} />
+      </div>
+      <div className="split-result">
+        <div className="split-label">Output</div>
+        <TsRunner run={step.run} />
       </div>
     </main>
   )
@@ -248,7 +243,7 @@ function Shell() {
     <div className={`app ${theme} track-${track}`}>
       <header className="app-header">
         <div className="header-titles">
-          <h1>Sharpen</h1>
+          <h1 className="brand"><img className="brand-logo" src="/icon-64.png" alt="" width={34} height={34} />Sharpen</h1>
           <p className="muted subtitle"><CurIcon size={14} strokeWidth={2} /> {cur.label} - {cur.blurb}</p>
         </div>
         <div className="controls">
