@@ -39,9 +39,7 @@ const options = {
 export default function Charts() {
   const barLine = {
     labels,
-    datasets: [
-      { label: 'Sales', data: values, backgroundColor: '#4f46e5', borderColor: '#4f46e5' },
-    ],
+    datasets: [{ label: 'Sales', data: values, backgroundColor: '#4f46e5', borderColor: '#4f46e5' }],
   }
   const circular = {
     labels,

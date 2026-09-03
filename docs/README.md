@@ -4,8 +4,8 @@ A plain-English walkthrough for each step, written for someone new to React. Eac
 **what** you're building, the **new idea** it introduces, a **code walkthrough**, **try-it-yourself**
 exercises, and the **interview questions** you'd be asked on that topic.
 
-Read them in order alongside the running app (`npm run dev` -> http://localhost:5190). Each step's tab
-in the app tells you which source file it maps to.
+Read them in order alongside the running app (`npm run dev` -> http://localhost:5190). The header dropdown
+lists every step; the code panel shows which source file it maps to.
 
 | # | Doc | Topic |
 |---|-----|-------|
@@ -23,7 +23,7 @@ in the app tells you which source file it maps to.
 ## How to study
 
 1. Open the app in Chrome and this repo in VS Code, side by side.
-2. Click a step's tab in Chrome to see the UI.
+2. Pick a step from the lesson dropdown in Chrome (or use the prev/next arrows) to see the UI.
 3. Open the matching doc here to understand the concept.
 4. Open the file named in the step table (e.g. `src/steps/Crud.tsx`) to read the real code (it's heavily commented).
 5. Do the "Try it yourself" exercises - change the code, watch the browser hot-reload.

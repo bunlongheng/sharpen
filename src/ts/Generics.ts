@@ -18,12 +18,13 @@ class Box<T> {
   }
 }
 
-export function run(): void {
-  console.log(identity<string>('hi'))     // explicit
-  console.log(identity(42))               // inferred as number
-  console.log('longest:', longest('cat', 'mouse'))
-  console.log('longest arr:', longest([1], [1, 2, 3]))
-  console.log('box:', new Box<number>(99).get())
+// log defaults to console.log - the app injects its own logger to capture the output panel
+export function run(log = console.log): void {
+  log(identity<string>('hi')) // explicit
+  log(identity(42)) // inferred as number
+  log('longest:', longest('cat', 'mouse'))
+  log('longest arr:', longest([1], [1, 2, 3]))
+  log('box:', new Box<number>(99).get())
 }
 
 // Interview notes:

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import initSqlJs, { type Database } from 'sql.js'
 import wasmUrl from 'sql.js/dist/sql-wasm.wasm?url'
+import { storageKey } from '../storage'
 
 // Step 8: SQLite CRUD
 // Concept: a REAL SQL database running entirely in the browser via sql.js (SQLite compiled to WASM).
@@ -12,7 +13,7 @@ interface Task {
   title: string
 }
 
-const STORAGE_KEY = 'rip-sqlite'
+const STORAGE_KEY = storageKey('sqlite')
 
 // base64 keeps the stored DB ~4x smaller than the old JSON number-array format
 export function toBase64(bytes: Uint8Array): string {
@@ -33,7 +34,11 @@ export function fromStored(saved: string): Uint8Array {
 }
 
 function persist(db: Database) {
-  localStorage.setItem(STORAGE_KEY, toBase64(db.export()))
+  try {
+    localStorage.setItem(STORAGE_KEY, toBase64(db.export()))
+  } catch {
+    // quota exceeded or private mode - the in-memory DB still works for this session
+  }
 }
 
 export default function SqliteCrud() {
@@ -65,9 +70,7 @@ export default function SqliteCrud() {
 
         // Load the saved DB from localStorage, or create a fresh one.
         const saved = localStorage.getItem(STORAGE_KEY)
-        const db = saved
-          ? new SQL.Database(fromStored(saved))
-          : new SQL.Database()
+        const db = saved ? new SQL.Database(fromStored(saved)) : new SQL.Database()
 
         db.run('CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL)')
         if (!saved) {
@@ -141,7 +144,9 @@ export default function SqliteCrud() {
         <>
           <form className="row" onSubmit={add}>
             <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="New task" />
-            <button type="submit" disabled={!title.trim()}>INSERT</button>
+            <button type="submit" disabled={!title.trim()}>
+              INSERT
+            </button>
           </form>
 
           {tasks.length === 0 ? (
@@ -155,15 +160,29 @@ export default function SqliteCrud() {
                       <input value={draft} onChange={(e) => setDraft(e.target.value)} autoFocus />
                       <span className="row">
                         <button onClick={() => saveEdit(t.id)}>UPDATE</button>
-                        <button className="ghost" onClick={() => setEditingId(null)}>Cancel</button>
+                        <button className="ghost" onClick={() => setEditingId(null)}>
+                          Cancel
+                        </button>
                       </span>
                     </>
                   ) : (
                     <>
-                      <span><span className="muted">#{t.id}</span> {t.title}</span>
+                      <span>
+                        <span className="muted">#{t.id}</span> {t.title}
+                      </span>
                       <span className="row">
-                        <button className="ghost" onClick={() => { setEditingId(t.id); setDraft(t.title) }}>Edit</button>
-                        <button className="danger" onClick={() => remove(t.id)}>DELETE</button>
+                        <button
+                          className="ghost"
+                          onClick={() => {
+                            setEditingId(t.id)
+                            setDraft(t.title)
+                          }}
+                        >
+                          Edit
+                        </button>
+                        <button className="danger" onClick={() => remove(t.id)}>
+                          DELETE
+                        </button>
                       </span>
                     </>
                   )}

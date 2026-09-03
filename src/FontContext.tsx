@@ -1,14 +1,15 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
+import { storageKey } from './storage'
+import { useLocalStorage } from './hooks/useLocalStorage'
 
-const MIN_FONT = 6
+const MIN_FONT = 8
 const MAX_FONT = 24
+const FONT_KEY = storageKey('code-font-delta')
 
-// Base code font by screen width: phone 8, iPad portrait 9, landscape 10, desktop 11.
+// Base code font by screen width: phone 11, iPad 11, desktop 12 (the +/- buttons add an offset).
 function baseFontFor(width: number): number {
-  if (width <= 480) return 8
-  if (width <= 834) return 9
-  if (width <= 1366) return 10
-  return 11
+  if (width <= 1366) return 11
+  return 12
 }
 
 interface FontValue {
@@ -22,8 +23,8 @@ interface FontValue {
 const FontContext = createContext<FontValue | null>(null)
 
 export function FontProvider({ children }: { children: ReactNode }) {
-  // A-/A+ store an OFFSET so the base still scales with the window.
-  const [delta, setDelta] = useState<number>(() => Number(localStorage.getItem('rip-code-font-delta')) || 0)
+  // The +/- buttons store an OFFSET so the base still scales with the window.
+  const [delta, setDelta] = useLocalStorage<number>(FONT_KEY, 0)
   const [base, setBase] = useState<number>(() => baseFontFor(window.innerWidth))
 
   useEffect(() => {
@@ -33,15 +34,18 @@ export function FontProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const size = Math.min(MAX_FONT, Math.max(MIN_FONT, base + delta))
-  const bump = (d: number) =>
-    setDelta((x) => {
-      const next = x + d
-      localStorage.setItem('rip-code-font-delta', String(next))
-      return next
-    })
+  const bump = (d: number) => setDelta((x) => x + d)
 
   return (
-    <FontContext.Provider value={{ size, inc: () => bump(1), dec: () => bump(-1), atMin: size <= MIN_FONT, atMax: size >= MAX_FONT }}>
+    <FontContext.Provider
+      value={{
+        size,
+        inc: () => bump(1),
+        dec: () => bump(-1),
+        atMin: size <= MIN_FONT,
+        atMax: size >= MAX_FONT,
+      }}
+    >
       {children}
     </FontContext.Provider>
   )

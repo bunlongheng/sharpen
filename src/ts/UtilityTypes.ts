@@ -7,23 +7,24 @@ interface User {
   age: number
 }
 
-type PartialUser = Partial<User>              // all props optional
-type RequiredUser = Required<PartialUser>     // all props required again
-type NameOnly = Pick<User, 'id' | 'name'>     // keep only these keys
-type NoEmail = Omit<User, 'email'>            // drop these keys
-type ReadonlyUser = Readonly<User>            // all props readonly
-type UsersById = Record<number, User>         // { [id: number]: User }
+type PartialUser = Partial<User> // all props optional
+type RequiredUser = Required<PartialUser> // all props required again
+type NameOnly = Pick<User, 'id' | 'name'> // keep only these keys
+type NoEmail = Omit<User, 'email'> // drop these keys
+type ReadonlyUser = Readonly<User> // all props readonly
+type UsersById = Record<number, User> // { [id: number]: User }
 
-function updateUser(id: number, patch: Partial<User>): void {
-  console.log(`update #${id} with`, patch)
+function updateUser(id: number, patch: Partial<User>, log: (...args: unknown[]) => void): void {
+  log(`update #${id} with`, patch)
 }
 
-export function run(): void {
+// log defaults to console.log - the app injects its own logger to capture the output panel
+export function run(log = console.log): void {
   const preview: NameOnly = { id: 1, name: 'Bunlong' }
-  console.log('Pick:', preview)
-  updateUser(1, { age: 31 }) // Partial<User> lets us pass just one field
+  log('Pick:', preview)
+  updateUser(1, { age: 31 }, log) // Partial<User> lets us pass just one field
   const map: UsersById = { 1: { id: 1, name: 'B', email: 'b@example.com', age: 31 } }
-  console.log('Record:', map[1].name)
+  log('Record:', map[1].name)
   const _noEmail: NoEmail = { id: 1, name: 'B', age: 31 }
   const _ro: ReadonlyUser = { id: 1, name: 'B', email: 'b@example.com', age: 31 }
   const _req: RequiredUser = { id: 1, name: 'B', email: 'b@example.com', age: 31 }

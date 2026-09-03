@@ -55,11 +55,14 @@ The `?` form lets SQLite handle escaping safely. This is a top security intervie
 
 ### 2. The database is just bytes - persist it
 An in-memory DB vanishes on reload. `db.export()` gives you the whole database as a byte array; we
-JSON-stringify it into localStorage after every change, and reload it on startup:
+base64-encode it into localStorage after every change, and reload it on startup:
 
 ```tsx
-localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(db.export())))
+localStorage.setItem(STORAGE_KEY, toBase64(db.export()))
 ```
+
+The bytes are base64-encoded, which is about 4x smaller than storing them as a JSON number array.
+`fromStored()` still accepts the old JSON array format too, so existing saves keep loading.
 
 ## Try it yourself
 

@@ -15,7 +15,9 @@ export default function ButtonClick() {
 
       <div className="row">
         <button onClick={() => setCount((c) => c + 1)}>Clicked {count} times</button>
-        <button className="ghost" onClick={() => setCount(0)} disabled={count === 0}>Reset</button>
+        <button className="ghost" onClick={() => setCount(0)} disabled={count === 0}>
+          Reset
+        </button>
       </div>
     </section>
   )
