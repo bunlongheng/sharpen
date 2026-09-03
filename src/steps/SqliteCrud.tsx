@@ -15,7 +15,7 @@ interface Task {
 const STORAGE_KEY = 'rip-sqlite'
 
 // base64 keeps the stored DB ~4x smaller than the old JSON number-array format
-function toBase64(bytes: Uint8Array): string {
+export function toBase64(bytes: Uint8Array): string {
   let bin = ''
   for (let i = 0; i < bytes.length; i += 0x8000) {
     bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000))
@@ -23,7 +23,7 @@ function toBase64(bytes: Uint8Array): string {
   return btoa(bin)
 }
 
-function fromStored(saved: string): Uint8Array {
+export function fromStored(saved: string): Uint8Array {
   if (saved.startsWith('[')) {
     // legacy JSON number-array format - still loadable
     return new Uint8Array(JSON.parse(saved) as number[])
