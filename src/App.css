@@ -19,9 +19,9 @@ body {
 }
 
 .app {
-  max-width: 760px;
+  max-width: min(1600px, 100%);
   margin: 0 auto;
-  padding: 40px 20px 80px;
+  padding: 40px clamp(16px, 4vw, 56px) 80px;
   min-height: 100vh;
   background: var(--bg);
   color: var(--text);
@@ -178,8 +178,9 @@ code {
   gap: 18px;
   align-items: start;
 }
+.split-result, .split-code { min-width: 0; } /* let grid cells shrink so code scrolls internally */
 @media (max-width: 860px) {
-  .split { grid-template-columns: 1fr; }
+  .split { grid-template-columns: minmax(0, 1fr); }
 }
 .split-label {
   font-size: 12px;
@@ -217,9 +218,13 @@ code {
   cursor: pointer;
 }
 .seg.on { background: #a6e22e; border-color: #a6e22e; color: #272822; }
-.code-body { max-height: 560px; overflow: auto; }
+.code-body { max-height: 70vh; overflow: auto; }
 .code-pre { margin: 0; padding: 10px 0; background: #272822 !important; }
-.code-pre code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12.5px; }
+.code-pre code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: clamp(10px, 0.95vw, 12.5px); /* scales down on narrow windows so lines fit */
+  line-height: 1.5;
+}
 .code-line { display: flex; white-space: pre; }
 .code-line .ln {
   flex: 0 0 auto;
