@@ -15,6 +15,15 @@ npm run dev        # http://localhost:5190
 
 Then open the folder in VS Code and the app in Chrome side by side.
 
+### Auth0 (optional)
+
+Step 6 demos Auth0 login. The app runs fine without it - the step shows setup
+instructions until configured:
+
+```bash
+cp .env.example .env   # then fill in VITE_AUTH0_DOMAIN and VITE_AUTH0_CLIENT_ID
+```
+
 ## React track (10 steps)
 
 Each step shows the **live result**, the code as **TypeScript vs JavaScript side-by-side** (spot the
@@ -67,3 +76,11 @@ npm run build     # typecheck + production build
 - **TS vs JS side-by-side** - per-language editor themes (blue for TypeScript, sand for JavaScript).
 - **Copy** - copy the shown code.
 - Font size adapts to screen width (phone through desktop).
+
+## Live demo
+
+Deployed to GitHub Pages on every push to main: https://bunlongheng.github.io/sharpen/
+
+## License
+
+MIT - see [LICENSE](LICENSE).

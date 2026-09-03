@@ -25,5 +25,5 @@ in the app tells you which source file it maps to.
 1. Open the app in Chrome and this repo in VS Code, side by side.
 2. Click a step's tab in Chrome to see the UI.
 3. Open the matching doc here to understand the concept.
-4. Open the matching `src/steps/StepN*.tsx` file to read the real code (it's heavily commented).
+4. Open the file named in the step table (e.g. `src/steps/Crud.tsx`) to read the real code (it's heavily commented).
 5. Do the "Try it yourself" exercises - change the code, watch the browser hot-reload.

@@ -2,9 +2,24 @@ import { useEffect, useRef, useState } from 'react'
 import initSqlJs from 'sql.js'
 import wasmUrl from 'sql.js/dist/sql-wasm.wasm?url'
 const STORAGE_KEY = 'rip-sqlite'
+// base64 keeps the stored DB ~4x smaller than the old JSON number-array format
+function toBase64(bytes) {
+  let bin = ''
+  for (let i = 0; i < bytes.length; i += 0x8000) {
+    bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000))
+  }
+  return btoa(bin)
+}
+function fromStored(saved) {
+  if (saved.startsWith('[')) {
+    // legacy JSON number-array format - still loadable
+    return new Uint8Array(JSON.parse(saved))
+  }
+  const bin = atob(saved)
+  return Uint8Array.from(bin, (c) => c.charCodeAt(0))
+}
 function persist(db) {
-  const bytes = db.export()
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(bytes)))
+  localStorage.setItem(STORAGE_KEY, toBase64(db.export()))
 }
 export default function SqliteCrud() {
   const dbRef = useRef(null)
@@ -32,7 +47,7 @@ export default function SqliteCrud() {
         if (cancelled) return
         // Load the saved DB from localStorage, or create a fresh one.
         const saved = localStorage.getItem(STORAGE_KEY)
-        const db = saved ? new SQL.Database(new Uint8Array(JSON.parse(saved))) : new SQL.Database()
+        const db = saved ? new SQL.Database(fromStored(saved)) : new SQL.Database()
         db.run(
           'CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL)',
         )

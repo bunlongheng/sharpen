@@ -143,7 +143,7 @@ header h1 { margin: 0 0 3px; font-size: 22px; }
   font-size: 14px;
   white-space: nowrap;
 }
-.dd2-item:hover { background: var(--bg); }
+.dd2-item:hover, .dd2-item.kb { background: var(--bg); }
 .dd2-item.on { background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--text); font-weight: 700; }
 .dd2-check { margin-left: auto; color: var(--accent); }
 
@@ -331,7 +331,7 @@ header h1 { margin: 0 0 3px; font-size: 22px; }
 .diffnotes .note-code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 11px;
-  color: #eb5757;
+  color: #b91c1c;
   background: rgba(135, 131, 120, 0.15);
   border-radius: 4px;
   padding: 1px 5px;

@@ -1,4 +1,4 @@
-import { useEffect, useState, type ComponentType } from 'react'
+import { lazy, Suspense, useEffect, useState, type ComponentType } from 'react'
 import {
   MousePointerClick, ListPlus, ClipboardList, Globe, Webhook, KeyRound,
   BarChart3, Database, Route, FlaskConical, Hand, Puzzle, Shuffle, Brackets, Boxes,
@@ -12,18 +12,20 @@ import Dropdown from './Dropdown'
 import { ReactLogo, TsLogo, JsLogo } from './Logos'
 import { FontProvider } from './FontContext'
 import { DIFF_NOTES, INTERVIEW_NOTES } from './diffNotes'
+import ErrorBoundary from './ErrorBoundary'
 
-// --- React track: components ---
-import ButtonClick from './steps/ButtonClick'
-import AddToList from './steps/AddToList'
-import Crud from './steps/Crud'
-import FetchApi from './steps/FetchApi'
-import HooksContext from './steps/HooksContext'
-import Auth0 from './steps/Auth0'
-import Charts from './steps/Charts'
-import SqliteCrud from './steps/SqliteCrud'
-import Router from './steps/Router'
-import Testing from './steps/Testing'
+// --- React track: components (lazy - each step is its own chunk, so heavy deps
+// like chart.js and sql.js only download when their step is opened) ---
+const ButtonClick = lazy(() => import('./steps/ButtonClick'))
+const AddToList = lazy(() => import('./steps/AddToList'))
+const Crud = lazy(() => import('./steps/Crud'))
+const FetchApi = lazy(() => import('./steps/FetchApi'))
+const HooksContext = lazy(() => import('./steps/HooksContext'))
+const Auth0 = lazy(() => import('./steps/Auth0'))
+const Charts = lazy(() => import('./steps/Charts'))
+const SqliteCrud = lazy(() => import('./steps/SqliteCrud'))
+const Router = lazy(() => import('./steps/Router'))
+const Testing = lazy(() => import('./steps/Testing'))
 
 // --- React track: TS + JS source text (?raw) ---
 import ts1 from './steps/ButtonClick.tsx?raw'
@@ -156,7 +158,7 @@ function Compare({ step }: { step: ReactStep }) {
 }
 
 // `backtick` spans in a note render as Notion-style inline code
-function renderNote(text: string) {
+export function renderNote(text: string) {
   return text.split(/(`[^`]+`)/).map((part, i) =>
     part.startsWith('`') && part.endsWith('`')
       ? <code key={i} className="note-code">{part.slice(1, -1)}</code>
@@ -172,7 +174,13 @@ function ReactView({ step }: { step: ReactStep }) {
         <div className="result-col">
           <div className="split-label">Result</div>
           <div className="result-card tv">
-            <div className="tv-screen"><Current /></div>
+            <div className="tv-screen">
+              <ErrorBoundary>
+                <Suspense fallback={<section className="card"><p className="empty">Loading...</p></section>}>
+                  <Current />
+                </Suspense>
+              </ErrorBoundary>
+            </div>
             <div className="tv-base">
               <span className="tv-brand">SHARPEN<i className="tv-led" /></span>
               <span className="tv-knobs"><i /><i /></span>
@@ -243,7 +251,7 @@ function Shell() {
     <div className={`app ${theme} track-${track}`}>
       <header className="app-header">
         <div className="header-titles">
-          <h1 className="brand"><img className="brand-logo" src="/icon-64.png" alt="" width={34} height={34} />Sharpen</h1>
+          <h1 className="brand"><img className="brand-logo" src={`${import.meta.env.BASE_URL}icon-64.png`} alt="" width={34} height={34} />Sharpen</h1>
           <p className="muted subtitle"><CurIcon size={14} strokeWidth={2} /> {cur.label} - {cur.blurb}</p>
         </div>
         <div className="controls">

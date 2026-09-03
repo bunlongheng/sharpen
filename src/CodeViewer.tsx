@@ -39,7 +39,7 @@ const sandTheme: PrismTheme = {
 }
 
 // Show the working code WITH its comments, but drop the <details> interview-notes JSX block.
-function stripNotesBlock(src: string): string {
+export function stripNotesBlock(src: string): string {
   const out: string[] = []
   let inDetails = false
   for (const line of src.split('\n')) {
@@ -73,7 +73,17 @@ export default function CodeViewer({
   const theme = variant === 'js' ? sandTheme : blueTheme
 
   async function copy() {
-    await navigator.clipboard.writeText(code)
+    try {
+      await navigator.clipboard.writeText(code)
+    } catch {
+      // clipboard API needs a secure context - fall back to a hidden textarea
+      const ta = document.createElement('textarea')
+      ta.value = code
+      document.body.appendChild(ta)
+      ta.select()
+      document.execCommand('copy')
+      ta.remove()
+    }
     setCopied(true)
     setTimeout(() => setCopied(false), 1200)
   }

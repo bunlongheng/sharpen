@@ -26,8 +26,34 @@ export default function Dropdown({
   ariaLabel?: string
 }) {
   const [open, setOpen] = useState(false)
+  const [active, setActive] = useState(-1) // keyboard-highlighted option index
   const ref = useRef<HTMLDivElement>(null)
   const sel = options.find((o) => o.value === value) ?? options[0]
+
+  function pick(v: string | number) {
+    onChange(v)
+    setOpen(false)
+    setActive(-1)
+  }
+
+  // Full keyboard support: arrows move, Enter/Space select, Home/End jump.
+  function onKeyDown(e: React.KeyboardEvent) {
+    if (!open && (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter' || e.key === ' ')) {
+      e.preventDefault()
+      setOpen(true)
+      setActive(options.findIndex((o) => o.value === value))
+      return
+    }
+    if (!open) return
+    if (e.key === 'ArrowDown') { e.preventDefault(); setActive((i) => Math.min(options.length - 1, i + 1)) }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); setActive((i) => Math.max(0, i - 1)) }
+    else if (e.key === 'Home') { e.preventDefault(); setActive(0) }
+    else if (e.key === 'End') { e.preventDefault(); setActive(options.length - 1) }
+    else if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      if (active >= 0) pick(options[active].value)
+    }
+  }
 
   useEffect(() => {
     function onDoc(e: MouseEvent) {
@@ -45,7 +71,7 @@ export default function Dropdown({
   }, [])
 
   return (
-    <div className="dd2" ref={ref} style={{ minWidth }}>
+    <div className="dd2" ref={ref} style={{ minWidth }} onKeyDown={onKeyDown}>
       <button
         type="button"
         className="dd2-btn"
@@ -61,16 +87,14 @@ export default function Dropdown({
 
       {open && (
         <ul className="dd2-menu" role="listbox">
-          {options.map((o) => (
+          {options.map((o, i) => (
             <li
               key={o.value}
               role="option"
               aria-selected={o.value === value}
-              className={o.value === value ? 'dd2-item on' : 'dd2-item'}
-              onClick={() => {
-                onChange(o.value)
-                setOpen(false)
-              }}
+              className={`dd2-item${o.value === value ? ' on' : ''}${i === active ? ' kb' : ''}`}
+              onMouseEnter={() => setActive(i)}
+              onClick={() => pick(o.value)}
             >
               <o.Icon className="dd2-ic" size={16} strokeWidth={2} />
               <span className="dd2-label">{o.label}</span>

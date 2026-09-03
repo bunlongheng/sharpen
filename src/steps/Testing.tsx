@@ -4,19 +4,8 @@
 // - screen queries find elements the way a user would (by role/text).
 // - fireEvent / userEvent simulate interaction; expect() asserts the result.
 // Run the suite with:  npm test
-// The real, passing tests live in src/steps/__tests__/ - open them in VS Code.
-const SAMPLE = `import { render, screen, fireEvent } from '@testing-library/react'
-import { describe, it, expect } from 'vitest'
-import ButtonClick from '../ButtonClick'
-
-describe('ButtonClick', () => {
-  it('increments the count when clicked', () => {
-    render(<ButtonClick />)
-    const button = screen.getByText(/clicked 0 times/i)
-    fireEvent.click(button)
-    expect(screen.getByText(/clicked 1 times/i)).toBeInTheDocument()
-  })
-})`
+// The displayed test IS the real file (imported ?raw) so it can never drift.
+import SAMPLE from './__tests__/ButtonClick.test.tsx?raw'
 
 export default function Testing() {
   return (
