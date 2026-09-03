@@ -6,10 +6,16 @@ import { useEffect, useState } from 'react'
 // - Always handle loading AND error, not just the happy path (this is what interviewers watch for).
 // - Cleanup with an "ignore" flag (or AbortController) so a slow response can't set state
 //   after the component unmounted.
+interface User {
+  id: number
+  name: string
+  email: string
+}
+
 export default function Step4FetchApi() {
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     let ignore = false
@@ -23,10 +29,12 @@ export default function Step4FetchApi() {
           signal: controller.signal,
         })
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        const data = await res.json()
+        const data = (await res.json()) as User[]
         if (!ignore) setUsers(data)
       } catch (err) {
-        if (!ignore && err.name !== 'AbortError') setError(err.message)
+        if (!ignore && (err as Error).name !== 'AbortError') {
+          setError((err as Error).message)
+        }
       } finally {
         if (!ignore) setLoading(false)
       }

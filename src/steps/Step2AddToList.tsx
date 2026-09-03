@@ -1,15 +1,20 @@
-import { useState } from 'react'
+import { useState, type FormEvent } from 'react'
 
 // Step 2: Add to a list
 // Concept: a controlled input + immutable array updates + keys.
 // - The input value lives in state (controlled component).
 // - You add items with [...prev, newItem], never prev.push().
 // - Every list item needs a stable, unique key (not the array index if the list reorders).
+interface Item {
+  id: string
+  value: string
+}
+
 export default function Step2AddToList() {
   const [text, setText] = useState('')
-  const [items, setItems] = useState([])
+  const [items, setItems] = useState<Item[]>([])
 
-  function addItem(e) {
+  function addItem(e: FormEvent<HTMLFormElement>) {
     e.preventDefault() // stop the form from reloading the page
     const value = text.trim()
     if (!value) return

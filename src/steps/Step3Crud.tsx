@@ -1,21 +1,26 @@
-import { useState } from 'react'
+import { useState, type FormEvent } from 'react'
 
 // Step 3: Full CRUD
 // Concept: Create, Read, Update, Delete on a list in state.
 // - Update = map over the array and replace only the matching item.
 // - Delete = filter the array.
 // - "Editing" is just another piece of UI state (which id is being edited).
+interface Item {
+  id: string
+  value: string
+}
+
 export default function Step3Crud() {
-  const [items, setItems] = useState([
+  const [items, setItems] = useState<Item[]>([
     { id: crypto.randomUUID(), value: 'Learn useState' },
     { id: crypto.randomUUID(), value: 'Build a CRUD list' },
   ])
   const [text, setText] = useState('')
-  const [editingId, setEditingId] = useState(null)
+  const [editingId, setEditingId] = useState<string | null>(null)
   const [draft, setDraft] = useState('')
 
   // CREATE
-  function add(e) {
+  function add(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const value = text.trim()
     if (!value) return
@@ -24,18 +29,18 @@ export default function Step3Crud() {
   }
 
   // DELETE
-  function remove(id) {
+  function remove(id: string) {
     setItems((prev) => prev.filter((it) => it.id !== id))
   }
 
   // UPDATE - enter edit mode
-  function startEdit(item) {
+  function startEdit(item: Item) {
     setEditingId(item.id)
     setDraft(item.value)
   }
 
   // UPDATE - commit
-  function saveEdit(id) {
+  function saveEdit(id: string) {
     const value = draft.trim()
     if (!value) return
     setItems((prev) => prev.map((it) => (it.id === id ? { ...it, value } : it)))
