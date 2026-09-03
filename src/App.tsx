@@ -1,6 +1,6 @@
 import { useEffect, useState, type ComponentType } from 'react'
 import {
-  Atom, MousePointerClick, ListPlus, ClipboardList, Globe, Webhook, KeyRound,
+  MousePointerClick, ListPlus, ClipboardList, Globe, Webhook, KeyRound,
   BarChart3, Database, Route, FlaskConical, Hand, Puzzle, Shuffle, Brackets, Boxes,
   FunctionSquare, Wrench, Building2, Brain, Hourglass, ChevronLeft, ChevronRight, type LucideIcon,
 } from 'lucide-react'
@@ -9,7 +9,7 @@ import { Auth0ProviderWrapper } from './auth/Auth0ProviderWrapper'
 import CodeViewer from './CodeViewer'
 import TsRunner from './TsRunner'
 import Dropdown from './Dropdown'
-import { TsLogo, JsLogo } from './Logos'
+import { ReactLogo, TsLogo, JsLogo } from './Logos'
 import { DIFF_NOTES } from './diffNotes'
 
 // --- React track: components ---
@@ -209,7 +209,7 @@ function Shell() {
   const CurIcon = cur.Icon
 
   const trackOptions = [
-    { value: 'react', label: 'React', Icon: Atom },
+    { value: 'react', label: 'React', Icon: ReactLogo },
     { value: 'ts', label: 'TypeScript', Icon: TsLogo },
   ]
   const stepOptions = (track === 'react' ? REACT_STEPS : TS_STEPS).map((s) => ({

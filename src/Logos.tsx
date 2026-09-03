@@ -14,6 +14,19 @@ export function TsLogo({ size = 24, className }: LogoProps) {
   )
 }
 
+export function ReactLogo({ size = 24, className }: LogoProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" className={className} aria-hidden="true" fill="none">
+      <circle cx="12" cy="12" r="2.05" fill="#61dafb" />
+      <g stroke="#61dafb" strokeWidth="1" fill="none">
+        <ellipse cx="12" cy="12" rx="10" ry="3.85" />
+        <ellipse cx="12" cy="12" rx="10" ry="3.85" transform="rotate(60 12 12)" />
+        <ellipse cx="12" cy="12" rx="10" ry="3.85" transform="rotate(120 12 12)" />
+      </g>
+    </svg>
+  )
+}
+
 export function JsLogo({ size = 24, className }: LogoProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" className={className} aria-hidden="true">
