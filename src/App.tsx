@@ -179,6 +179,7 @@ function ReactView({ step }: { step: ReactStep }) {
       <div className="split-label">Result</div>
       <div className="result-card"><Current /></div>
 
+      <div className="code-toolbar"><FontControl /></div>
       <div className="compare-wrap"><Compare step={step} /></div>
 
       <div className="diffnotes">
@@ -201,7 +202,10 @@ function TsView({ step }: { step: TsStep }) {
         <TsRunner run={step.run} />
       </div>
       <div className="split-code">
-        <div className="split-label">Code</div>
+        <div className="split-head">
+          <span className="split-label">Code</span>
+          <FontControl />
+        </div>
         <CodeViewer file={step.file} source={step.source} />
       </div>
     </main>
@@ -264,7 +268,6 @@ function Shell() {
             </button>
             <span className="step-count">{active} / {total}</span>
           </div>
-          <FontControl />
         </div>
       </header>
 

@@ -414,7 +414,9 @@ code {
 .fbtn:disabled { opacity: 0.4; cursor: not-allowed; }
 .fsize { color: var(--muted); font-size: 12px; min-width: 32px; text-align: center; font-variant-numeric: tabular-nums; }
 
-.compare-wrap { margin-top: 20px; }
+.compare-wrap { margin-top: 6px; }
+.code-toolbar { display: flex; justify-content: flex-end; margin-top: 22px; margin-bottom: 8px; }
+.split-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .seg {
   padding: 3px 10px;
   font-size: 12px;
