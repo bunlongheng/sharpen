@@ -1,15 +1,15 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
-import Step2AddToList from '../Step2AddToList'
+import AddToList from '../AddToList'
 
-describe('Step2AddToList', () => {
+describe('AddToList', () => {
   it('shows an empty message with no items', () => {
-    render(<Step2AddToList />)
+    render(<AddToList />)
     expect(screen.getByText(/no items yet/i)).toBeInTheDocument()
   })
 
   it('adds a typed item to the list', () => {
-    render(<Step2AddToList />)
+    render(<AddToList />)
     const input = screen.getByPlaceholderText(/type something/i)
     fireEvent.change(input, { target: { value: 'Learn testing' } })
     fireEvent.click(screen.getByText('Add'))

@@ -1,6 +1,6 @@
 # Step 1: Button Click
 
-**File:** `src/steps/Step1ButtonClick.tsx`
+**File:** `src/steps/ButtonClick.tsx`
 
 ## What you're building
 

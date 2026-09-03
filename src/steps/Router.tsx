@@ -34,7 +34,7 @@ function RequireAuth({ authed, children }: { authed: boolean; children: ReactNod
   return <>{children}</>
 }
 
-export default function Step9Router() {
+export default function Router() {
   const [authed, setAuthed] = useState(false)
 
   return (

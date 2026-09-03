@@ -1,6 +1,6 @@
 # Step 7: Chart.js - 6 Charts
 
-**File:** `src/steps/Step7Charts.tsx`
+**File:** `src/steps/Charts.tsx`
 
 ## What you're building
 

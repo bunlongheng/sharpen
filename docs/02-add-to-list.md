@@ -1,6 +1,6 @@
 # Step 2: Add to a List
 
-**File:** `src/steps/Step2AddToList.tsx`
+**File:** `src/steps/AddToList.tsx`
 
 ## What you're building
 

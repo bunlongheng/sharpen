@@ -1,6 +1,6 @@
 # Step 3: CRUD
 
-**File:** `src/steps/Step3Crud.tsx`
+**File:** `src/steps/Crud.tsx`
 
 ## What you're building
 

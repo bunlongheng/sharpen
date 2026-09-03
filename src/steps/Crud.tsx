@@ -10,7 +10,7 @@ interface Item {
   value: string
 }
 
-export default function Step3Crud() {
+export default function Crud() {
   const [items, setItems] = useState<Item[]>([
     { id: crypto.randomUUID(), value: 'Learn useState' },
     { id: crypto.randomUUID(), value: 'Build a CRUD list' },

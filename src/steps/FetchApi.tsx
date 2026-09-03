@@ -12,7 +12,7 @@ interface User {
   email: string
 }
 
-export default function Step4FetchApi() {
+export default function FetchApi() {
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)

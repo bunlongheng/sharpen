@@ -1,6 +1,6 @@
 # Step 6: Auth0 Integration
 
-**File:** `src/steps/Step6Auth0.tsx` (plus `src/auth/Auth0ProviderWrapper.tsx`)
+**File:** `src/steps/Auth0.tsx` (plus `src/auth/Auth0ProviderWrapper.tsx`)
 
 ## What you're building
 

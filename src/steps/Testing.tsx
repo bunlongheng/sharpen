@@ -7,18 +7,18 @@
 // The real, passing tests live in src/steps/__tests__/ - open them in VS Code.
 const SAMPLE = `import { render, screen, fireEvent } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
-import Step1ButtonClick from '../Step1ButtonClick'
+import ButtonClick from '../ButtonClick'
 
-describe('Step1ButtonClick', () => {
+describe('ButtonClick', () => {
   it('increments the count when clicked', () => {
-    render(<Step1ButtonClick />)
+    render(<ButtonClick />)
     const button = screen.getByText(/clicked 0 times/i)
     fireEvent.click(button)
     expect(screen.getByText(/clicked 1 times/i)).toBeInTheDocument()
   })
 })`
 
-export default function Step10Testing() {
+export default function Testing() {
   return (
     <section className="card">
       <h2>10. Testing</h2>

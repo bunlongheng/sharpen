@@ -15,6 +15,7 @@
   "dependencies": {
     "@auth0/auth0-react": "^2.24.1",
     "chart.js": "^4.5.1",
+    "prism-react-renderer": "^2.4.1",
     "react": "^18.3.1",
     "react-chartjs-2": "^5.3.1",
     "react-dom": "^18.3.1",

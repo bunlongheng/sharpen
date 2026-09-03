@@ -1,6 +1,6 @@
 # Step 5: Custom Hooks + Context
 
-**File:** `src/steps/Step5HooksContext.tsx` (plus `src/hooks/useLocalStorage.ts` and `src/context/ThemeContext.tsx`)
+**File:** `src/steps/HooksContext.tsx` (plus `src/hooks/useLocalStorage.ts` and `src/context/ThemeContext.tsx`)
 
 ## What you're building
 

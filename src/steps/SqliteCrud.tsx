@@ -19,7 +19,7 @@ function persist(db: Database) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(bytes)))
 }
 
-export default function Step8SqliteCrud() {
+export default function SqliteCrud() {
   const dbRef = useRef<Database | null>(null)
   const [ready, setReady] = useState(false)
   const [error, setError] = useState<string | null>(null)

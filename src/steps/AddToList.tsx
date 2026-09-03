@@ -10,7 +10,7 @@ interface Item {
   value: string
 }
 
-export default function Step2AddToList() {
+export default function AddToList() {
   const [text, setText] = useState('')
   const [items, setItems] = useState<Item[]>([])
 

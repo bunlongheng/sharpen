@@ -191,10 +191,10 @@ code {
 
 /* code viewer */
 .code-viewer {
-  border: 1px solid var(--border);
+  border: 1px solid #3e3d32;
   border-radius: 12px;
   overflow: hidden;
-  background: #0d1117;
+  background: #272822; /* Monokai */
 }
 .code-head {
   display: flex;
@@ -202,22 +202,23 @@ code {
   justify-content: space-between;
   gap: 8px;
   padding: 8px 12px;
-  background: #161b22;
-  border-bottom: 1px solid #21262d;
+  background: #1e1f1c;
+  border-bottom: 1px solid #3e3d32;
 }
-.code-file { color: #8b949e; font-size: 12px; font-family: ui-monospace, Menlo, Consolas, monospace; }
+.code-file { color: #a6a69c; font-size: 12px; font-family: ui-monospace, Menlo, Consolas, monospace; }
 .code-actions { display: flex; gap: 6px; }
 .seg {
   padding: 3px 10px;
   font-size: 12px;
-  border: 1px solid #30363d;
-  background: #21262d;
-  color: #c9d1d9;
+  border: 1px solid #49483e;
+  background: #3e3d32;
+  color: #f8f8f2;
   border-radius: 6px;
+  cursor: pointer;
 }
-.seg.on { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+.seg.on { background: #a6e22e; border-color: #a6e22e; color: #272822; }
 .code-body { max-height: 560px; overflow: auto; }
-.code-pre { margin: 0; padding: 10px 0; }
+.code-pre { margin: 0; padding: 10px 0; background: #272822 !important; }
 .code-pre code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12.5px; }
 .code-line { display: flex; white-space: pre; }
 .code-line .ln {
@@ -225,10 +226,10 @@ code {
   width: 38px;
   text-align: right;
   padding-right: 12px;
-  color: #6e7681;
+  color: #75715e;
   user-select: none;
 }
-.code-line .lc { color: #e6edf3; padding-right: 16px; }
+.code-line .lc { padding-right: 16px; }
 
 /* Step 9 - router demo */
 .router-view {

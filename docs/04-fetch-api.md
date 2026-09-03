@@ -1,6 +1,6 @@
 # Step 4: Fetch from an API
 
-**File:** `src/steps/Step4FetchApi.tsx`
+**File:** `src/steps/FetchApi.tsx`
 
 ## What you're building
 

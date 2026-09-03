@@ -31,7 +31,7 @@ npm run dev
 Then:
 1. Open http://localhost:5190 in **Chrome** - click a step's tab to see the UI.
 2. Open this folder in **VS Code** - the app shows the source file for each step (e.g.
-   `src/steps/Step3Crud.tsx`); open that file to read the commented code.
+   `src/steps/Crud.tsx`); open that file to read the commented code.
 3. Edit the code - the browser hot-reloads instantly. Break things, learn.
 
 Read the matching [`docs/`](docs/README.md) file for the plain-English explanation of each step.

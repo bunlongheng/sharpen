@@ -1,6 +1,6 @@
 # Step 9: React Router
 
-**File:** `src/steps/Step9Router.tsx`
+**File:** `src/steps/Router.tsx`
 
 ## What you're building
 

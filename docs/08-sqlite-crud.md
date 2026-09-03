@@ -1,6 +1,6 @@
 # Step 8: SQLite CRUD
 
-**File:** `src/steps/Step8SqliteCrud.tsx`
+**File:** `src/steps/SqliteCrud.tsx`
 
 ## What you're building
 

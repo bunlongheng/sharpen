@@ -4,7 +4,7 @@ import { useState } from 'react'
 // Concept: useState + an event handler. The whole foundation of React interactivity.
 // - State is the single source of truth for what the UI shows.
 // - You never mutate state directly. You call the setter, React re-renders.
-export default function Step1ButtonClick() {
+export default function ButtonClick() {
   // useState<number> is inferred from the initial value 0.
   const [count, setCount] = useState(0)
 

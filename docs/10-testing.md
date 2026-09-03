@@ -1,6 +1,6 @@
 # Step 10: Testing
 
-**File:** `src/steps/Step10Testing.tsx` + real tests in `src/steps/__tests__/`
+**File:** `src/steps/Testing.tsx` + real tests in `src/steps/__tests__/`
 
 ## What you're building
 
@@ -27,11 +27,11 @@ user experiences*. If you refactor the internals but the behavior is the same, g
 ```tsx
 import { render, screen, fireEvent } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
-import Step1ButtonClick from '../Step1ButtonClick'
+import ButtonClick from '../ButtonClick'
 
-describe('Step1ButtonClick', () => {
+describe('ButtonClick', () => {
   it('increments the count when clicked', () => {
-    render(<Step1ButtonClick />)                         // 1. mount it
+    render(<ButtonClick />)                         // 1. mount it
     fireEvent.click(screen.getByText(/clicked 0 times/i)) // 2. act like a user
     expect(screen.getByText(/clicked 1 times/i)).toBeInTheDocument() // 3. assert
   })
@@ -61,7 +61,7 @@ real user behavior more faithfully (focus, key events, typing character by chara
 
 ## Try it yourself
 
-1. Open `src/steps/__tests__/Step2AddToList.test.tsx` and add a test for adding two items.
+1. Open `src/steps/__tests__/AddToList.test.tsx` and add a test for adding two items.
 2. Write a test asserting the empty message is gone after adding an item (hint: `queryByText`).
 3. Run `npm run test:watch` and watch tests re-run as you edit.
 

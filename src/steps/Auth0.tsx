@@ -47,7 +47,7 @@ VITE_AUTH0_CLIENT_ID=your_client_id`}</pre>
   )
 }
 
-export default function Step6Auth0() {
+export default function Auth0() {
   return (
     <section className="card">
       <h2>6. Auth0 integration</h2>

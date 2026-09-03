@@ -5,7 +5,7 @@ import { useLocalStorage } from '../hooks/useLocalStorage'
 // Two of the most-asked advanced topics, combined:
 // - Custom hook (useLocalStorage): reusable stateful logic, persists a note across reloads.
 // - Context (useTheme): global state shared without prop drilling.
-export default function Step5HooksContext() {
+export default function HooksContext() {
   const { theme, toggle } = useTheme()
   const [note, setNote] = useLocalStorage<string>('rip-note', '')
 
