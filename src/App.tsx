@@ -248,7 +248,7 @@ function Shell() {
     <div className={`app ${theme} track-${track}`}>
       <header className="app-header">
         <div className="header-titles">
-          <h1>Interview Preps</h1>
+          <h1>Sharpen</h1>
           <p className="muted subtitle"><CurIcon size={14} strokeWidth={2} /> {cur.label} - {cur.blurb}</p>
         </div>
         <div className="controls">

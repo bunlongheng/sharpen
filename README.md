@@ -1,7 +1,8 @@
-# Interview Prep
+# Sharpen
 
-Two practice tracks in one app - **React** and **TypeScript** - each step a real interview topic,
-with a live result, the real source code (Monokai), and notes. Toggle tracks in the header.
+Sharpen your interview skills. Two practice tracks in one app - **React** and **TypeScript** - each
+step a real interview topic, with a live result, the real source code, and notes. Toggle tracks in
+the header.
 
 ## Run it
 

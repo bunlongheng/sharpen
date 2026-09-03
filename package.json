@@ -1,9 +1,9 @@
 {
-  "name": "interview",
+  "name": "sharpen",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Interview prep - React and TypeScript tracks, each step a real interview topic",
+  "description": "Sharpen - React and TypeScript interview practice, each step a real interview topic",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
