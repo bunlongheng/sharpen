@@ -10,7 +10,19 @@ import CodeViewer from './CodeViewer'
 import TsRunner from './TsRunner'
 import Dropdown from './Dropdown'
 import { ReactLogo, TsLogo, JsLogo } from './Logos'
+import { FontProvider, useFont } from './FontContext'
 import { DIFF_NOTES } from './diffNotes'
+
+function FontControl() {
+  const { size, inc, dec, atMin, atMax } = useFont()
+  return (
+    <div className="fontctl" title="Code font size">
+      <button className="fbtn" onClick={dec} disabled={atMin} aria-label="Smaller code">A-</button>
+      <span className="fsize">{size}px</span>
+      <button className="fbtn" onClick={inc} disabled={atMax} aria-label="Larger code">A+</button>
+    </div>
+  )
+}
 
 // --- React track: components ---
 import ButtonClick from './steps/ButtonClick'
@@ -167,8 +179,7 @@ function ReactView({ step }: { step: ReactStep }) {
       <div className="split-label">Result</div>
       <div className="result-card"><Current /></div>
 
-      <div className="split-label" style={{ marginTop: 24 }}>TypeScript vs JavaScript - spot the difference</div>
-      <Compare step={step} />
+      <div className="compare-wrap"><Compare step={step} /></div>
 
       <div className="diffnotes">
         <div className="diffnotes-title">What TypeScript adds here</div>
@@ -223,7 +234,7 @@ function Shell() {
   const go = (delta: number) => setActive(Math.min(total, Math.max(1, active + delta)))
 
   return (
-    <div className={`app ${theme}`}>
+    <div className={`app ${theme} track-${track}`}>
       <header className="app-header">
         <div className="header-titles">
           <h1>Interview Preps</h1>
@@ -253,6 +264,7 @@ function Shell() {
             </button>
             <span className="step-count">{active} / {total}</span>
           </div>
+          <FontControl />
         </div>
       </header>
 
@@ -265,7 +277,9 @@ export default function App() {
   return (
     <Auth0ProviderWrapper>
       <ThemeProvider>
-        <Shell />
+        <FontProvider>
+          <Shell />
+        </FontProvider>
       </ThemeProvider>
     </Auth0ProviderWrapper>
   )

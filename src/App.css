@@ -4,7 +4,7 @@
   --text: #1f2937;
   --muted: #6b7280;
   --border: #e5e7eb;
-  --accent: #4f46e5;
+  --accent: #3178c6;
   --accent-ink: #ffffff;
   --danger: #dc2626;
 }
@@ -34,8 +34,12 @@ body {
   --text: #e2e8f0;
   --muted: #94a3b8;
   --border: #334155;
-  --accent: #818cf8;
+  --accent: #3178c6;
 }
+
+/* per-track accent - React light blue, TypeScript blue (no purple anywhere) */
+.app.track-react { --accent: #60dafb; --accent-ink: #0a2b33; }
+.app.track-ts { --accent: #3178c6; --accent-ink: #ffffff; }
 
 header h1 { margin: 0 0 3px; font-size: 22px; }
 .muted { color: var(--muted); }
@@ -127,9 +131,8 @@ header h1 { margin: 0 0 3px; font-size: 22px; }
   white-space: nowrap;
 }
 .dd2-item:hover { background: var(--bg); }
-.dd2-item.on { background: var(--accent); color: #fff; }
-.dd2-item.on .dd2-ic { color: #fff; }
-.dd2-check { margin-left: auto; }
+.dd2-item.on { background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--text); font-weight: 700; }
+.dd2-check { margin-left: auto; color: var(--accent); }
 
 /* prev/next nav buttons */
 .navbtn {
@@ -386,6 +389,32 @@ code {
 }
 .code-file { color: #a6a69c; font-size: 12px; font-family: ui-monospace, Menlo, Consolas, monospace; }
 .code-actions { display: flex; gap: 6px; }
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid #49483e;
+  background: #3e3d32;
+  color: #f8f8f2;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.icon-btn:hover { background: #49483e; }
+
+/* shared code-font control in the header */
+.fontctl { display: inline-flex; align-items: center; gap: 6px; }
+.fbtn {
+  width: 30px; height: 32px; padding: 0;
+  border: 1px solid var(--border); background: var(--panel); color: var(--text);
+  border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 13px;
+}
+.fbtn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+.fbtn:disabled { opacity: 0.4; cursor: not-allowed; }
+.fsize { color: var(--muted); font-size: 12px; min-width: 32px; text-align: center; font-variant-numeric: tabular-nums; }
+
+.compare-wrap { margin-top: 20px; }
 .seg {
   padding: 3px 10px;
   font-size: 12px;
