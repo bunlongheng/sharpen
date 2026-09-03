@@ -64,6 +64,8 @@ import tsc10 from './ts/AsyncAwait.ts?raw'
 interface ReactStep {
   id: number
   label: string
+  icon: string
+  blurb: string
   name: string // base file name without extension
   tsSource: string
   jsSource: string
@@ -73,59 +75,53 @@ interface ReactStep {
 interface TsStep {
   id: number
   label: string
+  icon: string
+  blurb: string
   file: string
   source: string
   run: () => void | Promise<void>
 }
 
 const REACT_STEPS: ReactStep[] = [
-  { id: 1, label: 'Button click', name: 'ButtonClick', tsSource: ts1, jsSource: js1, Component: ButtonClick },
-  { id: 2, label: 'Add to list', name: 'AddToList', tsSource: ts2, jsSource: js2, Component: AddToList },
-  { id: 3, label: 'CRUD', name: 'Crud', tsSource: ts3, jsSource: js3, Component: Crud },
-  { id: 4, label: 'Fetch API', name: 'FetchApi', tsSource: ts4, jsSource: js4, Component: FetchApi },
-  { id: 5, label: 'Hooks + Context', name: 'HooksContext', tsSource: ts5, jsSource: js5, Component: HooksContext },
-  { id: 6, label: 'Auth0', name: 'Auth0', tsSource: ts6, jsSource: js6, Component: Auth0 },
-  { id: 7, label: 'Chart.js', name: 'Charts', tsSource: ts7, jsSource: js7, Component: Charts },
-  { id: 8, label: 'SQLite CRUD', name: 'SqliteCrud', tsSource: ts8, jsSource: js8, Component: SqliteCrud },
-  { id: 9, label: 'React Router', name: 'Router', tsSource: ts9, jsSource: js9, Component: Router },
-  { id: 10, label: 'Testing', name: 'Testing', tsSource: ts10, jsSource: js10, Component: Testing },
+  { id: 1, label: 'Button click', icon: '🔘', blurb: 'useState and event handlers', name: 'ButtonClick', tsSource: ts1, jsSource: js1, Component: ButtonClick },
+  { id: 2, label: 'Add to list', icon: '➕', blurb: 'controlled inputs, immutable updates, keys', name: 'AddToList', tsSource: ts2, jsSource: js2, Component: AddToList },
+  { id: 3, label: 'CRUD', icon: '🗂️', blurb: 'create, read, update, delete a list', name: 'Crud', tsSource: ts3, jsSource: js3, Component: Crud },
+  { id: 4, label: 'Fetch API', icon: '🌐', blurb: 'useEffect with loading, error, data', name: 'FetchApi', tsSource: ts4, jsSource: js4, Component: FetchApi },
+  { id: 5, label: 'Hooks + Context', icon: '🪝', blurb: 'custom hooks and global state', name: 'HooksContext', tsSource: ts5, jsSource: js5, Component: HooksContext },
+  { id: 6, label: 'Auth0', icon: '🔐', blurb: 'authentication as a service', name: 'Auth0', tsSource: ts6, jsSource: js6, Component: Auth0 },
+  { id: 7, label: 'Chart.js', icon: '📊', blurb: 'wrapping a canvas chart library', name: 'Charts', tsSource: ts7, jsSource: js7, Component: Charts },
+  { id: 8, label: 'SQLite CRUD', icon: '🗄️', blurb: 'real SQL in the browser via WASM', name: 'SqliteCrud', tsSource: ts8, jsSource: js8, Component: SqliteCrud },
+  { id: 9, label: 'React Router', icon: '🧭', blurb: 'client-side routing and protected routes', name: 'Router', tsSource: ts9, jsSource: js9, Component: Router },
+  { id: 10, label: 'Testing', icon: '🧪', blurb: 'Vitest and React Testing Library', name: 'Testing', tsSource: ts10, jsSource: js10, Component: Testing },
 ]
 
 const TS_STEPS: TsStep[] = [
-  { id: 1, label: 'Hello World', file: 'HelloWorld.ts', source: tsc1, run: tsr1 },
-  { id: 2, label: 'Interfaces & Types', file: 'InterfacesTypes.ts', source: tsc2, run: tsr2 },
-  { id: 3, label: 'Unions & Narrowing', file: 'UnionsNarrowing.ts', source: tsc3, run: tsr3 },
-  { id: 4, label: 'Arrays, Tuples, Enums', file: 'ArraysTuplesEnums.ts', source: tsc4, run: tsr4 },
-  { id: 5, label: 'Generics', file: 'Generics.ts', source: tsc5, run: tsr5 },
-  { id: 6, label: 'Functions', file: 'Functions.ts', source: tsc6, run: tsr6 },
-  { id: 7, label: 'Utility Types', file: 'UtilityTypes.ts', source: tsc7, run: tsr7 },
-  { id: 8, label: 'Classes', file: 'Classes.ts', source: tsc8, run: tsr8 },
-  { id: 9, label: 'Advanced Types', file: 'AdvancedTypes.ts', source: tsc9, run: tsr9 },
-  { id: 10, label: 'Async', file: 'AsyncAwait.ts', source: tsc10, run: tsr10 },
+  { id: 1, label: 'Hello World', icon: '👋', blurb: 'types, inference, functions', file: 'HelloWorld.ts', source: tsc1, run: tsr1 },
+  { id: 2, label: 'Interfaces & Types', icon: '🧩', blurb: 'object shapes, optional, readonly', file: 'InterfacesTypes.ts', source: tsc2, run: tsr2 },
+  { id: 3, label: 'Unions & Narrowing', icon: '🔀', blurb: 'discriminated unions, type guards', file: 'UnionsNarrowing.ts', source: tsc3, run: tsr3 },
+  { id: 4, label: 'Arrays, Tuples, Enums', icon: '📚', blurb: 'collections and constants', file: 'ArraysTuplesEnums.ts', source: tsc4, run: tsr4 },
+  { id: 5, label: 'Generics', icon: '🧬', blurb: 'reusable, type-safe code', file: 'Generics.ts', source: tsc5, run: tsr5 },
+  { id: 6, label: 'Functions', icon: '⚙️', blurb: 'overloads, rest params, callbacks', file: 'Functions.ts', source: tsc6, run: tsr6 },
+  { id: 7, label: 'Utility Types', icon: '🛠️', blurb: 'Partial, Pick, Omit, Record', file: 'UtilityTypes.ts', source: tsc7, run: tsr7 },
+  { id: 8, label: 'Classes', icon: '🏛️', blurb: 'modifiers, abstract, implements', file: 'Classes.ts', source: tsc8, run: tsr8 },
+  { id: 9, label: 'Advanced Types', icon: '🧠', blurb: 'keyof, mapped, conditional, infer', file: 'AdvancedTypes.ts', source: tsc9, run: tsr9 },
+  { id: 10, label: 'Async', icon: '⏳', blurb: 'promises, async/await, error handling', file: 'AsyncAwait.ts', source: tsc10, run: tsr10 },
 ]
 
-function Tabs({ ids, active, onPick, labels }: { ids: number[]; active: number; onPick: (id: number) => void; labels: Record<number, string> }) {
+function StepPicker({ steps, active, onPick }: { steps: { id: number; label: string; icon: string }[]; active: number; onPick: (id: number) => void }) {
   return (
-    <nav className="tabs">
-      {ids.map((id) => (
-        <button key={id} className={active === id ? 'tab active' : 'tab'} onClick={() => onPick(id)}>
-          <span className="num">{id}</span> {labels[id]}
-        </button>
+    <select className="dd dd-step" value={active} onChange={(e) => onPick(Number(e.target.value))} aria-label="Choose lesson">
+      {steps.map((s) => (
+        <option key={s.id} value={s.id}>{s.icon} {s.id}. {s.label}</option>
       ))}
-    </nav>
+    </select>
   )
 }
 
-function ReactTrack() {
-  const [active, setActive] = useState(1)
-  const step = REACT_STEPS.find((s) => s.id === active)!
+function ReactView({ step }: { step: ReactStep }) {
   const Current = step.Component
-  const labels = Object.fromEntries(REACT_STEPS.map((s) => [s.id, s.label]))
-
   return (
     <>
-      <Tabs ids={REACT_STEPS.map((s) => s.id)} active={active} onPick={setActive} labels={labels} />
-
       <div className="split-label">Result</div>
       <div className="result-card"><Current /></div>
 
@@ -144,7 +140,7 @@ function ReactTrack() {
       <div className="diffnotes">
         <div className="diffnotes-title">What TypeScript adds here</div>
         <ul>
-          {(DIFF_NOTES[active] ?? []).map((n, i) => (
+          {(DIFF_NOTES[step.id] ?? []).map((n, i) => (
             <li key={i}>{n}</li>
           ))}
         </ul>
@@ -153,47 +149,50 @@ function ReactTrack() {
   )
 }
 
-function TsTrack() {
-  const [active, setActive] = useState(1)
-  const step = TS_STEPS.find((s) => s.id === active)!
-  const labels = Object.fromEntries(TS_STEPS.map((s) => [s.id, s.label]))
-
+function TsView({ step }: { step: TsStep }) {
   return (
-    <>
-      <Tabs ids={TS_STEPS.map((s) => s.id)} active={active} onPick={setActive} labels={labels} />
-
-      <main className="split">
-        <div className="split-result">
-          <div className="split-label">Output</div>
-          <TsRunner run={step.run} />
-        </div>
-        <div className="split-code">
-          <div className="split-label">Code</div>
-          <CodeViewer file={step.file} source={step.source} />
-        </div>
-      </main>
-    </>
+    <main className="split">
+      <div className="split-result">
+        <div className="split-label">Output</div>
+        <TsRunner run={step.run} />
+      </div>
+      <div className="split-code">
+        <div className="split-label">Code</div>
+        <CodeViewer file={step.file} source={step.source} />
+      </div>
+    </main>
   )
 }
 
 function Shell() {
   const { theme } = useTheme()
   const [track, setTrack] = useState<'react' | 'ts'>('react')
+  const [reactActive, setReactActive] = useState(1)
+  const [tsActive, setTsActive] = useState(1)
+
+  const reactStep = REACT_STEPS.find((s) => s.id === reactActive)!
+  const tsStep = TS_STEPS.find((s) => s.id === tsActive)!
+  const cur = track === 'react' ? reactStep : tsStep
 
   return (
     <div className={`app ${theme}`}>
       <header className="app-header">
         <div>
-          <h1>Interview Prep</h1>
-          <p className="muted">Practice React and TypeScript - each step is a real interview topic.</p>
+          <h1>Interview Preps</h1>
+          <p className="muted">{cur.icon} {cur.label} - {cur.blurb}</p>
         </div>
-        <div className="track-toggle">
-          <button className={track === 'react' ? 'track on' : 'track'} onClick={() => setTrack('react')}>React</button>
-          <button className={track === 'ts' ? 'track on' : 'track'} onClick={() => setTrack('ts')}>TypeScript</button>
+        <div className="controls">
+          <select className="dd dd-track" value={track} onChange={(e) => setTrack(e.target.value as 'react' | 'ts')} aria-label="Choose track">
+            <option value="react">⚛️ React</option>
+            <option value="ts">🔷 TypeScript</option>
+          </select>
+          {track === 'react'
+            ? <StepPicker steps={REACT_STEPS} active={reactActive} onPick={setReactActive} />
+            : <StepPicker steps={TS_STEPS} active={tsActive} onPick={setTsActive} />}
         </div>
       </header>
 
-      {track === 'react' ? <ReactTrack /> : <TsTrack />}
+      {track === 'react' ? <ReactView step={reactStep} /> : <TsView step={tsStep} />}
     </div>
   )
 }
