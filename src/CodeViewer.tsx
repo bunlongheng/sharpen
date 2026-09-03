@@ -3,20 +3,20 @@ import { Highlight, type PrismTheme } from 'prism-react-renderer'
 import { Copy, Check } from 'lucide-react'
 import { useFont } from './FontContext'
 
-// TypeScript: a bluer dark theme (Night-Owl-ish).
+// TypeScript: a light blue theme.
 const blueTheme: PrismTheme = {
-  plain: { color: '#d6e6ff', backgroundColor: '#0d1f33' },
+  plain: { color: '#24344d', backgroundColor: '#f5f9ff' },
   styles: [
-    { types: ['comment', 'prolog', 'doctype', 'cdata'], style: { color: '#5f7e97', fontStyle: 'italic' } },
-    { types: ['punctuation'], style: { color: '#b6cff2' } },
-    { types: ['property', 'tag', 'symbol', 'deleted'], style: { color: '#7fdbca' } },
-    { types: ['boolean', 'number', 'constant'], style: { color: '#f78c6c' } },
-    { types: ['string', 'char', 'attr-value', 'inserted'], style: { color: '#a5d6ff' } },
-    { types: ['operator', 'entity', 'url', 'variable'], style: { color: '#d6e6ff' } },
-    { types: ['atrule', 'function', 'class-name', 'builtin'], style: { color: '#82aaff' } },
-    { types: ['attr-name', 'selector'], style: { color: '#c5e478' } },
-    { types: ['keyword'], style: { color: '#82aaff', fontStyle: 'italic' } },
-    { types: ['regex', 'important'], style: { color: '#ffcb6b' } },
+    { types: ['comment', 'prolog', 'doctype', 'cdata'], style: { color: '#7d8fa8', fontStyle: 'italic' } },
+    { types: ['punctuation'], style: { color: '#57606a' } },
+    { types: ['property', 'tag', 'symbol', 'deleted'], style: { color: '#0e7490' } },
+    { types: ['boolean', 'number', 'constant'], style: { color: '#b45309' } },
+    { types: ['string', 'char', 'attr-value', 'inserted'], style: { color: '#0a7ea4' } },
+    { types: ['operator', 'entity', 'url', 'variable'], style: { color: '#24344d' } },
+    { types: ['atrule', 'function', 'class-name', 'builtin'], style: { color: '#8250df' } },
+    { types: ['attr-name', 'selector'], style: { color: '#116329' } },
+    { types: ['keyword'], style: { color: '#0550ae', fontStyle: 'italic' } },
+    { types: ['regex', 'important'], style: { color: '#cf222e' } },
   ],
 }
 
