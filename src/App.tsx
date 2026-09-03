@@ -1,8 +1,14 @@
 import { useState, type ComponentType } from 'react'
+import {
+  Atom, FileType, MousePointerClick, ListPlus, ClipboardList, Globe, Webhook, KeyRound,
+  BarChart3, Database, Route, FlaskConical, Hand, Puzzle, Shuffle, Brackets, Boxes,
+  FunctionSquare, Wrench, Building2, Brain, Hourglass, ChevronLeft, ChevronRight, type LucideIcon,
+} from 'lucide-react'
 import { ThemeProvider, useTheme } from './context/ThemeContext'
 import { Auth0ProviderWrapper } from './auth/Auth0ProviderWrapper'
 import CodeViewer from './CodeViewer'
 import TsRunner from './TsRunner'
+import Dropdown from './Dropdown'
 import { DIFF_NOTES } from './diffNotes'
 
 // --- React track: components ---
@@ -64,7 +70,7 @@ import tsc10 from './ts/AsyncAwait.ts?raw'
 interface ReactStep {
   id: number
   label: string
-  icon: string
+  Icon: LucideIcon
   blurb: string
   name: string // base file name without extension
   tsSource: string
@@ -75,7 +81,7 @@ interface ReactStep {
 interface TsStep {
   id: number
   label: string
-  icon: string
+  Icon: LucideIcon
   blurb: string
   file: string
   source: string
@@ -83,40 +89,30 @@ interface TsStep {
 }
 
 const REACT_STEPS: ReactStep[] = [
-  { id: 1, label: 'Button click', icon: '🔘', blurb: 'useState and event handlers', name: 'ButtonClick', tsSource: ts1, jsSource: js1, Component: ButtonClick },
-  { id: 2, label: 'Add to list', icon: '➕', blurb: 'controlled inputs, immutable updates, keys', name: 'AddToList', tsSource: ts2, jsSource: js2, Component: AddToList },
-  { id: 3, label: 'CRUD', icon: '🗂️', blurb: 'create, read, update, delete a list', name: 'Crud', tsSource: ts3, jsSource: js3, Component: Crud },
-  { id: 4, label: 'Fetch API', icon: '🌐', blurb: 'useEffect with loading, error, data', name: 'FetchApi', tsSource: ts4, jsSource: js4, Component: FetchApi },
-  { id: 5, label: 'Hooks + Context', icon: '🪝', blurb: 'custom hooks and global state', name: 'HooksContext', tsSource: ts5, jsSource: js5, Component: HooksContext },
-  { id: 6, label: 'Auth0', icon: '🔐', blurb: 'authentication as a service', name: 'Auth0', tsSource: ts6, jsSource: js6, Component: Auth0 },
-  { id: 7, label: 'Chart.js', icon: '📊', blurb: 'wrapping a canvas chart library', name: 'Charts', tsSource: ts7, jsSource: js7, Component: Charts },
-  { id: 8, label: 'SQLite CRUD', icon: '🗄️', blurb: 'real SQL in the browser via WASM', name: 'SqliteCrud', tsSource: ts8, jsSource: js8, Component: SqliteCrud },
-  { id: 9, label: 'React Router', icon: '🧭', blurb: 'client-side routing and protected routes', name: 'Router', tsSource: ts9, jsSource: js9, Component: Router },
-  { id: 10, label: 'Testing', icon: '🧪', blurb: 'Vitest and React Testing Library', name: 'Testing', tsSource: ts10, jsSource: js10, Component: Testing },
+  { id: 1, label: 'Button click', Icon: MousePointerClick, blurb: 'useState and event handlers', name: 'ButtonClick', tsSource: ts1, jsSource: js1, Component: ButtonClick },
+  { id: 2, label: 'Add to list', Icon: ListPlus, blurb: 'controlled inputs, immutable updates, keys', name: 'AddToList', tsSource: ts2, jsSource: js2, Component: AddToList },
+  { id: 3, label: 'CRUD', Icon: ClipboardList, blurb: 'create, read, update, delete a list', name: 'Crud', tsSource: ts3, jsSource: js3, Component: Crud },
+  { id: 4, label: 'Fetch API', Icon: Globe, blurb: 'useEffect with loading, error, data', name: 'FetchApi', tsSource: ts4, jsSource: js4, Component: FetchApi },
+  { id: 5, label: 'Hooks + Context', Icon: Webhook, blurb: 'custom hooks and global state', name: 'HooksContext', tsSource: ts5, jsSource: js5, Component: HooksContext },
+  { id: 6, label: 'Auth0', Icon: KeyRound, blurb: 'authentication as a service', name: 'Auth0', tsSource: ts6, jsSource: js6, Component: Auth0 },
+  { id: 7, label: 'Chart.js', Icon: BarChart3, blurb: 'wrapping a canvas chart library', name: 'Charts', tsSource: ts7, jsSource: js7, Component: Charts },
+  { id: 8, label: 'SQLite CRUD', Icon: Database, blurb: 'real SQL in the browser via WASM', name: 'SqliteCrud', tsSource: ts8, jsSource: js8, Component: SqliteCrud },
+  { id: 9, label: 'React Router', Icon: Route, blurb: 'client-side routing and protected routes', name: 'Router', tsSource: ts9, jsSource: js9, Component: Router },
+  { id: 10, label: 'Testing', Icon: FlaskConical, blurb: 'Vitest and React Testing Library', name: 'Testing', tsSource: ts10, jsSource: js10, Component: Testing },
 ]
 
 const TS_STEPS: TsStep[] = [
-  { id: 1, label: 'Hello World', icon: '👋', blurb: 'types, inference, functions', file: 'HelloWorld.ts', source: tsc1, run: tsr1 },
-  { id: 2, label: 'Interfaces & Types', icon: '🧩', blurb: 'object shapes, optional, readonly', file: 'InterfacesTypes.ts', source: tsc2, run: tsr2 },
-  { id: 3, label: 'Unions & Narrowing', icon: '🔀', blurb: 'discriminated unions, type guards', file: 'UnionsNarrowing.ts', source: tsc3, run: tsr3 },
-  { id: 4, label: 'Arrays, Tuples, Enums', icon: '📚', blurb: 'collections and constants', file: 'ArraysTuplesEnums.ts', source: tsc4, run: tsr4 },
-  { id: 5, label: 'Generics', icon: '🧬', blurb: 'reusable, type-safe code', file: 'Generics.ts', source: tsc5, run: tsr5 },
-  { id: 6, label: 'Functions', icon: '⚙️', blurb: 'overloads, rest params, callbacks', file: 'Functions.ts', source: tsc6, run: tsr6 },
-  { id: 7, label: 'Utility Types', icon: '🛠️', blurb: 'Partial, Pick, Omit, Record', file: 'UtilityTypes.ts', source: tsc7, run: tsr7 },
-  { id: 8, label: 'Classes', icon: '🏛️', blurb: 'modifiers, abstract, implements', file: 'Classes.ts', source: tsc8, run: tsr8 },
-  { id: 9, label: 'Advanced Types', icon: '🧠', blurb: 'keyof, mapped, conditional, infer', file: 'AdvancedTypes.ts', source: tsc9, run: tsr9 },
-  { id: 10, label: 'Async', icon: '⏳', blurb: 'promises, async/await, error handling', file: 'AsyncAwait.ts', source: tsc10, run: tsr10 },
+  { id: 1, label: 'Hello World', Icon: Hand, blurb: 'types, inference, functions', file: 'HelloWorld.ts', source: tsc1, run: tsr1 },
+  { id: 2, label: 'Interfaces & Types', Icon: Puzzle, blurb: 'object shapes, optional, readonly', file: 'InterfacesTypes.ts', source: tsc2, run: tsr2 },
+  { id: 3, label: 'Unions & Narrowing', Icon: Shuffle, blurb: 'discriminated unions, type guards', file: 'UnionsNarrowing.ts', source: tsc3, run: tsr3 },
+  { id: 4, label: 'Arrays, Tuples, Enums', Icon: Brackets, blurb: 'collections and constants', file: 'ArraysTuplesEnums.ts', source: tsc4, run: tsr4 },
+  { id: 5, label: 'Generics', Icon: Boxes, blurb: 'reusable, type-safe code', file: 'Generics.ts', source: tsc5, run: tsr5 },
+  { id: 6, label: 'Functions', Icon: FunctionSquare, blurb: 'overloads, rest params, callbacks', file: 'Functions.ts', source: tsc6, run: tsr6 },
+  { id: 7, label: 'Utility Types', Icon: Wrench, blurb: 'Partial, Pick, Omit, Record', file: 'UtilityTypes.ts', source: tsc7, run: tsr7 },
+  { id: 8, label: 'Classes', Icon: Building2, blurb: 'modifiers, abstract, implements', file: 'Classes.ts', source: tsc8, run: tsr8 },
+  { id: 9, label: 'Advanced Types', Icon: Brain, blurb: 'keyof, mapped, conditional, infer', file: 'AdvancedTypes.ts', source: tsc9, run: tsr9 },
+  { id: 10, label: 'Async', Icon: Hourglass, blurb: 'promises, async/await, error handling', file: 'AsyncAwait.ts', source: tsc10, run: tsr10 },
 ]
-
-function StepPicker({ steps, active, onPick }: { steps: { id: number; label: string; icon: string }[]; active: number; onPick: (id: number) => void }) {
-  return (
-    <select className="dd dd-step" value={active} onChange={(e) => onPick(Number(e.target.value))} aria-label="Choose lesson">
-      {steps.map((s) => (
-        <option key={s.id} value={s.id}>{s.icon} {s.id}. {s.label}</option>
-      ))}
-    </select>
-  )
-}
 
 function ReactView({ step }: { step: ReactStep }) {
   const Current = step.Component
@@ -173,22 +169,51 @@ function Shell() {
   const reactStep = REACT_STEPS.find((s) => s.id === reactActive)!
   const tsStep = TS_STEPS.find((s) => s.id === tsActive)!
   const cur = track === 'react' ? reactStep : tsStep
+  const CurIcon = cur.Icon
+
+  const trackOptions = [
+    { value: 'react', label: 'React', Icon: Atom },
+    { value: 'ts', label: 'TypeScript', Icon: FileType },
+  ]
+  const stepOptions = (track === 'react' ? REACT_STEPS : TS_STEPS).map((s) => ({
+    value: s.id,
+    label: `${s.id}. ${s.label}`,
+    Icon: s.Icon,
+  }))
+  const total = track === 'react' ? REACT_STEPS.length : TS_STEPS.length
+  const active = track === 'react' ? reactActive : tsActive
+  const setActive = track === 'react' ? setReactActive : setTsActive
+  const go = (delta: number) => setActive(Math.min(total, Math.max(1, active + delta)))
 
   return (
     <div className={`app ${theme}`}>
       <header className="app-header">
         <div>
           <h1>Interview Preps</h1>
-          <p className="muted">{cur.icon} {cur.label} - {cur.blurb}</p>
+          <p className="muted subtitle"><CurIcon size={15} strokeWidth={2} /> {cur.label} - {cur.blurb}</p>
         </div>
         <div className="controls">
-          <select className="dd dd-track" value={track} onChange={(e) => setTrack(e.target.value as 'react' | 'ts')} aria-label="Choose track">
-            <option value="react">⚛️ React</option>
-            <option value="ts">🔷 TypeScript</option>
-          </select>
-          {track === 'react'
-            ? <StepPicker steps={REACT_STEPS} active={reactActive} onPick={setReactActive} />
-            : <StepPicker steps={TS_STEPS} active={tsActive} onPick={setTsActive} />}
+          <Dropdown
+            options={trackOptions}
+            value={track}
+            onChange={(v) => setTrack(v as 'react' | 'ts')}
+            minWidth={160}
+            ariaLabel="Choose track"
+          />
+          <button className="navbtn" onClick={() => go(-1)} disabled={active <= 1} aria-label="Previous lesson" title="Previous">
+            <ChevronLeft size={18} />
+          </button>
+          <Dropdown
+            options={stepOptions}
+            value={active}
+            onChange={(v) => setActive(Number(v))}
+            minWidth={230}
+            ariaLabel="Choose lesson"
+          />
+          <button className="navbtn" onClick={() => go(1)} disabled={active >= total} aria-label="Next lesson" title="Next">
+            <ChevronRight size={18} />
+          </button>
+          <span className="step-count">{active} / {total}</span>
         </div>
       </header>
 
