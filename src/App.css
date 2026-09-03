@@ -171,6 +171,65 @@ code {
 .chart-title { display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
 .chart { height: 200px; position: relative; }
 
+/* VSCode-in-web split: result | code */
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .split { grid-template-columns: 1fr; }
+}
+.split-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+/* code viewer */
+.code-viewer {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0d1117;
+}
+.code-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #161b22;
+  border-bottom: 1px solid #21262d;
+}
+.code-file { color: #8b949e; font-size: 12px; font-family: ui-monospace, Menlo, Consolas, monospace; }
+.code-actions { display: flex; gap: 6px; }
+.seg {
+  padding: 3px 10px;
+  font-size: 12px;
+  border: 1px solid #30363d;
+  background: #21262d;
+  color: #c9d1d9;
+  border-radius: 6px;
+}
+.seg.on { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+.code-body { max-height: 560px; overflow: auto; }
+.code-pre { margin: 0; padding: 10px 0; }
+.code-pre code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12.5px; }
+.code-line { display: flex; white-space: pre; }
+.code-line .ln {
+  flex: 0 0 auto;
+  width: 38px;
+  text-align: right;
+  padding-right: 12px;
+  color: #6e7681;
+  user-select: none;
+}
+.code-line .lc { color: #e6edf3; padding-right: 16px; }
+
 /* Step 9 - router demo */
 .router-view {
   margin-top: 12px;
