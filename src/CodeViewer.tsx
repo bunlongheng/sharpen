@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Highlight, type PrismTheme } from 'prism-react-renderer'
 
 // Monokai theme for prism-react-renderer.
@@ -37,23 +37,36 @@ function stripNotesBlock(src: string): string {
   return out.join('\n').replace(/\n{3,}/g, '\n\n').trim()
 }
 
-const MIN_FONT = 8
+const MIN_FONT = 6
 const MAX_FONT = 24
-const DEFAULT_FONT = 13
+
+// Base code font by screen width: phone 8, iPad portrait 9, landscape 10, desktop 11.
+function baseFontFor(width: number): number {
+  if (width <= 480) return 8
+  if (width <= 834) return 9
+  if (width <= 1366) return 10
+  return 11
+}
 
 export default function CodeViewer({ file, source }: { file: string; source: string }) {
   const [copied, setCopied] = useState(false)
-  const [fontSize, setFontSize] = useState<number>(() => {
-    const saved = Number(localStorage.getItem('rip-code-font'))
-    return saved >= MIN_FONT && saved <= MAX_FONT ? saved : DEFAULT_FONT
-  })
+  // A-/A+ store an OFFSET so the base can still scale with the window.
+  const [delta, setDelta] = useState<number>(() => Number(localStorage.getItem('rip-code-font-delta')) || 0)
+  const [base, setBase] = useState<number>(() => baseFontFor(window.innerWidth))
+  useEffect(() => {
+    const onResize = () => setBase(baseFontFor(window.innerWidth))
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
+
+  const fontSize = Math.min(MAX_FONT, Math.max(MIN_FONT, base + delta))
   const code = useMemo(() => stripNotesBlock(source), [source])
   const name = file.split('/').pop() ?? file
 
-  function bump(delta: number) {
-    setFontSize((f) => {
-      const next = Math.min(MAX_FONT, Math.max(MIN_FONT, f + delta))
-      localStorage.setItem('rip-code-font', String(next))
+  function bump(d: number) {
+    setDelta((x) => {
+      const next = x + d
+      localStorage.setItem('rip-code-font-delta', String(next))
       return next
     })
   }

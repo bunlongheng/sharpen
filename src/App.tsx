@@ -225,32 +225,34 @@ function Shell() {
   return (
     <div className={`app ${theme}`}>
       <header className="app-header">
-        <div>
+        <div className="header-titles">
           <h1>Interview Preps</h1>
-          <p className="muted subtitle"><CurIcon size={15} strokeWidth={2} /> {cur.label} - {cur.blurb}</p>
+          <p className="muted subtitle"><CurIcon size={14} strokeWidth={2} /> {cur.label} - {cur.blurb}</p>
         </div>
         <div className="controls">
           <Dropdown
             options={trackOptions}
             value={track}
             onChange={(v) => setTrack(v as 'react' | 'ts')}
-            minWidth={160}
+            minWidth={140}
             ariaLabel="Choose track"
           />
-          <button className="navbtn" onClick={() => go(-1)} disabled={active <= 1} aria-label="Previous lesson" title="Previous">
-            <ChevronLeft size={18} />
-          </button>
-          <Dropdown
-            options={stepOptions}
-            value={active}
-            onChange={(v) => setActive(Number(v))}
-            minWidth={230}
-            ariaLabel="Choose lesson"
-          />
-          <button className="navbtn" onClick={() => go(1)} disabled={active >= total} aria-label="Next lesson" title="Next">
-            <ChevronRight size={18} />
-          </button>
-          <span className="step-count">{active} / {total}</span>
+          <div className="step-nav">
+            <button className="navbtn" onClick={() => go(-1)} disabled={active <= 1} aria-label="Previous lesson" title="Previous">
+              <ChevronLeft size={16} />
+            </button>
+            <Dropdown
+              options={stepOptions}
+              value={active}
+              onChange={(v) => setActive(Number(v))}
+              minWidth={200}
+              ariaLabel="Choose lesson"
+            />
+            <button className="navbtn" onClick={() => go(1)} disabled={active >= total} aria-label="Next lesson" title="Next">
+              <ChevronRight size={16} />
+            </button>
+            <span className="step-count">{active} / {total}</span>
+          </div>
         </div>
       </header>
 
