@@ -1,10 +1,14 @@
-import { useEffect, useRef, useState } from 'react'
-import { ChevronDown, Check, type LucideIcon } from 'lucide-react'
+import { useEffect, useRef, useState, type ComponentType } from 'react'
+import { ChevronDown, Check } from 'lucide-react'
+
+// Any icon-like component - covers Lucide icons and our custom SVG logos.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type IconType = ComponentType<any>
 
 export interface DdOption {
   value: string | number
   label: string
-  Icon: LucideIcon
+  Icon: IconType
 }
 
 // Custom dropdown so each option can show a real Lucide SVG icon (native <select> can't).

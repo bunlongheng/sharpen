@@ -1,6 +1,6 @@
 import { useEffect, useState, type ComponentType } from 'react'
 import {
-  Atom, FileType, MousePointerClick, ListPlus, ClipboardList, Globe, Webhook, KeyRound,
+  Atom, MousePointerClick, ListPlus, ClipboardList, Globe, Webhook, KeyRound,
   BarChart3, Database, Route, FlaskConical, Hand, Puzzle, Shuffle, Brackets, Boxes,
   FunctionSquare, Wrench, Building2, Brain, Hourglass, ChevronLeft, ChevronRight, type LucideIcon,
 } from 'lucide-react'
@@ -9,6 +9,7 @@ import { Auth0ProviderWrapper } from './auth/Auth0ProviderWrapper'
 import CodeViewer from './CodeViewer'
 import TsRunner from './TsRunner'
 import Dropdown from './Dropdown'
+import { TsLogo, JsLogo } from './Logos'
 import { DIFF_NOTES } from './diffNotes'
 
 // --- React track: components ---
@@ -134,8 +135,8 @@ function Compare({ step }: { step: ReactStep }) {
     return (
       <div className="compare-tabs">
         <div className="lang-switch">
-          <button className={lang === 'ts' ? 'lang-tab ts on' : 'lang-tab'} onClick={() => setLang('ts')}>TypeScript</button>
-          <button className={lang === 'js' ? 'lang-tab js on' : 'lang-tab'} onClick={() => setLang('js')}>JavaScript</button>
+          <button className={lang === 'ts' ? 'lang-tab ts on' : 'lang-tab'} onClick={() => setLang('ts')}><TsLogo size={16} /> TypeScript</button>
+          <button className={lang === 'js' ? 'lang-tab js on' : 'lang-tab'} onClick={() => setLang('js')}><JsLogo size={16} /> JavaScript</button>
         </div>
         {lang === 'ts'
           ? <CodeViewer file={`${step.name}.tsx`} source={step.tsSource} />
@@ -148,11 +149,11 @@ function Compare({ step }: { step: ReactStep }) {
   return (
     <div className="compare">
       <div>
-        <div className="lang-tag ts">TypeScript</div>
+        <div className="lang-tag ts"><TsLogo size={15} /> TypeScript</div>
         <CodeViewer file={`${step.name}.tsx`} source={step.tsSource} />
       </div>
       <div>
-        <div className="lang-tag js">JavaScript</div>
+        <div className="lang-tag js"><JsLogo size={15} /> JavaScript</div>
         <CodeViewer file={`${step.name}.jsx`} source={step.jsSource} />
       </div>
     </div>
@@ -209,7 +210,7 @@ function Shell() {
 
   const trackOptions = [
     { value: 'react', label: 'React', Icon: Atom },
-    { value: 'ts', label: 'TypeScript', Icon: FileType },
+    { value: 'ts', label: 'TypeScript', Icon: TsLogo },
   ]
   const stepOptions = (track === 'react' ? REACT_STEPS : TS_STEPS).map((s) => ({
     value: s.id,

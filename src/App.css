@@ -152,13 +152,16 @@ header h1 { margin: 0 0 4px; font-size: 28px; }
   .compare { grid-template-columns: minmax(0, 1fr); }
 }
 .lang-tag {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-size: 12px;
   font-weight: 700;
-  padding: 3px 10px;
+  padding: 4px 10px;
   border-radius: 6px 6px 0 0;
   margin-bottom: -1px;
 }
+.lang-tag svg, .lang-tab svg { flex: 0 0 auto; }
 .lang-tag.ts { background: #3178c6; color: #fff; }
 .lang-tag.js { background: #f7df1e; color: #000; }
 
@@ -166,6 +169,10 @@ header h1 { margin: 0 0 4px; font-size: 28px; }
 .lang-switch { display: flex; gap: 6px; margin-bottom: 8px; }
 .lang-tab {
   flex: 1 1 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   padding: 9px 12px;
   border: 1px solid var(--border);
   background: var(--panel);
@@ -382,12 +389,27 @@ code {
 }
 .seg.on { background: #a6e22e; border-color: #a6e22e; color: #272822; }
 .code-body { max-height: 70vh; overflow: auto; }
-.code-pre { margin: 0; padding: 10px 0; background: #272822 !important; }
+.code-pre { margin: 0; padding: 10px 0; background: #272822 !important; min-width: 100%; width: max-content; }
 .code-pre code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: inherit; /* size is controlled by the A-/A+ buttons (inline on <pre>) */
 }
 .code-fontsize { color: #a6a69c; font-size: 11px; min-width: 30px; text-align: center; }
+
+/* line hover highlight + editor cursor */
+.code-line { cursor: text; }
+.code-line:hover { background: rgba(255, 255, 255, 0.07); }
+.code-line:hover .ln { color: #c9c8bf; }
+
+/* dark scrollbars to match the Monokai editor */
+.code-body, .ts-output { scrollbar-width: thin; scrollbar-color: #49483e #272822; }
+.code-body::-webkit-scrollbar, .ts-output::-webkit-scrollbar { width: 12px; height: 12px; }
+.code-body::-webkit-scrollbar-track, .ts-output::-webkit-scrollbar-track { background: #272822; }
+.code-body::-webkit-scrollbar-thumb, .ts-output::-webkit-scrollbar-thumb {
+  background: #49483e; border-radius: 6px; border: 3px solid #272822;
+}
+.code-body::-webkit-scrollbar-thumb:hover, .ts-output::-webkit-scrollbar-thumb:hover { background: #75715e; }
+.code-body::-webkit-scrollbar-corner, .ts-output::-webkit-scrollbar-corner { background: #272822; }
 .code-line { display: flex; white-space: pre; }
 .code-line .ln {
   flex: 0 0 auto;

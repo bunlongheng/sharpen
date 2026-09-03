@@ -17,11 +17,11 @@ const monokai: PrismTheme = {
   ],
 }
 
-// "Core" = just the working code. Strips teaching comments AND the <details> interview-notes block.
-function coreOnly(src: string): string {
+// Show the working code WITH its comments, but drop the <details> interview-notes JSX block
+// (it already renders in the Result panel - no need to repeat it in the code).
+function stripNotesBlock(src: string): string {
   const out: string[] = []
-  let inNotesComment = false // // Interview notes: ... comment block
-  let inDetails = false // <details className="notes"> ... </details> JSX block
+  let inDetails = false
   for (const line of src.split('\n')) {
     const t = line.trim()
     if (inDetails) {
@@ -29,14 +29,9 @@ function coreOnly(src: string): string {
       continue
     }
     if (t.includes('<details className="notes"')) {
-      // handle a one-line details too
       if (!t.includes('</details>')) inDetails = true
       continue
     }
-    if (t.startsWith('// Interview notes')) { inNotesComment = true; continue }
-    if (inNotesComment) { if (t.startsWith('//') || t === '') continue; inNotesComment = false }
-    if (t.startsWith('//')) continue
-    if (t.startsWith('/*') || t.startsWith('*') || t.endsWith('*/')) continue
     out.push(line)
   }
   return out.join('\n').replace(/\n{3,}/g, '\n\n').trim()
@@ -47,13 +42,12 @@ const MAX_FONT = 24
 const DEFAULT_FONT = 13
 
 export default function CodeViewer({ file, source }: { file: string; source: string }) {
-  const [mode, setMode] = useState<'core' | 'full'>('core')
   const [copied, setCopied] = useState(false)
   const [fontSize, setFontSize] = useState<number>(() => {
     const saved = Number(localStorage.getItem('rip-code-font'))
     return saved >= MIN_FONT && saved <= MAX_FONT ? saved : DEFAULT_FONT
   })
-  const code = useMemo(() => (mode === 'core' ? coreOnly(source) : source.trim()), [mode, source])
+  const code = useMemo(() => stripNotesBlock(source), [source])
   const name = file.split('/').pop() ?? file
 
   function bump(delta: number) {
@@ -78,8 +72,6 @@ export default function CodeViewer({ file, source }: { file: string; source: str
           <button className="seg" onClick={() => bump(-1)} disabled={fontSize <= MIN_FONT} title="Smaller">A-</button>
           <span className="code-fontsize">{fontSize}px</span>
           <button className="seg" onClick={() => bump(1)} disabled={fontSize >= MAX_FONT} title="Larger">A+</button>
-          <button className={mode === 'core' ? 'seg on' : 'seg'} onClick={() => setMode('core')}>Core</button>
-          <button className={mode === 'full' ? 'seg on' : 'seg'} onClick={() => setMode('full')}>Full</button>
           <button className="seg" onClick={copy}>{copied ? 'Copied' : 'Copy'}</button>
         </span>
       </div>
