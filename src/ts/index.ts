@@ -12,17 +12,10 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 
-export type Logger = (...args: unknown[]) => void
-export type RunFn = (log: Logger) => void | Promise<void>
+import type { CodeStep, RunFn } from '../codeTrack'
 
-export interface TsStep {
-  id: number
-  label: string
-  Icon: LucideIcon
-  blurb: string
-  file: string
-  load: () => Promise<{ source: string; run: RunFn }>
-}
+export type { Logger, RunFn } from '../codeTrack'
+export type TsStep = CodeStep
 
 // Each lesson module (its run() function) and its source text load on demand as their own chunk.
 const mods = import.meta.glob(['./*.ts', '!./index.ts']) as Record<string, () => Promise<{ run: RunFn }>>
@@ -37,6 +30,7 @@ const step = (id: number, label: string, Icon: LucideIcon, blurb: string, file: 
   Icon,
   blurb,
   file,
+  lang: 'tsx',
   load: async () => {
     const [mod, source] = await Promise.all([mods[`./${file}`](), raw[`./${file}`]()])
     return { source, run: mod.run }

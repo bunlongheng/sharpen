@@ -1,0 +1,10 @@
+vec after push: [3, 1, 4, 1, 5, 9]
+iter().sum(): 23
+after sort: [1, 1, 3, 4, 5, 9]
+after dedup (needs sort first): [1, 3, 4, 5, 9]
+owned String: hello, world
+format! builds a new String: HELLO, WORLD!
+borrowed as &str: hello, world
+chars(): ['a', 'b', 'c']
+HashMap sorted entries: [("alice", 15), ("bob", 5)]
+HashSet intersection (sorted): [2, 3]

@@ -1,0 +1,14 @@
+address-of/deref: x=42, *p=42, *p == x -> 1
+after *p = 100: x=100
+arr[0]=10, byte offset from base=0
+arr[1]=20, byte offset from base=4
+arr[2]=30, byte offset from base=8
+arr[3]=40, byte offset from base=12
+arr[4]=50, byte offset from base=16
+NULL check: maybe_null is NULL, skipping dereference
+NULL check: maybe_null now points to a valid int: 100
+pointer to pointer: **pp=100 (p points to x, pp points to p)
+pointer to const: now reading b through it = 2
+const pointer: value changed through it = 30
+before swap: m=1 n=2
+after swap: m=2 n=1

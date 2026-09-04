@@ -1,0 +1,4 @@
+-- dynamic dispatch through Shape& --
+  Circle area=12.5664
+  Square area=9
+-- object slicing avoided by using pointers/references, not by-value copies --

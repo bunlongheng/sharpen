@@ -1,0 +1,9 @@
+  Buffer("lvalue-owned") constructed
+  Buffer copy-constructed from "lvalue-owned"
+  after copy ctor, original still: "lvalue-owned"
+  Buffer move-constructed, source now: ""
+  after std::move, original is now: "" (moved-from, empty)
+  Buffer("forwarded-temp") constructed
+  forwarded buffer label: "forwarded-temp"
+  Buffer("built-in-place") constructed
+  RVO-built buffer label: "built-in-place"

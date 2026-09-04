@@ -1,0 +1,14 @@
+countUp: 1
+countUp: 2
+countUp: 3
+countUp: 4
+countUp: 5
+keyed: a=1
+keyed: b=2
+array memory holds all up front: 5 ints
+generator produces lazily, same values: yes
+yield from: 0,1,2,3
+Countdown step=0 value=3
+Countdown step=1 value=2
+Countdown step=2 value=1
+Countdown step=3 value=0

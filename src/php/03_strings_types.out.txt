@@ -1,0 +1,24 @@
+'1'      == '01'     -> loose=true  strict=false
+'10'     == '1e1'    -> loose=true  strict=false
+'abc'    == 0        -> loose=false strict=false
+'1'      == 1        -> loose=true  strict=false
+0        == false    -> loose=true  strict=false
+'0'      == false    -> loose=true  strict=false
+''       == NULL     -> loose=true  strict=false
+bool(true)
+sprintf padded: [   42] [42   ] [03.10]
+explode: Hello | Brush Up!
+ucfirst: World
+mb_strlen (multibyte-safe): 5 vs strlen (bytes): 6
+bool(false)
+bool(true)
+intdiv(7, 2): 3
+7 / 2: 3.5
+int(42)
+float(3.14)
+bool(false)
+bool(true)
+array(1) {
+  [0]=>
+  string(1) "x"
+}

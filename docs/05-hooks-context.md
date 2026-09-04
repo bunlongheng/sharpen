@@ -24,7 +24,7 @@ Same shape as `useState`, but the value survives a page refresh. Look inside
   `useState`).
 - A `useEffect` writes back to localStorage whenever the value changes.
 
-`storageKey()` (`src/storage.ts`) prefixes every key with `sharpen-`, so all of the app's
+`storageKey()` (`src/storage.ts`) prefixes every key with `brushup-`, so all of the app's
 localStorage lives under 1 namespace.
 
 Key insight: **hooks share logic, not state.** If two components both call `useLocalStorage`, each

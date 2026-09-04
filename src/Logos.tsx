@@ -55,3 +55,122 @@ export function JsLogo({ size = 24, className }: LogoProps) {
     </svg>
   )
 }
+
+export function PyLogo({ size = 24, className }: LogoProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" className={className} aria-hidden="true">
+      <rect width="24" height="24" rx="4" fill="#3776ab" />
+      <rect x="0" y="12" width="24" height="12" rx="4" fill="#ffd43b" />
+      <rect x="0" y="9" width="24" height="6" fill="#3776ab" />
+      <text
+        x="12"
+        y="17"
+        textAnchor="middle"
+        fontFamily="Arial, Helvetica, sans-serif"
+        fontWeight="700"
+        fontSize="10.5"
+        fill="#ffffff"
+        stroke="#1d3a57"
+        strokeWidth="0.6"
+        paintOrder="stroke"
+      >
+        Py
+      </text>
+    </svg>
+  )
+}
+
+export function RustLogo({ size = 24, className }: LogoProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" className={className} aria-hidden="true">
+      <rect width="24" height="24" rx="4" fill="#dea584" />
+      <text
+        x="12"
+        y="17.2"
+        textAnchor="middle"
+        fontFamily="Arial, Helvetica, sans-serif"
+        fontWeight="700"
+        fontSize="10.5"
+        fill="#1f2937"
+      >
+        Rs
+      </text>
+    </svg>
+  )
+}
+
+export function PhpLogo({ size = 24, className }: LogoProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" className={className} aria-hidden="true">
+      <rect width="24" height="24" rx="4" fill="#777bb4" />
+      <text
+        x="12"
+        y="17.2"
+        textAnchor="middle"
+        fontFamily="Arial, Helvetica, sans-serif"
+        fontWeight="700"
+        fontSize="9"
+        fill="#ffffff"
+      >
+        php
+      </text>
+    </svg>
+  )
+}
+
+export function CLogo({ size = 24, className }: LogoProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" className={className} aria-hidden="true">
+      <rect width="24" height="24" rx="4" fill="#283593" />
+      <text
+        x="12"
+        y="17.2"
+        textAnchor="middle"
+        fontFamily="Arial, Helvetica, sans-serif"
+        fontWeight="700"
+        fontSize="12"
+        fill="#ffffff"
+      >
+        C
+      </text>
+    </svg>
+  )
+}
+
+export function CppLogo({ size = 24, className }: LogoProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" className={className} aria-hidden="true">
+      <rect width="24" height="24" rx="4" fill="#00599c" />
+      <text
+        x="12"
+        y="17.2"
+        textAnchor="middle"
+        fontFamily="Arial, Helvetica, sans-serif"
+        fontWeight="700"
+        fontSize="9.5"
+        fill="#ffffff"
+      >
+        C++
+      </text>
+    </svg>
+  )
+}
+
+export function CsLogo({ size = 24, className }: LogoProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" className={className} aria-hidden="true">
+      <rect width="24" height="24" rx="4" fill="#239120" />
+      <text
+        x="12"
+        y="17.2"
+        textAnchor="middle"
+        fontFamily="Arial, Helvetica, sans-serif"
+        fontWeight="700"
+        fontSize="10.5"
+        fill="#ffffff"
+      >
+        C#
+      </text>
+    </svg>
+  )
+}

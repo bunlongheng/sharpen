@@ -1,0 +1,4 @@
+single await: first done
+WhenAll preserves input order: [A done, B done, C done]
+cancellation: caught OperationCanceledException as expected
+ConfigureAwait(false): resumed without capturing the original context

@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { storageKey } from '../storage'
 
-export type Track = 'react' | 'ts'
+import { TRACK_IDS, type Track } from '../tracks'
+
+export type { Track }
 export interface Route {
   track: Track
   step: number
@@ -12,7 +14,7 @@ const LAST_KEY = storageKey('last-step')
 
 // "#react/3" -> { track: 'react', step: 3 }; anything malformed or out of range -> null
 export function parseHash(hash: string, counts: Counts): Route | null {
-  const m = /^#(react|ts)\/(\d+)$/.exec(hash)
+  const m = new RegExp(`^#(${TRACK_IDS.join('|')})/(\\d+)$`).exec(hash)
   if (!m) return null
   const track = m[1] as Track
   const step = Number(m[2])
@@ -20,10 +22,10 @@ export function parseHash(hash: string, counts: Counts): Route | null {
 }
 
 function readLast(counts: Counts): Counts {
-  const last: Counts = { react: 1, ts: 1 }
+  const last = Object.fromEntries(TRACK_IDS.map((t) => [t, 1])) as Counts
   try {
     const saved = JSON.parse(localStorage.getItem(LAST_KEY) ?? '{}') as Partial<Record<Track, unknown>>
-    for (const t of ['react', 'ts'] as const) {
+    for (const t of TRACK_IDS) {
       const n = Number(saved[t])
       if (n >= 1 && n <= counts[t]) last[t] = n
     }

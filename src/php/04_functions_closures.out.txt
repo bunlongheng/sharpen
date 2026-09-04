@@ -1,0 +1,10 @@
+Hello, Nova!
+Hi, Zoe!
+Yo, Sam!
+sumAll: 10
+int:5 / string:five
+no id given / user #42
+after 2 by-value calls, outer counter: 0
+after 2 by-ref calls, outer counter: 2
+counter is now 2
+first-class callable: 5

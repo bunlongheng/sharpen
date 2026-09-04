@@ -1,0 +1,13 @@
+if: grade B
+switch statement: B range
+switch expression grade: B
+type pattern: string with length 6
+property pattern: on Y axis
+relational: mild
+list pattern: first=1, last=5
+1 2 3 4 5 
+while countdown: 3
+while countdown: 2
+while countdown: 1
+ternary: (no name)
+is not null: Rae

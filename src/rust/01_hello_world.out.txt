@@ -1,0 +1,10 @@
+Display {}: name=Nova, age=30
+Debug {:?}: name="Nova", age=30
+Right-aligned {:>8}: |    Nova|
+Precision {:.2}: pi rounded = 3.14
+mut allows reassignment: 2 (started from count=1)
+shadowed value (str -> i32 -> doubled): 10
+tuple point=(3, 4, "origin-offset"), unpacked x=3 y=4 label=origin-offset
+tuple field access: point.0=3, point.1=4
+array: [10, 20, 30, 40, 50], len=5, first=10, last=50
+repeat array: [0, 0, 0]

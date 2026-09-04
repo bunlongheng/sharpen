@@ -5,19 +5,24 @@ import { FontProvider } from './FontContext'
 import { isAuth0Configured } from './auth/config'
 import TsRunner from './TsRunner'
 import Dropdown from './Dropdown'
-import { ReactLogo, TsLogo, JsLogo } from './Logos'
+import { TsLogo, JsLogo } from './Logos'
 import { DIFF_NOTES, INTERVIEW_NOTES } from './diffNotes'
 import ErrorBoundary from './ErrorBoundary'
-import { REACT_STEPS, type ReactStep } from './steps'
-import { TS_STEPS, type TsStep } from './ts'
+import type { ReactStep } from './steps'
+import type { CodeStep } from './codeTrack'
+import { TRACKS, STEP_COUNTS, type Track } from './tracks'
+import RecordedOutput from './RecordedOutput'
 import { useMediaQuery } from './hooks/useMediaQuery'
 import { useLoaded } from './hooks/useLoaded'
-import { useHashRoute, type Track } from './hooks/useHashRoute'
+import { useHashRoute } from './hooks/useHashRoute'
 
 // Prism (syntax highlighting) is its own chunk. Kick the download off immediately so it lands in
 // parallel with the step + source chunks instead of one round trip behind them; lazy() still only
 // suspends where a CodeViewer actually renders, so the shell paints first.
-const codeViewerChunk = import('./CodeViewer')
+const codeViewerChunk = import('./CodeViewer').then(async (m) => {
+  await m.prismReady
+  return m
+})
 codeViewerChunk.catch(() => {}) // no unhandled-rejection noise; lazy() below still reports a failed load
 const CodeViewer = lazy(() => codeViewerChunk)
 
@@ -26,8 +31,6 @@ const CodeViewer = lazy(() => codeViewerChunk)
 const Auth0Root: ComponentType<{ children: ReactNode }> = isAuth0Configured
   ? lazy(() => import('./auth/Auth0ProviderWrapper'))
   : Fragment
-
-const STEP_COUNTS = { react: REACT_STEPS.length, ts: TS_STEPS.length }
 
 const Loading = () => (
   <section className="card">
@@ -107,7 +110,7 @@ function ReactView({ step }: { step: ReactStep }) {
                 <i className="tv-knob" />
                 <span className="tv-grille" />
                 <span className="tv-brand">
-                  SHARPEN
+                  BRUSH UP
                   <i className="tv-led" />
                 </span>
               </div>
@@ -140,7 +143,8 @@ function ReactView({ step }: { step: ReactStep }) {
   )
 }
 
-function TsView({ step }: { step: TsStep }) {
+// One view for every code track: the source on the left, live or recorded output on the right.
+function CodeView({ step }: { step: CodeStep }) {
   const data = useLoaded(step.load)
   return (
     <main className="split">
@@ -149,12 +153,27 @@ function TsView({ step }: { step: TsStep }) {
           <span className="split-label">Code</span>
         </div>
         <Suspense fallback={<Loading />}>
-          {data ? <CodeViewer file={step.file} source={data.source} /> : <Loading />}
+          {data ? (
+            <CodeViewer
+              file={step.file}
+              source={data.source}
+              language={step.lang}
+              variant={step.lang === 'python' ? 'py' : step.lang === 'javascript' ? 'js' : 'ts'}
+            />
+          ) : (
+            <Loading />
+          )}
         </Suspense>
       </div>
       <div className="split-result">
         <div className="split-label">Output</div>
-        {data ? <TsRunner run={data.run} /> : <Loading />}
+        {!data ? (
+          <Loading />
+        ) : data.run ? (
+          <TsRunner run={data.run} />
+        ) : (
+          <RecordedOutput output={data.output ?? ''} />
+        )}
       </div>
     </main>
   )
@@ -175,7 +194,7 @@ function Shell() {
   const { route, setRoute, setTrack } = useHashRoute(STEP_COUNTS)
 
   const { track, step: active } = route
-  const steps = track === 'react' ? REACT_STEPS : TS_STEPS
+  const steps = TRACKS.find((t) => t.id === track)!.steps
   const cur = steps.find((s) => s.id === active)!
   const CurIcon = cur.Icon
   const total = steps.length
@@ -183,13 +202,7 @@ function Shell() {
   const setActive = (n: number) => setRoute({ track, step: n })
   const go = (delta: number) => setActive(Math.min(total, Math.max(1, active + delta)))
 
-  const trackOptions = useMemo(
-    () => [
-      { value: 'react', label: 'React', Icon: ReactLogo },
-      { value: 'ts', label: 'TypeScript', Icon: TsLogo },
-    ],
-    [],
-  )
+  const trackOptions = useMemo(() => TRACKS.map((t) => ({ value: t.id, label: t.label, Icon: t.Icon })), [])
   const stepOptions = steps.map((s) => ({ value: s.id, label: `${s.id}. ${s.label}`, Icon: s.Icon }))
 
   return (
@@ -204,7 +217,7 @@ function Shell() {
               width={34}
               height={34}
             />
-            Sharpen
+            Brush Up
           </h1>
           <p className="muted subtitle">
             <CurIcon size={14} strokeWidth={2} /> {cur.label} - {cur.blurb}
@@ -265,8 +278,8 @@ function Shell() {
       {track === 'react' ? (
         <ReactView step={cur as ReactStep} />
       ) : (
-        <ErrorBoundary key={`ts-${active}`}>
-          <TsView step={cur as TsStep} />
+        <ErrorBoundary key={`${track}-${active}`}>
+          <CodeView step={cur as CodeStep} />
         </ErrorBoundary>
       )}
     </div>

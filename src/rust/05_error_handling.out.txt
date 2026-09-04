@@ -1,0 +1,6 @@
+"30" -> Ok: age is 30
+"-5" -> Err: age cannot be negative: -5
+"abc" -> Err: 'abc' is not a valid number
+recovering from error: 'nope' is not a valid number
+fallback value: 0
+expect on a known-good value: 42

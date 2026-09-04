@@ -53,7 +53,7 @@ describe('App shell', () => {
   })
 
   it('restores the persisted last step of a track', async () => {
-    localStorage.setItem('sharpen-last-step', JSON.stringify({ react: 1, ts: 4 }))
+    localStorage.setItem('brushup-last-step', JSON.stringify({ react: 1, ts: 4 }))
     render(<App />)
     await screen.findByText(/clicked 0 times/i)
     fireEvent.click(screen.getByLabelText(/choose track/i))
@@ -62,12 +62,22 @@ describe('App shell', () => {
   })
 
   it('ignores an out-of-range persisted step', async () => {
-    localStorage.setItem('sharpen-last-step', JSON.stringify({ react: 1, ts: 99 }))
+    localStorage.setItem('brushup-last-step', JSON.stringify({ react: 1, ts: 99 }))
     render(<App />)
     await screen.findByText(/clicked 0 times/i)
     fireEvent.click(screen.getByLabelText(/choose track/i))
     fireEvent.click(screen.getByText('TypeScript'))
     expect(await screen.findByText('HelloWorld.ts')).toBeInTheDocument()
+  })
+
+  it('switches to the Python track and shows the recorded output', async () => {
+    render(<App />)
+    await screen.findByText(/clicked 0 times/i)
+    fireEvent.click(screen.getByLabelText(/choose track/i))
+    fireEvent.click(screen.getByText('Python'))
+    expect(await screen.findByText('01_hello_world.py')).toBeInTheDocument()
+    expect(await screen.findByText(/expected output \(recorded/i)).toBeInTheDocument()
+    expect(window.location.hash).toBe('#python/1')
   })
 
   it('switches to the TypeScript track and loads its code + runner', async () => {
@@ -86,7 +96,7 @@ describe('App shell', () => {
     fireEvent.click(screen.getByLabelText(/switch to dark mode/i))
     expect(container.querySelector('.app.dark')).not.toBeNull()
     expect(screen.getByLabelText(/switch to light mode/i)).toHaveAttribute('aria-pressed', 'true')
-    expect(localStorage.getItem('sharpen-theme')).toBe('"dark"')
+    expect(localStorage.getItem('brushup-theme')).toBe('"dark"')
   })
 
   it('code font +/- controls change the editor size', async () => {

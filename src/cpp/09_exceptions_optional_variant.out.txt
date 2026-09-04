@@ -1,0 +1,10 @@
+-- exceptions --
+  caught: insufficient funds, shortfall=50
+noexcept safeAdd(2,3) -> 5
+-- optional --
+  found even in mixed: 4
+  found even in odds? false, value_or(-1)=-1
+-- variant --
+  variant holds: 42
+  variant holds: now a string
+  variant index() -> 1 (0=int, 1=string)

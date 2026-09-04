@@ -2,7 +2,7 @@
 // so dark-mode users never see a light flash. The React ThemeProvider takes over after mount.
 ;(function () {
   try {
-    var stored = localStorage.getItem('sharpen-theme')
+    var stored = localStorage.getItem('brushup-theme')
     var theme = stored
       ? JSON.parse(stored)
       : matchMedia('(prefers-color-scheme: dark)').matches

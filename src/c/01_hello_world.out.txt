@@ -1,0 +1,12 @@
+hello, world
+%d int: 7
+%f float (default 6 decimals): 3.500000
+%.2f float (2 decimals): 3.50
+%s string: brushup
+%c char: Q
+%zu size_t: 4
+%x hex: ff
+int division 7/2 = 3
+mixed division 7/2.0f = 3.5
+char+char promotes to int: 200 (would overflow char range 127 max)
+sizeof(char)=1 sizeof(int)=4 sizeof(long)=8 sizeof(float)=4 sizeof(double)=8

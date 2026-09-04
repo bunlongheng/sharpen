@@ -1,0 +1,7 @@
+raw function pointer syntax: fp(2,3) = 5
+typedef'd function pointer: op(4,5) = 20
+qsort ints ascending: 1 2 3 5 8 9
+qsort strings ascending: apple banana cherry
+dispatch table: add(10, 4) = 14
+dispatch table: sub(10, 4) = 6
+dispatch table: mul(10, 4) = 40

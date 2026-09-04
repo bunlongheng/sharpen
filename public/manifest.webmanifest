@@ -1,6 +1,6 @@
 {
-  "name": "Sharpen",
-  "short_name": "Sharpen",
+  "name": "Brush Up",
+  "short_name": "Brush Up",
   "description": "React and TypeScript interview practice",
   "start_url": "./",
   "display": "standalone",

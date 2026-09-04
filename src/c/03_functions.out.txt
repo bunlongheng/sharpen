@@ -1,0 +1,6 @@
+inside try_increment_by_value: local copy n=6
+pass by value: caller's variable unchanged: 5
+pass by pointer: caller's variable mutated: 6
+factorial(6) = 720
+fib(10) = 55
+next_ticket() calls: 1, 2, 3

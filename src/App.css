@@ -70,6 +70,62 @@ body {
   --accent-ink: #ffffff;
   --accent-fg: #3178c6;
 }
+.app.track-python {
+  --accent: #ffd43b;
+  --accent-ink: #1f2937;
+  --accent-fg: #7a5c00; /* 6.1:1 on white */
+}
+.app.dark.track-python {
+  --accent-fg: #ffd43b;
+}
+.app.track-js {
+  --accent: #f7df1e;
+  --accent-ink: #111111;
+  --accent-fg: #6b5d00;
+}
+.app.dark.track-js {
+  --accent-fg: #f7df1e;
+}
+.app.track-rust {
+  --accent: #dea584;
+  --accent-ink: #1f2937;
+  --accent-fg: #9a4a12;
+}
+.app.dark.track-rust {
+  --accent-fg: #f0b48a;
+}
+.app.track-php {
+  --accent: #777bb4;
+  --accent-ink: #ffffff;
+  --accent-fg: #5b5f9e;
+}
+.app.dark.track-php {
+  --accent-fg: #a5a8dc;
+}
+.app.track-c {
+  --accent: #a8b9cc;
+  --accent-ink: #1f2937;
+  --accent-fg: #3f556b;
+}
+.app.dark.track-c {
+  --accent-fg: #b9c9db;
+}
+.app.track-cpp {
+  --accent: #00599c;
+  --accent-ink: #ffffff;
+  --accent-fg: #00599c;
+}
+.app.dark.track-cpp {
+  --accent-fg: #6fb3e8;
+}
+.app.track-csharp {
+  --accent: #239120;
+  --accent-ink: #ffffff;
+  --accent-fg: #1f7a1c;
+}
+.app.dark.track-csharp {
+  --accent-fg: #7ddb79;
+}
 .app.dark.track-ts {
   --accent-fg: #7ab3f0;
 }
@@ -810,6 +866,18 @@ code {
   --ce-btn-border: #c2d6ef;
   --ce-btn-fg: #1e3a5f;
 }
+.code-viewer.variant-py {
+  --ce-bg: #f7f9fc;
+  --ce-head: #fdf3cf;
+  --ce-border: #e6d89b;
+  --ce-file: #6b5a1e;
+  --ce-ln: #8f8149;
+  --ce-hover: rgba(55, 118, 171, 0.07);
+  --ce-thumb: #d6cfae;
+  --ce-btn-bg: #f6e7a8;
+  --ce-btn-border: #e2cf7f;
+  --ce-btn-fg: #4a3c0a;
+}
 .code-viewer.variant-js {
   --ce-bg: #fbf3d5;
   --ce-head: #f3e6b8;
@@ -1038,6 +1106,18 @@ a.tab {
   --ce-btn-bg: #1e3150;
   --ce-btn-border: #2c3e5a;
   --ce-btn-fg: #c7d7ee;
+}
+.app.dark .code-viewer.variant-py {
+  --ce-bg: #10192b;
+  --ce-head: #2b2a1b;
+  --ce-border: #4a4426;
+  --ce-file: #d9c886;
+  --ce-ln: #9c8f5a;
+  --ce-hover: rgba(255, 212, 59, 0.08);
+  --ce-thumb: #4a4426;
+  --ce-btn-bg: #3d3820;
+  --ce-btn-border: #4a4426;
+  --ce-btn-fg: #efe4b8;
 }
 .app.dark .code-viewer.variant-js {
   --ce-bg: #2a2415;

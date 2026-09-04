@@ -1,0 +1,11 @@
+  logged: add((2, 3)) -> 5
+functools.wraps preserved name: add
+repeat(times=3): ['HI', 'HI', 'HI']
+  logged: double((5,)) -> [10, 10]
+lru_cache: fib(15) computed with only 16 calls (no cache would be ~1973)
+cache_info: CacheInfo(hits=13, misses=16, maxsize=None, currsize=16)
+partial (square via power): 25
+reduce (product): 24
+singledispatch: int: 42
+singledispatch: str: 'hi'
+singledispatch: generic: 3.14

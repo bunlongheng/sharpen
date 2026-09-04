@@ -1,0 +1,6 @@
+polymorphic dispatch: Hi, I'm Rex, a very good dog, speaks: Woof
+polymorphic dispatch: Hi, I'm Milo, speaks: Meow
+default interface method: Rex says Woof
+default interface method: Milo says Meow
+is pattern cast: Rex is a Dog
+as cast on wrong type: null, no exception

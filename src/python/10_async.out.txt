@@ -1,0 +1,15 @@
+calling without await -> coroutine
+awaiting it -> hello
+gather preserves input order: ['a', 'b']
+create_task results: t1, t2
+await-in-a-loop (sequential) order: ['slow', 'medium', 'fast']
+gather/as_completed (concurrent) completion order: ['fast', 'medium', 'slow']
+  start 1
+  start 2
+  end 1
+  end 2
+  start 3
+  start 4
+  end 3
+  end 4
+async generator values: [0, 1, 2]

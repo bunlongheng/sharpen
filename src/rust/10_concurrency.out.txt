@@ -1,0 +1,3 @@
+joined thread result: hello from a thread!
+Arc<Mutex<T>> final count (4 threads x 1000): 4000
+mpsc channel results (sorted): [0, 1, 4, 9, 16]

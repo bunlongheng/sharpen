@@ -32,7 +32,7 @@ describe('FontProvider', () => {
     expect(bigger).toBeDisabled()
   })
 
-  it('clamps at 8px at the bottom and persists the offset under the sharpen- key', () => {
+  it('clamps at 8px at the bottom and persists the offset under the brushup- key', () => {
     render(
       <FontProvider>
         <Probe />
@@ -42,6 +42,6 @@ describe('FontProvider', () => {
     for (let i = 0; i < 30; i++) fireEvent.click(smaller)
     expect(screen.getByTestId('size').textContent).toBe('8')
     expect(smaller).toBeDisabled()
-    expect(Number(localStorage.getItem('sharpen-code-font-delta'))).toBeLessThan(0)
+    expect(Number(localStorage.getItem('brushup-code-font-delta'))).toBeLessThan(0)
   })
 })

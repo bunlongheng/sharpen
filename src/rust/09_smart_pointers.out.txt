@@ -1,0 +1,11 @@
+boxed recursive list: Cons(1, Cons(2, Cons(3, Nil))), sum=6
+Deref lets Box act like the value: 42
+strong_count after creation: 1
+strong_count after 2 clones: 3
+strong_count after dropping one: 2
+all clones see the same data: shared data
+Rc<RefCell<T>> shared mutable state: 15
+about to leave main - watch the drop order below
+dropping: third
+dropping: second
+dropping: first

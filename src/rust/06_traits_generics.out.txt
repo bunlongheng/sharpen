@@ -1,0 +1,5 @@
+This is a dog
+BEEP: a robot reporting
+name only: a dog
+dyn dispatch: This is a dog
+dyn dispatch: BEEP: a robot reporting

@@ -1,9 +1,30 @@
 import { useState } from 'react'
-import { Highlight, type PrismTheme } from 'prism-react-renderer'
+import { Highlight, Prism, type PrismTheme } from 'prism-react-renderer'
 import { Copy, Check, Minus, Plus } from 'lucide-react'
 import { useFont } from './FontContext'
 import { useTheme } from './context/ThemeContext'
-import { TsLogo, JsLogo } from './Logos'
+import { TsLogo, JsLogo, PyLogo, RustLogo, PhpLogo, CLogo, CppLogo, CsLogo } from './Logos'
+import type { CodeLang } from './codeTrack'
+
+// prism-react-renderer bundles tsx/javascript/python/rust/cpp; PHP, C and C# grammars come from
+// prismjs and register against the shared Prism instance (App awaits prismReady before rendering).
+;(globalThis as { Prism?: unknown }).Prism = Prism
+export const prismReady: Promise<unknown> = Promise.all([
+  import('prismjs/components/prism-c'),
+  import('prismjs/components/prism-markup-templating').then(() => import('prismjs/components/prism-php')),
+  import('prismjs/components/prism-csharp'),
+])
+
+const LOGOS: Record<CodeLang, typeof TsLogo> = {
+  tsx: TsLogo,
+  javascript: JsLogo,
+  python: PyLogo,
+  rust: RustLogo,
+  php: PhpLogo,
+  c: CLogo,
+  cpp: CppLogo,
+  csharp: CsLogo,
+}
 
 // TypeScript: a light blue theme.
 const blueTheme: PrismTheme = {
@@ -76,15 +97,18 @@ export default function CodeViewer({
   file,
   source,
   variant = 'ts',
+  language = 'tsx',
 }: {
   file: string
   source: string
-  variant?: 'ts' | 'js'
+  variant?: 'ts' | 'js' | 'py'
+  language?: CodeLang
 }) {
   const [copied, setCopied] = useState(false)
   const { size: fontSize, inc, dec, atMin, atMax } = useFont()
   const dark = useTheme().theme === 'dark'
   const name = file.split('/').pop() ?? file
+  const Logo = variant === 'js' ? JsLogo : LOGOS[language]
   const theme = variant === 'js' ? (dark ? sandDark : sandTheme) : dark ? blueDark : blueTheme
 
   async function copy() {
@@ -106,7 +130,9 @@ export default function CodeViewer({
   return (
     <div className={`code-viewer variant-${variant}`}>
       <div className="code-head">
-        <span className="code-lang">{variant === 'js' ? <JsLogo size={15} /> : <TsLogo size={15} />}</span>
+        <span className="code-lang">
+          <Logo size={15} />
+        </span>
         <span className="code-file">{name}</span>
         <div className="code-actions">
           <button
@@ -144,7 +170,7 @@ export default function CodeViewer({
         </div>
       </div>
       <div className="code-body">
-        <Highlight code={source} language="tsx" theme={theme}>
+        <Highlight code={source} language={language} theme={theme}>
           {({ style, tokens, getLineProps, getTokenProps }) => (
             <pre className="code-pre" style={{ ...style, fontSize, lineHeight: 1.5 }}>
               {tokens.map((line, i) => (
