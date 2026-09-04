@@ -1,149 +1,66 @@
-import { lazy, Suspense, useEffect, useState, type ComponentType } from 'react'
-import {
-  MousePointerClick, ListPlus, ClipboardList, Globe, Webhook, KeyRound,
-  BarChart3, Database, Route, FlaskConical, Hand, Puzzle, Shuffle, Brackets, Boxes,
-  FunctionSquare, Wrench, Building2, Brain, Hourglass, ChevronLeft, ChevronRight, type LucideIcon,
-} from 'lucide-react'
+import { Fragment, lazy, Suspense, useMemo, useState, type ComponentType, type ReactNode } from 'react'
+import { ChevronLeft, ChevronRight, Moon, Sun } from 'lucide-react'
 import { ThemeProvider, useTheme } from './context/ThemeContext'
-import { Auth0ProviderWrapper } from './auth/Auth0ProviderWrapper'
-import CodeViewer from './CodeViewer'
+import { FontProvider } from './FontContext'
+import { isAuth0Configured } from './auth/config'
 import TsRunner from './TsRunner'
 import Dropdown from './Dropdown'
-import { ReactLogo, TsLogo, JsLogo } from './Logos'
-import { FontProvider } from './FontContext'
+import { TsLogo, JsLogo } from './Logos'
 import { DIFF_NOTES, INTERVIEW_NOTES } from './diffNotes'
 import ErrorBoundary from './ErrorBoundary'
+import type { ReactStep } from './steps'
+import type { CodeStep } from './codeTrack'
+import { TRACKS, STEP_COUNTS, type Track } from './tracks'
+import RecordedOutput from './RecordedOutput'
+import { useMediaQuery } from './hooks/useMediaQuery'
+import { useLoaded } from './hooks/useLoaded'
+import { useHashRoute } from './hooks/useHashRoute'
 
-// --- React track: components (lazy - each step is its own chunk, so heavy deps
-// like chart.js and sql.js only download when their step is opened) ---
-const ButtonClick = lazy(() => import('./steps/ButtonClick'))
-const AddToList = lazy(() => import('./steps/AddToList'))
-const Crud = lazy(() => import('./steps/Crud'))
-const FetchApi = lazy(() => import('./steps/FetchApi'))
-const HooksContext = lazy(() => import('./steps/HooksContext'))
-const Auth0 = lazy(() => import('./steps/Auth0'))
-const Charts = lazy(() => import('./steps/Charts'))
-const SqliteCrud = lazy(() => import('./steps/SqliteCrud'))
-const Router = lazy(() => import('./steps/Router'))
-const Testing = lazy(() => import('./steps/Testing'))
+// Prism (syntax highlighting) is its own chunk. Kick the download off immediately so it lands in
+// parallel with the step + source chunks instead of one round trip behind them; lazy() still only
+// suspends where a CodeViewer actually renders, so the shell paints first.
+const codeViewerChunk = import('./CodeViewer').then(async (m) => {
+  await m.prismReady
+  return m
+})
+codeViewerChunk.catch(() => {}) // no unhandled-rejection noise; lazy() below still reports a failed load
+const CodeViewer = lazy(() => codeViewerChunk)
 
-// --- React track: TS + JS source text (?raw) ---
-import ts1 from './steps/ButtonClick.tsx?raw'
-import ts2 from './steps/AddToList.tsx?raw'
-import ts3 from './steps/Crud.tsx?raw'
-import ts4 from './steps/FetchApi.tsx?raw'
-import ts5 from './steps/HooksContext.tsx?raw'
-import ts6 from './steps/Auth0.tsx?raw'
-import ts7 from './steps/Charts.tsx?raw'
-import ts8 from './steps/SqliteCrud.tsx?raw'
-import ts9 from './steps/Router.tsx?raw'
-import ts10 from './steps/Testing.tsx?raw'
-import js1 from './steps-js/ButtonClick.jsx?raw'
-import js2 from './steps-js/AddToList.jsx?raw'
-import js3 from './steps-js/Crud.jsx?raw'
-import js4 from './steps-js/FetchApi.jsx?raw'
-import js5 from './steps-js/HooksContext.jsx?raw'
-import js6 from './steps-js/Auth0.jsx?raw'
-import js7 from './steps-js/Charts.jsx?raw'
-import js8 from './steps-js/SqliteCrud.jsx?raw'
-import js9 from './steps-js/Router.jsx?raw'
-import js10 from './steps-js/Testing.jsx?raw'
+// The Auth0 provider (and the SDK at the root) only mounts when the app is configured for it.
+// Step 6's own chunk still carries the SDK for its demo - the lesson is about showing useAuth0.
+const Auth0Root: ComponentType<{ children: ReactNode }> = isAuth0Configured
+  ? lazy(() => import('./auth/Auth0ProviderWrapper'))
+  : Fragment
 
-// --- TypeScript track: run() functions + source text ---
-import { run as tsr1 } from './ts/HelloWorld'
-import { run as tsr2 } from './ts/InterfacesTypes'
-import { run as tsr3 } from './ts/UnionsNarrowing'
-import { run as tsr4 } from './ts/ArraysTuplesEnums'
-import { run as tsr5 } from './ts/Generics'
-import { run as tsr6 } from './ts/Functions'
-import { run as tsr7 } from './ts/UtilityTypes'
-import { run as tsr8 } from './ts/Classes'
-import { run as tsr9 } from './ts/AdvancedTypes'
-import { run as tsr10 } from './ts/AsyncAwait'
-import tsc1 from './ts/HelloWorld.ts?raw'
-import tsc2 from './ts/InterfacesTypes.ts?raw'
-import tsc3 from './ts/UnionsNarrowing.ts?raw'
-import tsc4 from './ts/ArraysTuplesEnums.ts?raw'
-import tsc5 from './ts/Generics.ts?raw'
-import tsc6 from './ts/Functions.ts?raw'
-import tsc7 from './ts/UtilityTypes.ts?raw'
-import tsc8 from './ts/Classes.ts?raw'
-import tsc9 from './ts/AdvancedTypes.ts?raw'
-import tsc10 from './ts/AsyncAwait.ts?raw'
-
-interface ReactStep {
-  id: number
-  label: string
-  Icon: LucideIcon
-  blurb: string
-  name: string // base file name without extension
-  tsSource: string
-  jsSource: string
-  Component: ComponentType
-}
-
-interface TsStep {
-  id: number
-  label: string
-  Icon: LucideIcon
-  blurb: string
-  file: string
-  source: string
-  run: () => void | Promise<void>
-}
-
-const REACT_STEPS: ReactStep[] = [
-  { id: 1, label: 'Button click', Icon: MousePointerClick, blurb: 'useState and event handlers', name: 'ButtonClick', tsSource: ts1, jsSource: js1, Component: ButtonClick },
-  { id: 2, label: 'Add to list', Icon: ListPlus, blurb: 'controlled inputs, immutable updates, keys', name: 'AddToList', tsSource: ts2, jsSource: js2, Component: AddToList },
-  { id: 3, label: 'CRUD', Icon: ClipboardList, blurb: 'create, read, update, delete a list', name: 'Crud', tsSource: ts3, jsSource: js3, Component: Crud },
-  { id: 4, label: 'Fetch API', Icon: Globe, blurb: 'useEffect with loading, error, data', name: 'FetchApi', tsSource: ts4, jsSource: js4, Component: FetchApi },
-  { id: 5, label: 'Hooks + Context', Icon: Webhook, blurb: 'custom hooks and global state', name: 'HooksContext', tsSource: ts5, jsSource: js5, Component: HooksContext },
-  { id: 6, label: 'Auth0', Icon: KeyRound, blurb: 'authentication as a service', name: 'Auth0', tsSource: ts6, jsSource: js6, Component: Auth0 },
-  { id: 7, label: 'Chart.js', Icon: BarChart3, blurb: 'wrapping a canvas chart library', name: 'Charts', tsSource: ts7, jsSource: js7, Component: Charts },
-  { id: 8, label: 'SQLite CRUD', Icon: Database, blurb: 'real SQL in the browser via WASM', name: 'SqliteCrud', tsSource: ts8, jsSource: js8, Component: SqliteCrud },
-  { id: 9, label: 'React Router', Icon: Route, blurb: 'client-side routing and protected routes', name: 'Router', tsSource: ts9, jsSource: js9, Component: Router },
-  { id: 10, label: 'Testing', Icon: FlaskConical, blurb: 'Vitest and React Testing Library', name: 'Testing', tsSource: ts10, jsSource: js10, Component: Testing },
-]
-
-const TS_STEPS: TsStep[] = [
-  { id: 1, label: 'Hello World', Icon: Hand, blurb: 'types, inference, functions', file: 'HelloWorld.ts', source: tsc1, run: tsr1 },
-  { id: 2, label: 'Interfaces & Types', Icon: Puzzle, blurb: 'object shapes, optional, readonly', file: 'InterfacesTypes.ts', source: tsc2, run: tsr2 },
-  { id: 3, label: 'Unions & Narrowing', Icon: Shuffle, blurb: 'discriminated unions, type guards', file: 'UnionsNarrowing.ts', source: tsc3, run: tsr3 },
-  { id: 4, label: 'Arrays, Tuples, Enums', Icon: Brackets, blurb: 'collections and constants', file: 'ArraysTuplesEnums.ts', source: tsc4, run: tsr4 },
-  { id: 5, label: 'Generics', Icon: Boxes, blurb: 'reusable, type-safe code', file: 'Generics.ts', source: tsc5, run: tsr5 },
-  { id: 6, label: 'Functions', Icon: FunctionSquare, blurb: 'overloads, rest params, callbacks', file: 'Functions.ts', source: tsc6, run: tsr6 },
-  { id: 7, label: 'Utility Types', Icon: Wrench, blurb: 'Partial, Pick, Omit, Record', file: 'UtilityTypes.ts', source: tsc7, run: tsr7 },
-  { id: 8, label: 'Classes', Icon: Building2, blurb: 'modifiers, abstract, implements', file: 'Classes.ts', source: tsc8, run: tsr8 },
-  { id: 9, label: 'Advanced Types', Icon: Brain, blurb: 'keyof, mapped, conditional, infer', file: 'AdvancedTypes.ts', source: tsc9, run: tsr9 },
-  { id: 10, label: 'Async', Icon: Hourglass, blurb: 'promises, async/await, error handling', file: 'AsyncAwait.ts', source: tsc10, run: tsr10 },
-]
-
-function useMediaQuery(query: string): boolean {
-  const [matches, setMatches] = useState(() => window.matchMedia(query).matches)
-  useEffect(() => {
-    const mq = window.matchMedia(query)
-    const handler = () => setMatches(mq.matches)
-    mq.addEventListener('change', handler)
-    return () => mq.removeEventListener('change', handler)
-  }, [query])
-  return matches
-}
+const Loading = () => (
+  <section className="card">
+    <p className="empty">Loading...</p>
+  </section>
+)
 
 function Compare({ step }: { step: ReactStep }) {
   const narrow = useMediaQuery('(max-width: 860px)')
   const [lang, setLang] = useState<'ts' | 'js'>('ts')
+  const src = useLoaded(step.loadSource)
+  if (!src) return <Loading />
 
   // On phone/iPad: TS/JS become tabs (one at a time) so the code isn't a mile of scroll.
   if (narrow) {
     return (
-      <div className="compare-tabs">
+      <div className="compare-stack">
         <div className="lang-switch">
-          <button className={lang === 'ts' ? 'lang-tab ts on' : 'lang-tab'} onClick={() => setLang('ts')}><TsLogo size={16} /> TypeScript</button>
-          <button className={lang === 'js' ? 'lang-tab js on' : 'lang-tab'} onClick={() => setLang('js')}><JsLogo size={16} /> JavaScript</button>
+          <button className={lang === 'ts' ? 'lang-tab ts on' : 'lang-tab'} onClick={() => setLang('ts')}>
+            <TsLogo size={16} /> TypeScript
+          </button>
+          <button className={lang === 'js' ? 'lang-tab js on' : 'lang-tab'} onClick={() => setLang('js')}>
+            <JsLogo size={16} /> JavaScript
+          </button>
         </div>
-        {lang === 'ts'
-          ? <CodeViewer file={`${step.name}.tsx`} source={step.tsSource} variant="ts" />
-          : <CodeViewer file={`${step.name}.jsx`} source={step.jsSource} variant="js" />}
+        {lang === 'ts' ? (
+          <CodeViewer file={`${step.name}.tsx`} source={src.ts} variant="ts" />
+        ) : (
+          <CodeViewer file={`${step.name}.jsx`} source={src.js} variant="js" />
+        )}
       </div>
     )
   }
@@ -151,8 +68,8 @@ function Compare({ step }: { step: ReactStep }) {
   // Desktop: side by side to spot the difference.
   return (
     <div className="compare">
-      <CodeViewer file={`${step.name}.tsx`} source={step.tsSource} variant="ts" />
-      <CodeViewer file={`${step.name}.jsx`} source={step.jsSource} variant="js" />
+      <CodeViewer file={`${step.name}.tsx`} source={src.ts} variant="ts" />
+      <CodeViewer file={`${step.name}.jsx`} source={src.js} variant="js" />
     </div>
   )
 }
@@ -160,9 +77,13 @@ function Compare({ step }: { step: ReactStep }) {
 // `backtick` spans in a note render as Notion-style inline code
 export function renderNote(text: string) {
   return text.split(/(`[^`]+`)/).map((part, i) =>
-    part.startsWith('`') && part.endsWith('`')
-      ? <code key={i} className="note-code">{part.slice(1, -1)}</code>
-      : part,
+    part.startsWith('`') && part.endsWith('`') ? (
+      <code key={i} className="note-code">
+        {part.slice(1, -1)}
+      </code>
+    ) : (
+      part
+    ),
   )
 }
 
@@ -170,100 +91,165 @@ function ReactView({ step }: { step: ReactStep }) {
   const Current = step.Component
   return (
     <>
-      <div className="react-top">
+      <main className="react-top">
         <div className="result-col">
           <div className="split-label">Result</div>
           <div className="result-card tv">
-            <div className="tv-screen">
-              <ErrorBoundary>
-                <Suspense fallback={<section className="card"><p className="empty">Loading...</p></section>}>
-                  <Current />
-                </Suspense>
-              </ErrorBoundary>
-            </div>
-            <div className="tv-base">
-              <span className="tv-brand">SHARPEN<i className="tv-led" /></span>
-              <span className="tv-knobs"><i /><i /></span>
+            <i className="tv-antenna" aria-hidden="true" />
+            <div className="tv-body">
+              <div className="tv-screen">
+                {/* key={step.id} remounts the boundary per step, so a crash in one step never sticks to the next */}
+                <ErrorBoundary key={step.id}>
+                  <Suspense fallback={<Loading />}>
+                    <Current />
+                  </Suspense>
+                </ErrorBoundary>
+              </div>
+              <div className="tv-side" aria-hidden="true">
+                <i className="tv-knob" />
+                <i className="tv-knob" />
+                <span className="tv-grille" />
+                <span className="tv-brand">
+                  BRUSH UP
+                  <i className="tv-led" />
+                </span>
+              </div>
             </div>
           </div>
         </div>
         <div className="notes-col">
           <div className="split-label">Notes</div>
-          <div className="diffnotes">
-            <div className="notes-sub">Notes</div>
-            <ul>
-              {[...(INTERVIEW_NOTES[step.id] ?? []), ...(DIFF_NOTES[step.id] ?? [])].map((n, i) => (
-                <li key={i}>{renderNote(n)}</li>
-              ))}
-            </ul>
+          <div className="notepad">
+            <div className="diffnotes">
+              <div className="notes-sub">Notes</div>
+              <ul>
+                {[...(INTERVIEW_NOTES[step.id] ?? []), ...(DIFF_NOTES[step.id] ?? [])].map((n, i) => (
+                  <li key={i}>{renderNote(n)}</li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
+      </main>
 
-      <div className="compare-wrap"><Compare step={step} /></div>
+      <div className="compare-wrap">
+        <ErrorBoundary key={step.id}>
+          <Suspense fallback={<Loading />}>
+            <Compare step={step} />
+          </Suspense>
+        </ErrorBoundary>
+      </div>
     </>
   )
 }
 
-function TsView({ step }: { step: TsStep }) {
+// One view for every code track: the source on the left, live or recorded output on the right.
+function CodeView({ step }: { step: CodeStep }) {
+  const data = useLoaded(step.load)
   return (
     <main className="split">
       <div className="split-code">
         <div className="split-head">
           <span className="split-label">Code</span>
         </div>
-        <CodeViewer file={step.file} source={step.source} />
+        <Suspense fallback={<Loading />}>
+          {data ? (
+            <CodeViewer
+              file={step.file}
+              source={data.source}
+              language={step.lang}
+              variant={step.lang === 'python' ? 'py' : step.lang === 'javascript' ? 'js' : 'ts'}
+            />
+          ) : (
+            <Loading />
+          )}
+        </Suspense>
       </div>
       <div className="split-result">
         <div className="split-label">Output</div>
-        <TsRunner run={step.run} />
+        {!data ? (
+          <Loading />
+        ) : data.run ? (
+          <TsRunner run={data.run} />
+        ) : (
+          <RecordedOutput output={data.output ?? ''} />
+        )}
       </div>
     </main>
   )
 }
 
-function Shell() {
+// Root fallback (only visible while a configured Auth0 provider chunk loads) stays themed.
+function ShellFallback() {
   const { theme } = useTheme()
-  const [track, setTrack] = useState<'react' | 'ts'>('react')
-  const [reactActive, setReactActive] = useState(1)
-  const [tsActive, setTsActive] = useState(1)
+  return (
+    <div className={`app ${theme}`}>
+      <Loading />
+    </div>
+  )
+}
 
-  const reactStep = REACT_STEPS.find((s) => s.id === reactActive)!
-  const tsStep = TS_STEPS.find((s) => s.id === tsActive)!
-  const cur = track === 'react' ? reactStep : tsStep
+function Shell() {
+  const { theme, toggle } = useTheme()
+  const { route, setRoute, setTrack } = useHashRoute(STEP_COUNTS)
+
+  const { track, step: active } = route
+  const steps = TRACKS.find((t) => t.id === track)!.steps
+  const cur = steps.find((s) => s.id === active)!
   const CurIcon = cur.Icon
+  const total = steps.length
 
-  const trackOptions = [
-    { value: 'react', label: 'React', Icon: ReactLogo },
-    { value: 'ts', label: 'TypeScript', Icon: TsLogo },
-  ]
-  const stepOptions = (track === 'react' ? REACT_STEPS : TS_STEPS).map((s) => ({
-    value: s.id,
-    label: `${s.id}. ${s.label}`,
-    Icon: s.Icon,
-  }))
-  const total = track === 'react' ? REACT_STEPS.length : TS_STEPS.length
-  const active = track === 'react' ? reactActive : tsActive
-  const setActive = track === 'react' ? setReactActive : setTsActive
+  const setActive = (n: number) => setRoute({ track, step: n })
   const go = (delta: number) => setActive(Math.min(total, Math.max(1, active + delta)))
+
+  const trackOptions = useMemo(() => TRACKS.map((t) => ({ value: t.id, label: t.label, Icon: t.Icon })), [])
+  const stepOptions = steps.map((s) => ({ value: s.id, label: `${s.id}. ${s.label}`, Icon: s.Icon }))
 
   return (
     <div className={`app ${theme} track-${track}`}>
       <header className="app-header">
         <div className="header-titles">
-          <h1 className="brand"><img className="brand-logo" src={`${import.meta.env.BASE_URL}icon-64.png`} alt="" width={34} height={34} />Sharpen</h1>
-          <p className="muted subtitle"><CurIcon size={14} strokeWidth={2} /> {cur.label} - {cur.blurb}</p>
+          <h1 className="brand">
+            <img
+              className="brand-logo"
+              src={`${import.meta.env.BASE_URL}icon-64.png`}
+              alt=""
+              width={34}
+              height={34}
+            />
+            Brush Up
+          </h1>
+          <p className="muted subtitle">
+            <CurIcon size={14} strokeWidth={2} /> {cur.label} - {cur.blurb}
+          </p>
         </div>
         <div className="controls">
-          <Dropdown
-            options={trackOptions}
-            value={track}
-            onChange={(v) => setTrack(v as 'react' | 'ts')}
-            minWidth={140}
-            ariaLabel="Choose track"
-          />
+          <div className="track-row">
+            <Dropdown
+              options={trackOptions}
+              value={track}
+              onChange={(v) => setTrack(v as Track)}
+              minWidth={140}
+              ariaLabel="Choose track"
+            />
+            <button
+              className="navbtn"
+              onClick={toggle}
+              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              aria-pressed={theme === 'dark'}
+              title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
+            >
+              {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+          </div>
           <div className="step-nav">
-            <button className="navbtn" onClick={() => go(-1)} disabled={active <= 1} aria-label="Previous lesson" title="Previous">
+            <button
+              className="navbtn"
+              onClick={() => go(-1)}
+              disabled={active <= 1}
+              aria-label="Previous lesson"
+              title="Previous"
+            >
               <ChevronLeft size={16} />
             </button>
             <Dropdown
@@ -273,27 +259,45 @@ function Shell() {
               minWidth={200}
               ariaLabel="Choose lesson"
             />
-            <button className="navbtn" onClick={() => go(1)} disabled={active >= total} aria-label="Next lesson" title="Next">
+            <button
+              className="navbtn"
+              onClick={() => go(1)}
+              disabled={active >= total}
+              aria-label="Next lesson"
+              title="Next"
+            >
               <ChevronRight size={16} />
             </button>
-            <span className="step-count">{active} / {total}</span>
+            <span className="step-count">
+              {active} / {total}
+            </span>
           </div>
         </div>
       </header>
 
-      {track === 'react' ? <ReactView step={reactStep} /> : <TsView step={tsStep} />}
+      {track === 'react' ? (
+        <ReactView step={cur as ReactStep} />
+      ) : (
+        <ErrorBoundary key={`${track}-${active}`}>
+          <CodeView step={cur as CodeStep} />
+        </ErrorBoundary>
+      )}
     </div>
   )
 }
 
 export default function App() {
   return (
-    <Auth0ProviderWrapper>
-      <ThemeProvider>
-        <FontProvider>
-          <Shell />
-        </FontProvider>
-      </ThemeProvider>
-    </Auth0ProviderWrapper>
+    <ThemeProvider>
+      <FontProvider>
+        <ErrorBoundary>
+          <Suspense fallback={<ShellFallback />}>
+            <Auth0Root>
+              <Shell />
+            </Auth0Root>
+          </Suspense>
+        </ErrorBoundary>
+      </FontProvider>
+    </ThemeProvider>
   )
 }

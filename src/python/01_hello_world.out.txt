@@ -1,0 +1,12 @@
+Hello, Python
+value is 30 (int)
+value is 'now a string' (str)
+pi rounded: 3.14
+right-aligned:       hi|
+a=1 b=2 c=3
+swapped: a=2 b=1
+int=7 float=7.0 str=seven bool=True none=None
+type(an_int) is <class 'int'>
+isinstance(an_int, int) -> True
+isinstance(True, int) -> True
+type(True) == int -> False

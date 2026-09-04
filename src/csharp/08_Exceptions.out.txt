@@ -1,0 +1,7 @@
+caught specific: Insufficient funds, short by 50.00, shortfall=50.00
+finally: always runs, cleanup here
+exception filter matched: retryable failure
+throw; preserves origin: original failure
+Resource 'db-connection' opened
+using resource: db-connection
+Resource 'db-connection' disposed

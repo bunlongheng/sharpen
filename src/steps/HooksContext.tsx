@@ -1,5 +1,8 @@
 import { useTheme } from '../context/ThemeContext'
 import { useLocalStorage } from '../hooks/useLocalStorage'
+import { storageKey } from '../storage'
+
+const NOTE_KEY = storageKey('note')
 
 // Step 5: Custom hook + Context (the capstone of the fundamentals)
 // Two of the most-asked advanced topics, combined:
@@ -7,7 +10,7 @@ import { useLocalStorage } from '../hooks/useLocalStorage'
 // - Context (useTheme): global state shared without prop drilling.
 export default function HooksContext() {
   const { theme, toggle } = useTheme()
-  const [note, setNote] = useLocalStorage<string>('rip-note', '')
+  const [note, setNote] = useLocalStorage<string>(NOTE_KEY, '')
 
   return (
     <section className="card">
@@ -15,9 +18,7 @@ export default function HooksContext() {
       <p className="muted">Reusable logic + global state.</p>
 
       <div className="row">
-        <button onClick={toggle}>
-          Theme: {theme} (click to toggle)
-        </button>
+        <button onClick={toggle}>Theme: {theme} (click to toggle)</button>
         <span className="muted">Global state via Context - no props passed down.</span>
       </div>
 

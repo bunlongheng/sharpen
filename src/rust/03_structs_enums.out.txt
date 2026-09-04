@@ -1,0 +1,9 @@
+rect1=Rectangle { width: 3.0, height: 4.0 } area=12
+rect2 (scaled clone)=Rectangle { width: 6.0, height: 8.0 } area=48
+PartialEq derive: rect1 == rect2 -> false
+Circle { radius: 2.0 } area = 12.57
+Square(3.0) area = 9.00
+Point area = 0.00
+if let unwraps Some: 42
+nothing is None, else branch runs
+Option methods: unwrap_or(0)=0, is_some()=true

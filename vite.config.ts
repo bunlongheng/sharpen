@@ -3,13 +3,17 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-  // GitHub Pages serves the app under /sharpen/ - CI sets GHPAGES=1 for that build
-  base: process.env.GHPAGES ? '/sharpen/' : '/',
   plugins: [react()],
   server: { port: 5190 },
   test: {
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/test/setup.ts',
+    coverage: {
+      provider: 'v8',
+      include: ['src/**'],
+      exclude: ['src/steps-js/**', 'src/**/*.test.*', 'src/test/**', 'src/main.tsx'],
+      thresholds: { lines: 70, functions: 70 },
+    },
   },
 })

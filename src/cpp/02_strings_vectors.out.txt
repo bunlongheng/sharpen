@@ -1,0 +1,10 @@
+find("interview") -> 8
+substr(0,8) -> brushup 
+after += " app": brushup interview practice app
+find missing == npos? true
+empty vector: size=0 capacity=0
+after 3 inserts: size=3 capacity>=size? true
+range-for sum=60
+v.at(1)=20 v[1]=20
+v.at(99) threw out_of_range: vector
+std::array size=4 sum via iterators=10

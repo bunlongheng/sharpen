@@ -1,0 +1,7 @@
+toString: Robot(T-800)
+speak: BEEP BEEP BEEP 
+static count shared: 2
+active -> In progress
+paused -> On hold
+done -> Complete
+from('paused'): Paused

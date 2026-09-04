@@ -1,0 +1,16 @@
+-- unique_ptr --
+  Widget 1 constructed
+  up1 is null after move? true
+  up2 owns id=1
+-- shared_ptr --
+  Widget 2 constructed
+  use_count after creation: 1
+  use_count with second owner: 2
+  use_count after sp2 scope ends: 1
+-- weak_ptr breaking a cycle --
+  parent use_count=1 child use_count=2
+  Parent destroyed
+  Child destroyed
+  locking an empty weak_ptr yields a null shared_ptr, as expected
+  Widget 2 destroyed
+  Widget 1 destroyed

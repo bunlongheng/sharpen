@@ -1,12 +1,5 @@
 import { useState, type ReactNode } from 'react'
-import {
-  MemoryRouter,
-  Routes,
-  Route,
-  Link,
-  Navigate,
-  useLocation,
-} from 'react-router-dom'
+import { MemoryRouter, Routes, Route, Link, Navigate, useLocation } from 'react-router-dom'
 
 // Step 9: React Router
 // Concept: client-side routing - map URLs to components, no full page reload.
@@ -14,7 +7,7 @@ import {
 // - <Link> navigates without reloading; <Navigate> redirects.
 // - A "protected route" is just a wrapper that redirects when the user isn't authed.
 // We use MemoryRouter here so this demo has its own in-memory history and does NOT
-// hijack the real address bar (which the tab shell owns). In a real app you'd use
+// hijack the real address bar (which the Brush Up shell owns for #react/9 lesson navigation). In a real app you'd use
 // BrowserRouter once at the app root.
 function Home() {
   return <p>Public home page. Anyone can see this.</p>
@@ -44,9 +37,15 @@ export default function Router() {
 
       <MemoryRouter initialEntries={['/']}>
         <div className="row">
-          <Link className="tab" to="/">Home</Link>
-          <Link className="tab" to="/about">About</Link>
-          <Link className="tab" to="/dashboard">Dashboard (protected)</Link>
+          <Link className="tab" to="/">
+            Home
+          </Link>
+          <Link className="tab" to="/about">
+            About
+          </Link>
+          <Link className="tab" to="/dashboard">
+            Dashboard (protected)
+          </Link>
           <button className="ghost" onClick={() => setAuthed((a) => !a)}>
             {authed ? 'Log out' : 'Log in'}
           </button>

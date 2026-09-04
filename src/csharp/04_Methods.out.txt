@@ -1,0 +1,13 @@
+Hello, Ada!
+Hi, Grace!
+Welcome, Zoe!
+out parameter: 5 squared is 25
+ref mutated caller's variable: 20
+in parameter (read-only ref): 20
+params sum: 10
+expression-bodied Factorial(5): 120
+local function via helper: 120
+overload(int): 5
+overload(string): five
+overload(int,int): 5,6
+extension method: 5.IsEven()=False, 6.IsEven()=True

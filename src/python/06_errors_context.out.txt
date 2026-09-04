@@ -1,0 +1,16 @@
+  no error, result=5.0
+  divide() cleanup ran
+  caught ZeroDivisionError
+  divide() cleanup ran
+ZeroDivisionError<-ArithmeticError: True, ArithmeticError<-Exception: True
+custom exception: not enough funds, shortfall=30
+chained exception: invalid config value: 'not-a-number', cause=ValueError("invalid literal for int() with base 10: 'not-a-number'")
+LBYL: 1
+EAFP: 'b' missing, handled
+  enter: task-1
+  inside with-block: task-1
+  exit: task-1
+  Resource acquired
+  using resource
+  Resource released (exception raised: False)
+suppress: continued past the missing-key error

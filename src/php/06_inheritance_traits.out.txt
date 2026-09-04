@@ -1,0 +1,5 @@
+Square area=4.00
+bool(true)
+bool(true)
+greet(): HELLO!
+whisper(): ...hello...

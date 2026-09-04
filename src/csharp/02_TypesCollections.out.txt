@@ -1,0 +1,10 @@
+struct copy: s1.X=1, s2.X=99
+class ref: c1.X=99, c2.X=99
+array (fixed size 3): [1, 2, 3]
+List after Add: [1, 2, 3, 4]
+TryGetValue found Alice: 30
+TryGetValue missing key returns default: 0
+HashSet deduped: [1, 2, 3], contains 2: True
+record value equality: p1 == p2 -> True
+with-expression: p1=PersonRecord { Name = Nova, Age = 20 }, p3=PersonRecord { Name = Nova, Age = 21 }
+tuple: (Zoe, 28), deconstructed name=Zoe, age=28

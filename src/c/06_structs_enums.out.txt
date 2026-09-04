@@ -1,0 +1,7 @@
+nested struct: origin=(1,2) width=10 height=5
+struct copy: a.x=1 unchanged, copy.x=99 changed
+struct via pointer: b moved to (8,8)
+enum: GREEN has value 1 (RED=0, BLUE=2)
+tagged union: int variant = 42
+tagged union: float variant = 3.5
+sizeof(Point)=8, sizeof(Rect)=16, sizeof(TaggedValue)=8 (may exceed the sum of member sizes due to alignment padding)

@@ -1,0 +1,4 @@
+longest inside inner scope: world!!
+Excerpt::first_word: Call
+'static reference: I live forever
+elided lifetime, still borrow-checked: Some('r')

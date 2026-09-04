@@ -1,0 +1,6 @@
+maxOf(3, 7) -> 7
+maxOf(2.5, 1.1) -> 2.5
+maxOf(std::string) -> abd
+Box<int>.get() -> 42
+Box<std::string>.get() -> templated box
+doubleIt(21) [int satisfies std::integral] -> 42

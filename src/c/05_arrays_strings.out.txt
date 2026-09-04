@@ -1,0 +1,8 @@
+sizeof(nums) in caller (true array size): 24 bytes
+sizeof(arr) in callee (decayed to pointer): 8 bytes
+2D array grid[1][2]=6, sum of all elements=21
+string "hi" occupies 3 bytes (2 chars + 1 NUL terminator)
+strlen(buf)=7 (chars before NUL), sizeof(buf)=20 (full buffer capacity)
+snprintf into 6-byte buf: dest="trunc", would_have_written=10 bytes (truncated)
+strcmp("apple","banana")=-1 (negative means a < b lexically)
+strcmp("apple","apple")=0 (0 means equal)

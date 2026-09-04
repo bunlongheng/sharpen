@@ -1,0 +1,8 @@
+generic class + constraint: box1.CompareTo(box2) = -1
+generic method Max: 7, Max("ada", "grace"): grace
+Func lambda: add(2, 3) = 5
+Action log: delegates in action
+Predicate lambda: isEven(4) = True
+event raised: price changed 0.00 -> 10.50
+event raised: price changed 10.50 -> 12.75
+nullable reference type: fallback used because it was null

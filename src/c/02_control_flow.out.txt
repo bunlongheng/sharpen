@@ -1,0 +1,7 @@
+grade: B
+switch: weekend (day 6 falls through into this case)
+for loop sum 1..5 = 15
+while loop 5! = 120
+do-while ran once despite false condition: count = 1
+break/continue: first_even=2, odds_seen_before_it=1
+ternary: x is odd

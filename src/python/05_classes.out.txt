@@ -1,0 +1,9 @@
+str(acct) -> Nova's account: $150
+repr(acct) -> Account(owner='Nova', balance=150)
+class attribute shared: Brush Up Bank
+classmethod factory: Zoe's account: $50, staticmethod apply_rate: 105.0
+dataclass repr: Point(x=1, y=2, tags=[])
+__eq__ from dataclass: p1 == p2 -> True
+order=True enables comparisons: p1 < p3 -> True
+duck typing: Duck says Quack
+duck typing: Robot says Beep

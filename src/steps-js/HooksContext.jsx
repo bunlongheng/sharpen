@@ -1,12 +1,15 @@
 import { useTheme } from '../context/ThemeContext'
 import { useLocalStorage } from '../hooks/useLocalStorage'
+import { storageKey } from '../storage'
+const NOTE_KEY = storageKey('note')
+
 // Step 5: Custom hook + Context (the capstone of the fundamentals)
 // Two of the most-asked advanced topics, combined:
 // - Custom hook (useLocalStorage): reusable stateful logic, persists a note across reloads.
 // - Context (useTheme): global state shared without prop drilling.
 export default function HooksContext() {
   const { theme, toggle } = useTheme()
-  const [note, setNote] = useLocalStorage('rip-note', '')
+  const [note, setNote] = useLocalStorage(NOTE_KEY, '')
   return (
     <section className="card">
       <h2>5. Custom hook + Context</h2>

@@ -1,0 +1,20 @@
+list after append: [3, 1, 2, 4]
+slice [1:3]: [1, 2]
+negative index [-1]: 4
+nums.sort() mutated in place: [1, 2, 3, 4]
+sorted() returns new list: [4, 5, 6], original untouched: [5, 4, 6]
+tuple point=(3, 4), unpacked x=3 y=4
+get existing: 30, get missing with default: 0
+  alice: 30
+  bob: 25
+after setdefault: [('alice', 30), ('bob', 25), ('carol', 22)]
+dict comprehension: {0: 0, 1: 1, 2: 4, 3: 9}
+deduped: [1, 2, 3]
+union: [1, 2, 3, 4]
+intersection: [2, 3]
+bad_append call 1: ['x']
+bad_append call 2 (leaked state!): ['x', 'y']
+good_append call 1: ['x']
+good_append call 2 (clean): ['y']
+shallow shares inner list: {'nested': [1, 2, 3, 4]}
+deep copy is fully independent: {'nested': [1, 2, 3]}

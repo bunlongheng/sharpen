@@ -1,0 +1,23 @@
+0 is falsy
+'' is falsy
+[] is falsy
+'hi' is truthy
+5 is truthy
+enumerate: 0 -> a
+enumerate: 1 -> b
+enumerate: 2 -> c
+zip: alice scored 90
+zip: bob scored 85
+range step: 0
+range step: 2
+range step: 4
+while loop stopped at n=3
+list comprehension (evens): [0, 2, 4, 6, 8]
+dict comprehension (filtered): {4: 16, 5: 25}
+set comprehension: [1, 2, 3]
+match: (0, 0) -> origin
+match: (5, 0) -> on x-axis at 5
+match: (0, 5) -> on y-axis at 5
+match: (2, 2) -> on the diagonal at 2
+match: (1, 2) -> point at (1, 2)
+walrus: data has 5 items, which is > 3

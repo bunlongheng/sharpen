@@ -1,0 +1,6 @@
+caught: cannot withdraw 150 (code=400, short by 50)
+finally always runs
+combined catch: InvalidArgumentException - empty amount
+throw-as-expression caught: null not allowed
+outer: withdraw failed upstream, caused by: cannot withdraw 20
+TypeError caught (extends \Error, not \Exception): needsInt(): Argument #1 ($n) must be of type int, string given

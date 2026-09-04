@@ -1,0 +1,9 @@
+Hello, Brush Up!
+var: Ada (String), explicit: Grace
+price with 2 decimals: 19.50
+right-aligned in 8 chars: [      36]
+combined: [   19.50]
+verbatim path: C:\Users\ada\notes.txt
+Raw strings preserve "quotes" and
+multiple lines without escaping.
+implicit widen: 42, explicit narrow (truncated): 3

@@ -4,8 +4,8 @@
 
 ## What you're building
 
-On load, the component fetches a list of users from a public API and shows them - with proper
-"Loading..." and error handling.
+On load, the component fetches the current weather for Boston from Open-Meteo (a free API, no key
+needed) and shows it - with proper "Loading..." and error handling.
 
 ## New idea: side effects and `useEffect`
 
@@ -28,9 +28,9 @@ The **dependency array** controls *when* the effect runs:
 This is the pattern interviewers want to see. Any data load has exactly three UI states:
 
 ```tsx
-const [users, setUsers] = useState<User[]>([]) // data
-const [loading, setLoading] = useState(true)   // loading
-const [error, setError] = useState<string | null>(null) // error
+const [weather, setWeather] = useState<Weather | null>(null) // data
+const [loading, setLoading] = useState(true)                 // loading
+const [error, setError] = useState<string | null>(null)      // error
 ```
 
 Beginners only handle the happy path (data). Seniors always handle **all three** - show a spinner
@@ -56,7 +56,7 @@ The `AbortController` cancels the in-flight request; the `ignore` flag guards an
 
 1. Add a "Reload" button that re-runs the fetch (hint: put the fetch in a function you can call).
 2. Point it at a bad URL and confirm the error branch shows.
-3. Add a search box that filters the loaded users by name (client-side).
+3. Add a city picker that changes latitude/longitude and re-fetches.
 
 ## Interview questions
 

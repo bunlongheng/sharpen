@@ -1,0 +1,19 @@
+pretty json:
+{
+    "name": "Nova",
+    "path": "a/b",
+    "tags": [
+        "php",
+        "8"
+    ]
+}
+assoc access: Zoe
+object access: Zoe
+JSON_THROW_ON_ERROR caught: Syntax error
+named groups: date=2026-09-03 status=build
+numbered groups: 2026-09-03 / build
+int(0)
+doubled numbers: cost: 10 dollars, tax: 4 dollars
+padded: [    1] zero-padded: [00001]
+padded: [   22] zero-padded: [00022]
+padded: [  333] zero-padded: [00333]

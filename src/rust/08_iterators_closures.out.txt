@@ -1,0 +1,9 @@
+captured by &: Nova
+name still usable after: Nova
+FnMut closure mutated count: 2
+moved into closure: [1, 2, 3]
+FnOnce via apply(): 20
+map().filter().collect(): [4, 16, 36]
+fold sum: 21
+enumerate: [(0, "a"), (1, "b"), (2, "c")]
+zip (stops at shorter): [(1, "a"), (2, "b"), (3, "c")]

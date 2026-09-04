@@ -1,0 +1,12 @@
+echo: hello, Nova
+print: hello again
+interpolated: Nova is 7 years old
+Name: Nova
+Age: 7
+Literal {$name}, not interpolated
+string(4) "Nova"
+int(7)
+float(3.14)
+bool(true)
+NULL
+print as expression: result=1

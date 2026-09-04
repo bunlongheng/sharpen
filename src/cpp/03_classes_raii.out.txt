@@ -1,0 +1,14 @@
+-- construction/destruction order --
+  acquire: A
+  acquire: B
+  both alive: A, B
+  release: B
+  release: A
+-- RAII on early return --
+  acquire: early-return-guard
+  bailing out early, r still gets destroyed
+  release: early-return-guard
+-- const method --
+  acquire: const-owned
+  c.name() via const ref: const-owned
+  release: const-owned

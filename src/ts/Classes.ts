@@ -27,7 +27,8 @@ class Dog extends Base {
 // Parameter properties: `private count` in the constructor declares + assigns in one line.
 class Counter {
   constructor(private count = 0) {}
-  inc(): this { // returning `this` enables method chaining
+  inc(): this {
+    // returning `this` enables method chaining
     this.count++
     return this
   }
@@ -36,11 +37,12 @@ class Counter {
   }
 }
 
-export function run(): void {
+// log defaults to console.log - the app injects its own logger to capture the output panel
+export function run(log = console.log): void {
   const d = new Dog('Rex')
-  console.log(d.describe())
+  log(d.describe())
   const c = new Counter().inc().inc().inc()
-  console.log('counter:', c.value)
+  log('counter:', c.value)
 }
 
 // Interview notes:

@@ -72,9 +72,15 @@ export default function FetchApi() {
 
       {!loading && !error && weather && (
         <ul className="list">
-          <li><strong>Condition</strong> <span className="muted">- {describe(weather.weather_code)}</span></li>
-          <li><strong>Temperature</strong> <span className="muted">- {weather.temperature_2m} F</span></li>
-          <li><strong>Wind</strong> <span className="muted">- {weather.wind_speed_10m} km/h</span></li>
+          <li>
+            <strong>Condition</strong> <span className="muted">- {describe(weather.weather_code)}</span>
+          </li>
+          <li>
+            <strong>Temperature</strong> <span className="muted">- {weather.temperature_2m} F</span>
+          </li>
+          <li>
+            <strong>Wind</strong> <span className="muted">- {weather.wind_speed_10m} km/h</span>
+          </li>
         </ul>
       )}
     </section>

@@ -1,0 +1,8 @@
+auto count=3 pi=3.14159
+uniform init exact=42
+const maxRetries=5
+constexpr squareOf7=49
+reference mutation seen via name: Brush Up App
+after printCopy, original still: kept
+kept (len 4)
+std::string: Hello, world, size=12

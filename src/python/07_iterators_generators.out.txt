@@ -1,0 +1,14 @@
+next: 10
+next: 20
+next: 30
+StopIteration raised after exhausting the iterator
+custom iterator: [3, 2, 1]
+generator function: [1, 2, 3, 4, 5]
+infinite generator, first 5 via islice: [1, 2, 3, 4, 5]
+generator expression consumed: [0, 1, 4, 9, 16]
+list comprehension: [0, 1, 4, 9, 16]
+  echo_receiver got: hello
+  echo_receiver got: world
+chain: [1, 2, 3, 4]
+islice(range(10), 2, 6): [2, 3, 4, 5]
+groupby: {'a': [1, 2], 'b': [3]}

@@ -1,0 +1,12 @@
+std::map iterates in sorted key order:
+  alice: 95
+  bob: 82
+  charlie: 70
+unordered_map contents (copied into a map to sort before printing):
+  alpha: 1
+  mu: 2
+  zeta: 3
+operator[] auto-inserted a default 0: counts.size()=1, counts["fresh"]=0
+insert() on existing key: inserted=false, value stays 0
+counts.contains("fresh") -> true, counts.contains("missing") -> false
+std::set dedupes and sorts: 1 2 3 5

@@ -1,0 +1,6 @@
+object initializer: Nova (25), nova@example.com
+static factory + counter: Ada (30), ada@example.com, Grace (28), grace@example.com, total created: 2
+record value equality: r1 == r2 -> True
+class reference equality: c1 == c2 -> False
+record auto ToString: PersonRecord { Name = Zoe, Age = 20 }
+readonly struct ToString override: 19.99 USD

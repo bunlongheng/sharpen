@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import initSqlJs from 'sql.js'
 import wasmUrl from 'sql.js/dist/sql-wasm.wasm?url'
-const STORAGE_KEY = 'rip-sqlite'
+import { storageKey } from '../storage'
+const STORAGE_KEY = storageKey('sqlite')
 // base64 keeps the stored DB ~4x smaller than the old JSON number-array format
 function toBase64(bytes) {
   let bin = ''
@@ -19,7 +20,11 @@ function fromStored(saved) {
   return Uint8Array.from(bin, (c) => c.charCodeAt(0))
 }
 function persist(db) {
-  localStorage.setItem(STORAGE_KEY, toBase64(db.export()))
+  try {
+    localStorage.setItem(STORAGE_KEY, toBase64(db.export()))
+  } catch {
+    // quota exceeded or private mode - the in-memory DB still works for this session
+  }
 }
 export default function SqliteCrud() {
   const dbRef = useRef(null)
@@ -34,9 +39,7 @@ export default function SqliteCrud() {
     const db = dbRef.current
     if (!db) return
     const res = db.exec('SELECT id, title FROM tasks ORDER BY id')
-    const rows = res.length
-      ? res[0].values.map((r) => ({ id: Number(r[0]), title: String(r[1]) }))
-      : []
+    const rows = res.length ? res[0].values.map((r) => ({ id: Number(r[0]), title: String(r[1]) })) : []
     setTasks(rows)
   }
   useEffect(() => {
@@ -48,9 +51,7 @@ export default function SqliteCrud() {
         // Load the saved DB from localStorage, or create a fresh one.
         const saved = localStorage.getItem(STORAGE_KEY)
         const db = saved ? new SQL.Database(fromStored(saved)) : new SQL.Database()
-        db.run(
-          'CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL)',
-        )
+        db.run('CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL)')
         if (!saved) {
           db.run("INSERT INTO tasks (title) VALUES ('Ship the feature'), ('Write tests')")
           persist(db)
@@ -115,11 +116,7 @@ export default function SqliteCrud() {
       ) : (
         <>
           <form className="row" onSubmit={add}>
-            <input
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="New task"
-            />
+            <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="New task" />
             <button type="submit" disabled={!title.trim()}>
               INSERT
             </button>

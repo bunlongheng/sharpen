@@ -1,0 +1,13 @@
+indexed[1]: b
+assoc[name]: Nova
+doubled: 2,4,6,8,10
+evens: 2,4
+sum: 15
+array_keys(assoc): name,role
+bool(false)
+bool(true)
+bool(false)
+bool(false)
+spread combined: 1,2,3,4,5
+destructured: x=10 y=20 name=Nova role=engineer
+after ref foreach + reused var: 10,20,30

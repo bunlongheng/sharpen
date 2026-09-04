@@ -15,7 +15,7 @@ lets you package up stateful logic and reuse it anywhere.
 Our `useLocalStorage` behaves like `useState`, but it also saves to the browser's localStorage:
 
 ```tsx
-const [note, setNote] = useLocalStorage<string>('rip-note', '')
+const [note, setNote] = useLocalStorage<string>(storageKey('note'), '')
 ```
 
 Same shape as `useState`, but the value survives a page refresh. Look inside
@@ -23,6 +23,9 @@ Same shape as `useState`, but the value survives a page refresh. Look inside
 - It reads the saved value once on first render (a "lazy initializer" - the function form of
   `useState`).
 - A `useEffect` writes back to localStorage whenever the value changes.
+
+`storageKey()` (`src/storage.ts`) prefixes every key with `brushup-`, so all of the app's
+localStorage lives under 1 namespace.
 
 Key insight: **hooks share logic, not state.** If two components both call `useLocalStorage`, each
 gets its own independent value. You're reusing the *behavior*, not a shared variable.
@@ -44,6 +47,9 @@ const { theme, toggle } = useTheme()
 ```
 
 No matter how deep the component is, it gets the theme directly.
+
+The app also has a dark-mode toggle in the header, in addition to this step's own demo toggle -
+both call the same `toggle()` from `ThemeContext`, so flipping either one flips the whole app.
 
 ## Why the custom `useTheme()` wrapper?
 

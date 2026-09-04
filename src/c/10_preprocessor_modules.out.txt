@@ -1,0 +1,7 @@
+MAX_USERS constant = 100
+SQUARE(5) = 25
+SQUARE(a + b) with correct macro = 25 (expected 25)
+SQUARE_BUGGY(a + b) with missing parens = 11 (wrong: expands to a + b*b)
+[log] logging feature is compiled in
+metrics feature not compiled in
+assert(result == 16) passed, result = 16

@@ -1,0 +1,11 @@
+add(2, 3) -> 5
+find_user(1) -> Nova, find_user(2) -> None
+to_label -> label:5, label:x
+total -> 6
+word_lengths -> {'a': 1, 'bb': 2}
+TypedDict instance -> {'title': 'Arrival', 'year': 2016}
+  area -> 16
+generic Stack[int] pop -> 2
+opening in read mode
+MAX_RETRIES -> 3
+hints not enforced at runtime: add('2', '3') -> 23

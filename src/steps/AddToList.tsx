@@ -33,7 +33,9 @@ export default function AddToList() {
           onChange={(e) => setText(e.target.value)}
           placeholder="Type something and press Add"
         />
-        <button type="submit" disabled={!text.trim()}>Add</button>
+        <button type="submit" disabled={!text.trim()}>
+          Add
+        </button>
       </form>
 
       {items.length === 0 ? (

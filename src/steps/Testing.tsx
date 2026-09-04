@@ -16,7 +16,9 @@ export default function Testing() {
       <p>Run the suite in your terminal:</p>
       <pre className="code-block">npm test</pre>
 
-      <p className="muted">A real test from this repo (<code>src/steps/__tests__/</code>):</p>
+      <p className="muted">
+        A real test from this repo (<code>src/steps/__tests__/</code>):
+      </p>
       <pre className="code-block">{SAMPLE}</pre>
     </section>
   )

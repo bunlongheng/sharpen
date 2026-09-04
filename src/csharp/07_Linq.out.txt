@@ -1,0 +1,9 @@
+Where+Select+OrderBy: [4, 64]
+query syntax (odd, descending): [9, 5, 3, 1]
+GroupBy [even]: [8, 2]
+GroupBy [odd]: [5, 3, 1, 9]
+Aggregate product of all: 2160
+Any > 8: True
+First > 8: 9
+FirstOrDefault > 100 (no match): 0
+deferred execution picked up late addition: [Ada, Alan]
