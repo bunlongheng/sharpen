@@ -71,7 +71,7 @@ its console output next to the code.
 
 The JavaScript track runs live in the browser. Python, Rust, PHP, C, C++ and C# cannot, so each of
 those steps shows the real source next to the **output recorded from a real run** (`npm run
-record:lessons` refreshes every recording, and a test fails if one drifts from a fresh run).
+record:lessons` refreshes every recording; `npm run verify:recordings` re-runs all 60 and fails if one drifts).
 
 ### JavaScript
 
@@ -202,6 +202,7 @@ npm run format    # prettier --write .
 npm run format:check   # prettier --check . (CI)
 npm run test:coverage  # vitest + v8 coverage, 70% gate (CI)
 npm run record:lessons # re-record every recorded track's stdout
+npm run verify:recordings # re-run all 60 recorded lessons and diff against the recordings
 npm run build     # typecheck + production build
 ```
 

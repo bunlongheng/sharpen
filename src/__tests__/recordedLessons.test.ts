@@ -7,13 +7,14 @@ import { RECORDERS } from '../../scripts/recorders.mjs'
 // Recorded tracks ship stdout next to each lesson. Guard against drift: when the language's
 // toolchain is installed, re-run every lesson and require the recording to match byte for byte
 // (regenerate with `npm run record:lessons`). Without the toolchain, recordings must still exist.
-// The fresh-run comparison is local-only: CI runners carry different compiler versions and
-// platform details (paths, sizes, messages) that would make byte-equality a false alarm.
+// The fresh-run comparison is opt-in (RECORD_VERIFY=1, see `npm run verify:recordings`): it compiles
+// 60 programs (C# alone takes minutes), and CI runners carry different compiler versions and
+// platform details that would make byte-equality a false alarm.
 const root = join(__dirname, '..', '..')
 
 for (const rec of RECORDERS) {
   const available = (() => {
-    if (process.env.CI) return false
+    if (process.env.CI || !process.env.RECORD_VERIFY) return false
     try {
       execFileSync(rec.tool, rec.toolCheck, { stdio: 'ignore' })
       return true

@@ -16,7 +16,8 @@
     "format:check": "prettier --check .",
     "test:coverage": "vitest run --coverage",
     "prepare": "husky || true",
-    "record:lessons": "node scripts/record-lessons.mjs"
+    "record:lessons": "node scripts/record-lessons.mjs",
+    "verify:recordings": "RECORD_VERIFY=1 vitest run src/__tests__/recordedLessons.test.ts"
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.24.1",
